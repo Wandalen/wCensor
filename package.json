@@ -12,7 +12,7 @@
   {
     "url" : "https://github.com/Wandalen/wFiler/issues"
   },
-  "dependencies" : { "wTools" : "" },
-  "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0", "wfiler" : "file:." },
+  "dependencies" : { "wTools" : "alpha" },
+  "devDependencies" : { "eslint" : "7.1.0", "wfiler" : "file:.", "wTesting" : "alpha" },
   "keywords" : [ "wTools" ]
 }
