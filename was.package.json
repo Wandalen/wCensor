@@ -16,7 +16,7 @@
   {
     "wTools" : "",
     "wFiles" : "",
-    "wcensor" : "",
+    "wcensorbasic" : "",
     "wblueprint" : ""
   },
   "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0", "wfiler" : "file:." },

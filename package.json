@@ -1,24 +1,37 @@
 {
-  "name" : "wfiler",
-  "version" : "0.2.7",
-  "description" : "Utility to edit files massively from console and with undo.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "license" : "MIT",
-  "main" : "proto/dwtools/atop/filer/entry/Exec",
-  "files" : [ "proto/dwtools/atop/filer", "proto/dwtools/Tools.s" ],
-  "scripts" : { "test" : "wtest .run proto", "docgen" : "wdocgen .build proto" },
-  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wFiler.git" },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wFiler/issues"
+  "name": "wfiler",
+  "version": "0.2.7",
+  "description": "Utility to edit files massively from console and with undo.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "license": "MIT",
+  "main": "proto/dwtools/atop/filer/entry/Exec",
+  "files": [
+    "proto/dwtools/atop/filer",
+    "proto/dwtools/Tools.s"
+  ],
+  "scripts": {
+    "test": "wtest .run proto",
+    "docgen": "wdocgen .build proto"
   },
-  "dependencies" :
-  {
-    "wTools" : "alpha",
-    "wFiles" : "alpha",
-    "wcensor" : "alpha",
-    "wblueprint" : "alpha"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wFiler.git"
   },
-  "devDependencies" : { "eslint" : "7.1.0", "wfiler" : "file:.", "wTesting" : "alpha" },
-  "keywords" : [ "wTools" ]
+  "bugs": {
+    "url": "https://github.com/Wandalen/wFiler/issues"
+  },
+  "dependencies": {
+    "wTools": "alpha",
+    "wFiles": "alpha",
+    "wcensor": "alpha",
+    "wblueprint": "alpha"
+  },
+  "devDependencies": {
+    "eslint": "7.1.0",
+    "wfiler": "file:.",
+    "wTesting": "alpha"
+  },
+  "keywords": [
+    "wTools"
+  ]
 }
