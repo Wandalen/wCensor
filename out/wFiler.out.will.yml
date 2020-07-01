@@ -200,6 +200,11 @@ module:
           - ../proto/dwtools/atop/filer.test/_asset/basic/before
           - ../proto/dwtools/atop/filer.test/_asset/basic/before/File1.txt
           - ../proto/dwtools/atop/filer.test/_asset/basic/before/File2.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlink
+          - ../proto/dwtools/atop/filer.test/_asset/hlink/F1.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlink/F2.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlink/dir
+          - ../proto/dwtools/atop/filer.test/_asset/hlink/dir/F3.txt
     submodule:
       wTools:
         path: 'npm:///wTools'
