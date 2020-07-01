@@ -4959,7 +4959,7 @@ var Self =
     replaceRedoUndoOptionVerbosity,
     // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
 
-    // /* xxx : implement test to check locking */
+    // /* qqq : implement test to check locking */
 
   }
 
