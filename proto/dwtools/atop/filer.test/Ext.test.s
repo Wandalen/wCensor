@@ -4212,6 +4212,7 @@ function replaceRedoUndoOptionVerbosity( test )
   let a = test.assetFor( 'basic' );
 
   a.reflect();
+
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
   let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
@@ -4920,6 +4921,245 @@ Nothing to undo.
   return a.ready;
 }
 
+//
+
+function hlinkBasic( test )
+{
+  let context = this;
+  let a = test.assetFor( 'hlink' );
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+
+    test.is( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'F2.txt' ) ) );
+    test.is( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'dir/F3.txt' ) ) );
+    test.is( !a.fileProvider.areHardLinked( a.abs( 'F2.txt' ), a.abs( 'dir/F3.txt' ) ) );
+
+    return null;
+  })
+
+  a.appStart( '.hlink' )
+  .then( ( op ) =>
+  {
+    test.description = '.hlink';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+ + hardLink : ${ a.abs( '.' ) }/ : ./dir/F3.txt <- ./F1.txt
+Linked files at ${ a.abs( '.' ) }
+`
+    test.equivalent( op.output, exp );
+
+    test.is( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'F2.txt' ) ) );
+    test.is( a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'dir/F3.txt' ) ) );
+    test.is( !a.fileProvider.areHardLinked( a.abs( 'F2.txt' ), a.abs( 'dir/F3.txt' ) ) );
+
+    return null;
+  })
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
+function hlinkOptionBasePath( test )
+{
+  let context = this;
+  let a = test.assetFor( 'hlinkAdvanced' );
+
+  /* - */
+
+//   a.ready
+//   .then( ( op ) =>
+//   {
+//     test.case = 'basic';
+//     a.reflect();
+//
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+//
+//     var exp =
+//     [
+//       '.',
+//       './F.txt',
+//       './F.txt2',
+//       './dir1',
+//       './dir1/F.txt',
+//       './dir1/F.txt2',
+//       './dir2',
+//       './dir2/F.txt',
+//       './dir2/F.txt2',
+//       './dir3',
+//       './dir3/F.txt',
+//       './dir3/F.txt2'
+//     ]
+//     var files = a.findAll( a.abs( '.' ) );
+//     test.identical( files, exp );
+//
+//     return null;
+//   })
+//
+//   a.appStart( '.hlink' )
+//   .then( ( op ) =>
+//   {
+//     test.description = '.hlink';
+//     test.identical( op.exitCode, 0 );
+//
+//     var exp =
+// `
+// + hardLink : ${ a.abs( '.' ) }/ : ./F.txt2 <- ./F.txt
+// + hardLink : ${ a.abs( '.' ) }/ : ./dir1/F.txt <- ./F.txt
+// + hardLink : ${ a.abs( '.' ) }/ : ./dir1/F.txt2 <- ./F.txt
+// + hardLink : ${ a.abs( '.' ) }/ : ./dir2/F.txt <- ./F.txt
+// + hardLink : ${ a.abs( '.' ) }/ : ./dir2/F.txt2 <- ./F.txt
+// + hardLink : ${ a.abs( '.' ) }/ : ./dir3/F.txt <- ./F.txt
+// + hardLink : ${ a.abs( '.' ) }/ : ./dir3/F.txt2 <- ./F.txt
+// Linked files at ${ a.abs( '.' ) }
+// `
+//     test.equivalent( op.output, exp );
+//
+//     test.identical( a.fileProvider.areHardLinked( a.abs( 'F.txt' ), a.abs( 'F.txt2' ) ), true );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 8 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 8 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 8 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 8 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 8 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 8 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 8 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 8 );
+//
+//     return null;
+//   })
+//
+//   /* - */
+//
+//   a.ready
+//   .then( ( op ) =>
+//   {
+//     test.case = 'basePath:dir1';
+//     a.reflect();
+//     return null;
+//   })
+//
+//   a.appStart( '.hlink basePath:dir1' )
+//   .then( ( op ) =>
+//   {
+//     test.description = '.hlink';
+//     test.identical( op.exitCode, 0 );
+//
+//     var exp =
+// `
+// + hardLink : ${ a.abs( 'dir1/' ) } : ./F.txt2 <- ./F.txt
+// Linked files at ${ a.abs( 'dir1' ) }
+// `
+//     test.equivalent( op.output, exp );
+//
+//     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+//
+//     return null;
+//   })
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = `basePath:'dir1/**'`;
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.hlink basePath:'dir1/**'` )
+  .then( ( op ) =>
+  {
+    test.description = '.hlink';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ hardLink : ${ a.abs( 'dir1/' ) } : ./F.txt2 <- ./F.txt
+Linked files at ${ a.abs( 'dir1' ) }
+`
+    test.equivalent( op.output, exp );
+
+    test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+
+    return null;
+  })
+
+  /* - */
+
+//   a.ready
+//   .then( ( op ) =>
+//   {
+//     test.case = 'basePath:dir1 basePath:dir3';
+//     a.reflect();
+//     return null;
+//   })
+//
+//   a.appStart( '.hlink basePath:dir1 basePath:dir3' )
+//   .then( ( op ) =>
+//   {
+//     test.description = '.hlink';
+//     test.identical( op.exitCode, 0 );
+//
+//     var exp =
+// `
+//  + hardLink : ${ a.abs( '.' ) }/dir1/ : ./F.txt2 <- ./F.txt
+//  + hardLink : ${ a.abs( '.' ) }/ : ./dir3/F.txt <- ./dir1/F.txt
+//  + hardLink : ${ a.abs( '.' ) }/ : ./dir3/F.txt2 <- ./dir1/F.txt
+// Linked files at ( ${ a.abs( '.' ) }/ + [ ./dir1 , ./dir3 ] )
+// `
+//     test.equivalent( op.output, exp );
+//
+//     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4 );
+//     test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4 );
+//
+//     return null;
+//   })
+
+  /* - */
+
+  return a.ready;
+}
+
 // --
 // declare
 // --
@@ -4960,6 +5200,9 @@ var Self =
     // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
 
     // /* qqq : implement test to check locking */
+
+    hlinkBasic,
+    hlinkOptionBasePath,
 
   }
 

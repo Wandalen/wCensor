@@ -83,11 +83,12 @@ function _commandsMake()
   {
     'help' :              { e : _.routineJoin( cui, cui.commandHelp )          },
     'version' :           { e : _.routineJoin( cui, cui.commandVersion )       },
-    'imply' :             { e : _.routineJoin( cui, cui.commandImply )         },
+    // 'imply' :             { e : _.routineJoin( cui, cui.commandImply )         },
     'storage reset' :     { e : _.routineJoin( cui, cui.commandStorageReset )  },
     'storage print' :     { e : _.routineJoin( cui, cui.commandStoragePrint )  },
     'status' :            { e : _.routineJoin( cui, cui.commandStatus )        },
     'replace' :           { e : _.routineJoin( cui, cui.commandReplace )       },
+    'hlink' :             { e : _.routineJoin( cui, cui.commandHlink )         },
     'do' :                { e : _.routineJoin( cui, cui.commandDo )            },
     'redo' :              { e : _.routineJoin( cui, cui.commandRedo )          },
     'undo' :              { e : _.routineJoin( cui, cui.commandUndo )          },
@@ -176,46 +177,46 @@ function commandVersion( e ) /* xxx qqq : move to NpmTools */
 
 commandVersion.hint = 'Get information about version.';
 
+// //
 //
-
-function commandImply( e )
-{
-  let cui = this;
-  let ca = e.ca;
-  let isolated = ca.commandIsolateSecondFromArgument( e.argument );
-
-  _.assert( !!isolated );
-  _.assert( 0, 'not tested' );
-
-  let request = _.strRequestParse( isolated.argument );
-
-  let namesMap =
-  {
-    v : 'verbosity',
-    verbosity : 'verbosity',
-  }
-
-  if( request.map.v !== undefined )
-  {
-    request.map.verbosity = request.map.v;
-    delete request.map.v;
-  }
-
-  _.process.argsReadTo
-  ({
-    dst : implied,
-    propertiesMap : request.map,
-    namesMap,
-  });
-
-}
-
-commandImply.hint = 'Change state or imply value of a variable.';
-commandImply.commandProperties =
-{
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-}
+// function commandImply( e )
+// {
+//   let cui = this;
+//   let ca = e.ca;
+//   let isolated = ca.commandIsolateSecondFromArgument( e.argument );
+//
+//   _.assert( !!isolated );
+//   _.assert( 0, 'not tested' );
+//
+//   let request = _.strRequestParse( isolated.argument );
+//
+//   let namesMap =
+//   {
+//     v : 'verbosity',
+//     verbosity : 'verbosity',
+//   }
+//
+//   if( request.map.v !== undefined )
+//   {
+//     request.map.verbosity = request.map.v;
+//     delete request.map.v;
+//   }
+//
+//   _.process.argsReadTo
+//   ({
+//     dst : implied,
+//     propertiesMap : request.map,
+//     namesMap,
+//   });
+//
+// }
+//
+// commandImply.hint = 'Change state or imply value of a variable.';
+// commandImply.commandProperties =
+// {
+//   verbosity : 'Level of verbosity.',
+//   v : 'Level of verbosity.',
+// }
 
 //
 
@@ -300,6 +301,39 @@ commandReplace.commandProperties =
   filePath : 'File path or glob to files to edit.',
   ins : 'Text to find in files to replace by {- sub -}.',
   sub : 'Text to put instead of ins.',
+}
+
+//
+
+function commandHlink( e )
+{
+  let cui = this;
+  let ca = e.ca;
+  let op = e.propertiesMap;
+
+  cui._command_pre( commandHlink, arguments );
+  op.logging = 1;
+
+  if( op.verbosity === undefined )
+  op.verbosity = 3;
+
+  if( e.argument )
+  op.basePath = _.arrayAppend( op.basePath || null, e.argument )
+
+  if( !op.basePath )
+  op.basePath = '.';
+
+  op.basePath = _.path.s.resolve( op.basePath );
+
+  return _.censor.filesHardLink( op );
+}
+
+commandHlink.hint = 'Hard links files with identical content in specified directory.';
+commandHlink.commandProperties =
+{
+  verbosity : 'Level of verbosity. Default = 3',
+  v : 'Level of verbosity. Default = 3',
+  basePath : 'Base path to look for files. Default = current path.',
 }
 
 //
@@ -441,12 +475,21 @@ let Extend =
   _command_pre,
 
   commandHelp,
-  commandVersion,
-  commandImply,
+  commandVersion, /* qqq : cover */
+  // commandImply,
+
+  // storage
+
   commandStorageReset,
   commandStoragePrint,
   commandStatus,
+
+  // operation
+
   commandReplace,
+  commandHlink,
+
+  // do
 
   commandDo,
   commandRedo,
