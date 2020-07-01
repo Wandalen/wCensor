@@ -5,6 +5,19 @@ submodule :
   wTools :
     path : npm:///wTools
     enabled : 0 # submodule
+
+  wFiles :
+    path : npm:///wFiles
+    enabled : 0 # submodule
+
+  wCensorBasic :
+    path : npm:///wcensorbasic
+    enabled : 0 # submodule
+
+  wBlueprint :
+    path : npm:///wblueprint
+    enabled : 0 # submodule
+
   eslint :
     path : npm:///eslint#7.1.0
     enabled : 0 # submodule
@@ -46,7 +59,7 @@ path :
       content : prime
 
   entry.proto.no.tests :
-    path : proto/dwtools/atop/filer/entry/Exec
+    path : proto/dwtools/atop/filer/entry/Include.s
     criterion :
       tests : 'no.tests'
   entry.proto.only.tests :
@@ -55,7 +68,7 @@ path :
       tests : 'only.tests'
 
   entry.out.raw.debug :
-    path : '{path::out.*=1}/source/dwtools/atop/filer/entry/Exec'
+    path : '{path::out.*=1}/source/dwtools/atop/filer/entry/Include.s'
     criterion :
       debug : [ debug, release ]
       raw : raw
