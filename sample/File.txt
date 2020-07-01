@@ -1,4 +1,3 @@
-First abc
-Second abc
-Third abc
-Last one
+First line
+Second line
+Last one!

@@ -1,4 +1,5 @@
-( function _MainBase_s_( ) {
+( function _MainBase_s_( )
+{
 
 'use strict';
 
@@ -6,10 +7,6 @@
  * Utility to manage files from console.
   @module Tools/Filer
 */
-
-/**
- * @file MainBase.s
- */
 
 //
 

@@ -1,4 +1,5 @@
-( function _OperationsDirector_s_() {
+( function _OperationsDirector_s_()
+{
 
 'use strict';
 
@@ -595,7 +596,7 @@ function appArgsRead( appArgs )
   _.process.argsReadTo
   ({
     dst : self,
-    propertiesMappArgs.map,
+    propertiesMappArgs : propertiesMappArgs.map,
     only : 0,
     namesMap :
     {
@@ -609,7 +610,7 @@ function appArgsRead( appArgs )
   _.process.argsReadTo
   ({
     dst : self.logger,
-    propertiesMappArgs.map,
+    propertiesMappArgs : propertiesMappArgs.map,
     only : 0,
     namesMap :
     {
@@ -848,7 +849,7 @@ function matchEach( o )
       if( stat.size !== match.file.stat.size || stat.mtimeMs !== match.file.stat.mtimeMs )
       {
         debugger;
-        throw _.err( 'Files are outdated, please rerun Find','\nOutdated file :', match.file.absolute );
+        throw _.err( 'Files are outdated, please rerun Find', '\nOutdated file :', match.file.absolute );
       }
     });
 
@@ -1444,7 +1445,7 @@ let Composes =
   perFileReporting : 0,
   templating : 1,
 
-  exts : _.define.own([ '.js','.s','.ss', '.c', '.cpp', '.h', '.hpp' ]),
+  exts : _.define.own([ '.js', '.s', '.ss', '.c', '.cpp', '.h', '.hpp' ]),
   storageFileName : '.operations.director',
 
 }

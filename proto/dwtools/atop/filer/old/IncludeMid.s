@@ -1,4 +1,5 @@
-( function _IncludeTop_s_( ) {
+( function _IncludeTop_s_( )
+{
 
 'use strict';
 

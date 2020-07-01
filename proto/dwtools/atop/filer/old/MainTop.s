@@ -1,4 +1,5 @@
-( function _MainTop_s_( ) {
+( function _MainTop_s_( )
+{
 
 'use strict';
 
@@ -47,7 +48,7 @@ function exec()
   let appArgs = _.process.args({ keyValDelimeter : 0 });
   let ca = filer._commandsMake();
 
-  return ca.appArgsPerform({ appArgs : appArgs });
+  return ca.appArgsPerform({ appArgs });
 }
 
 // --
@@ -75,7 +76,7 @@ function _commandsMake()
   let ca = _.CommandsAggregator
   ({
     basePath : fileProvider.path.current(),
-    commands : commands,
+    commands,
     commandPrefix : 'node ',
     logger : filer.logger,
   })
@@ -129,7 +130,7 @@ function commandImply( e )
   ({
     dst : filer,
     propertiesMap : request.map,
-    namesMap : namesMap,
+    namesMap,
   });
 
 }
@@ -157,7 +158,7 @@ let Restricts =
 
 let Statics =
 {
-  Exec : Exec,
+  Exec,
 }
 
 let Forbids =

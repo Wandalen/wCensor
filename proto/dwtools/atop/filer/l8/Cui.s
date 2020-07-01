@@ -1,4 +1,5 @@
-( function _Cui_s_( ) {
+( function _Cui_s_( )
+{
 
 'use strict';
 
@@ -80,22 +81,22 @@ function _commandsMake()
 
   let commands =
   {
-    'help' :              { e : _.routineJoin( cui, cui.commandHelp ),          },
-    'version' :           { e : _.routineJoin( cui, cui.commandVersion ),       },
-    'imply' :             { e : _.routineJoin( cui, cui.commandImply ),         },
-    'storage reset' :     { e : _.routineJoin( cui, cui.commandStorageReset ),  },
-    'storage print' :     { e : _.routineJoin( cui, cui.commandStoragePrint ),  },
-    'status' :            { e : _.routineJoin( cui, cui.commandStatus ),        },
-    'replace' :           { e : _.routineJoin( cui, cui.commandReplace ),       },
-    'do' :                { e : _.routineJoin( cui, cui.commandDo ),            },
-    'redo' :              { e : _.routineJoin( cui, cui.commandRedo ),          },
-    'undo' :              { e : _.routineJoin( cui, cui.commandUndo ),          },
+    'help' :              { e : _.routineJoin( cui, cui.commandHelp )          },
+    'version' :           { e : _.routineJoin( cui, cui.commandVersion )       },
+    'imply' :             { e : _.routineJoin( cui, cui.commandImply )         },
+    'storage reset' :     { e : _.routineJoin( cui, cui.commandStorageReset )  },
+    'storage print' :     { e : _.routineJoin( cui, cui.commandStoragePrint )  },
+    'status' :            { e : _.routineJoin( cui, cui.commandStatus )        },
+    'replace' :           { e : _.routineJoin( cui, cui.commandReplace )       },
+    'do' :                { e : _.routineJoin( cui, cui.commandDo )            },
+    'redo' :              { e : _.routineJoin( cui, cui.commandRedo )          },
+    'undo' :              { e : _.routineJoin( cui, cui.commandUndo )          },
   }
 
   let ca = _.CommandsAggregator
   ({
     basePath : _.path.current(),
-    commands : commands,
+    commands,
     commandPrefix : 'node ',
   })
 
@@ -204,7 +205,7 @@ function commandImply( e )
   ({
     dst : implied,
     propertiesMap : request.map,
-    namesMap : namesMap,
+    namesMap,
   });
 
 }

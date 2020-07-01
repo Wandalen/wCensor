@@ -1,20 +1,20 @@
-( function _Namespace_s_( ) {
+( function _Namespace_s_( )
+{
 
 'use strict';
 
 let _ = _global_.wTools;
 let Self = _.filer = _.filer || Object.create( null );
 
-let vectorize = _.routineDefaults( null, _.vectorize, { vectorizingContainerAdapter : 1, unwrapingContainerAdapter : 0 } );
-let vectorizeAll = _.routineDefaults( null, _.vectorizeAll, { vectorizingContainerAdapter : 1, unwrapingContainerAdapter : 0 } );
-let vectorizeAny = _.routineDefaults( null, _.vectorizeAny, { vectorizingContainerAdapter : 1, unwrapingContainerAdapter : 0 } );
-let vectorizeNone = _.routineDefaults( null, _.vectorizeNone, { vectorizingContainerAdapter : 1, unwrapingContainerAdapter : 0 } );
+let _vopts = { vectorizingContainerAdapter : 1, unwrapingContainerAdapter : 0 };
+let vectorize = _.routineDefaults( null, _.vectorize, _vopts );
+let vectorizeAll = _.routineDefaults( null, _.vectorizeAll, _vopts );
+let vectorizeAny = _.routineDefaults( null, _.vectorizeAny, _vopts );
+let vectorizeNone = _.routineDefaults( null, _.vectorizeNone, _vopts );
 
 // --
 // implement
 // --
-
-
 
 // --
 // declare
