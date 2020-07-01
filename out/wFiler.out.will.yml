@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wFiler.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wFiler.out.will.yml: &ref_0
+    hash: a2c63169cec40f69ef0683e70704116c
+    size: 39505
+  ../.ex.will.yml: &ref_1
     hash: 9cdb266af03c8fcd01e57c4d89bd8747
     size: 1704
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 78b5f15f55bc76542b0f30c21aa1e5a8
     size: 4697
 module:
@@ -16,19 +19,19 @@ module:
       description: Utility to edit files massively from console and with undo.
       enabled: 1
       version: 0.4.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - tools
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wfiler
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -714,6 +717,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          filePath: 'reflector::exported.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          filePath: 'reflector::exported.files.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -802,8 +823,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wFiler.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wFiler
@@ -811,13 +833,21 @@ module:
       description: Utility to edit files massively from console and with undo.
       enabled: 1
       version: 0.4.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 10.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - tools
+        - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wfiler
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1470,3 +1500,6 @@ module:
       ../.im.will.yml:
         hash: 78b5f15f55bc76542b0f30c21aa1e5a8
         size: 4697
+      wFiler.out.will.yml:
+        hash: a2c63169cec40f69ef0683e70704116c
+        size: 39505
