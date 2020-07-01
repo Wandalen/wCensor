@@ -1,4 +1,5 @@
-( function _Ext_test_s_( ) {
+( function _Ext_test_s_( )
+{
 
 'use strict';
 
@@ -17,7 +18,7 @@ let _ = _testerGlobal_.wTools;
 function onSuiteBegin()
 {
   let context = this;
-  context.suiteTempPath = _.path.pathDirTempOpen( _.path.join( __dirname, '../..'  ), 'filer' );
+  context.suiteTempPath = _.path.pathDirTempOpen( _.path.join( __dirname, '../..' ), 'filer' );
   context.assetsOriginalPath = _.path.join( __dirname, '_asset' );
   context.appJsPath = _.path.nativize( _.module.resolve( 'wFiler' ) );
 }
@@ -41,8 +42,8 @@ function replaceBasic( test )
   let a = test.assetFor( 'basic' );
 
   a.reflect();
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
   /* - */
 
@@ -61,7 +62,7 @@ function replaceBasic( test )
 
     var exp =
 `
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -70,7 +71,7 @@ function replaceBasic( test )
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -89,12 +90,12 @@ function replaceBasic( test )
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -113,8 +114,8 @@ function replaceStatusOptionVerbosity( test )
   let a = test.assetFor( 'basic' );
 
   a.reflect();
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
   /* - */
 
@@ -133,12 +134,12 @@ function replaceStatusOptionVerbosity( test )
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -159,12 +160,12 @@ function replaceStatusOptionVerbosity( test )
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -181,17 +182,17 @@ function replaceStatusOptionVerbosity( test )
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/File1.js' ) }
-     + replace 5 in ${ a.abs( 'before/File2.js' ) }
+     + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -208,7 +209,7 @@ function replaceStatusOptionVerbosity( test )
     var exp =
 `
 redo :
-  + replace 3 in ${ a.abs( 'before/File1.js' ) }
+  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
   1 : First lineabc
   2 : Second line
   2 : First line
@@ -217,7 +218,7 @@ redo :
   3 : Second line
   4 : Third lineabc
   5 : Last one
-  + replace 5 in ${ a.abs( 'before/File2.js' ) }
+  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First lineabc
   2 : Second line
   2 : First line
@@ -235,12 +236,12 @@ redo :
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -257,7 +258,7 @@ redo :
     var exp =
 `
 redo :
-  + replace 3 in ${ a.abs( 'before/File1.js' ) }
+  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
   1 : First lineabc
   2 : Second line
   2 : First line
@@ -266,7 +267,7 @@ redo :
   3 : Second line
   4 : Third lineabc
   5 : Last one
-  + replace 5 in ${ a.abs( 'before/File2.js' ) }
+  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First lineabc
   2 : Second line
   2 : First line
@@ -284,12 +285,12 @@ redo :
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -309,10 +310,10 @@ function replaceRedoOptionVerbosity( test )
 
   a.reflect();
 
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
@@ -331,12 +332,12 @@ function replaceRedoOptionVerbosity( test )
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -367,12 +368,12 @@ undo : 0
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -403,12 +404,12 @@ undo : 1
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -439,12 +440,12 @@ undo : 2
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -467,12 +468,12 @@ undo : 2
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -504,12 +505,12 @@ Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -541,12 +542,12 @@ Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -578,12 +579,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -606,12 +607,12 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -647,17 +648,17 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -699,17 +700,17 @@ undo : 1
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -741,12 +742,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -769,12 +770,12 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -810,17 +811,17 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -862,17 +863,17 @@ undo : 1
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -904,12 +905,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -932,12 +933,12 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -973,17 +974,17 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -1025,17 +1026,17 @@ undo : 1
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1067,12 +1068,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1092,10 +1093,10 @@ function replaceRedoOptionDepth( test )
 
   a.reflect();
 
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
@@ -1139,14 +1140,14 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -1188,17 +1189,17 @@ undo : 1
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1230,12 +1231,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1280,14 +1281,14 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -1329,17 +1330,17 @@ undo : 1
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1371,12 +1372,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1424,7 +1425,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -1439,14 +1440,14 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1478,12 +1479,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1531,7 +1532,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -1546,14 +1547,14 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1585,12 +1586,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1638,7 +1639,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -1653,14 +1654,14 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1692,12 +1693,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1745,7 +1746,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -1760,14 +1761,14 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1799,12 +1800,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1824,16 +1825,16 @@ function replaceChangeRedo( test )
 
   a.reflect();
 
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
   a.ready.then( ( op ) =>
   {
-    test.case = 'outdated File1.js';
+    test.case = 'outdated File1.txt';
     a.reflect();
     return null;
   })
@@ -1853,7 +1854,7 @@ undo : 0
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1Before + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1Before + 'xyz' );
 
     return null;
   })
@@ -1866,9 +1867,9 @@ undo : 0
 
     var exp =
 `
- ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.js' ) }
+ ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.js' ) }
+      ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -1883,17 +1884,17 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
- + replace 5 in ${ a.abs( 'before/File2.js' ) }
+ + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1922,19 +1923,19 @@ undo : 1
 
     var exp =
 `
- ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.js' ) }
+ ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.js' ) }
+      ${ a.abs( 'before/File1.txt' ) }
 Done 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -1952,7 +1953,7 @@ undo : 1
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1Before );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1Before );
 
     return null;
   })
@@ -1973,17 +1974,17 @@ undo : 1
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2008,7 +2009,7 @@ undo : 2
 
   a.ready.then( ( op ) =>
   {
-    test.case = 'outdated File2.js';
+    test.case = 'outdated File2.txt';
     a.reflect();
     return null;
   })
@@ -2028,7 +2029,7 @@ undo : 0
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2Before + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2Before + 'xyz' );
 
     return null;
   })
@@ -2049,20 +2050,20 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
- + replace 3 in ${ a.abs( 'before/File1.js' ) }
- ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.js' ) }
+ + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+ ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File2.js' ) }
+      ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before + 'xyz' );
 
     return null;
@@ -2091,19 +2092,19 @@ undo : 1
 
     var exp =
 `
- ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.js' ) }
+ ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File2.js' ) }
+      ${ a.abs( 'before/File2.txt' ) }
 Done 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before + 'xyz' );
 
     return null;
@@ -2121,7 +2122,7 @@ undo : 1
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2Before );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2Before );
 
     return null;
   })
@@ -2148,17 +2149,17 @@ undo : 1
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2183,7 +2184,7 @@ undo : 2
 
   a.ready.then( ( op ) =>
   {
-    test.case = 'outdated File1.js File2.js';
+    test.case = 'outdated File1.txt File2.txt';
     a.reflect();
     return null;
   })
@@ -2203,8 +2204,8 @@ undo : 0
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1Before + 'xyz' );
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2Before + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1Before + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2Before + 'xyz' );
 
     return null;
   })
@@ -2217,22 +2218,22 @@ undo : 0
 
     var exp =
 `
- ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.js' ) }
+ ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.js' ) }
- ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.js' ) }
+      ${ a.abs( 'before/File1.txt' ) }
+ ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File2.js' ) }
+      ${ a.abs( 'before/File2.txt' ) }
 Done 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before + 'xyz' );
 
     return null;
@@ -2261,22 +2262,22 @@ undo : 0
 
     var exp =
 `
- ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.js' ) }
+ ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.js' ) }
- ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.js' ) }
+      ${ a.abs( 'before/File1.txt' ) }
+ ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File2.js' ) }
+      ${ a.abs( 'before/File2.txt' ) }
 Done 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before + 'xyz' );
 
     return null;
@@ -2294,8 +2295,8 @@ undo : 0
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1Before );
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2Before );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1Before );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2Before );
 
     return null;
   })
@@ -2316,7 +2317,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -2331,17 +2332,17 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2375,10 +2376,10 @@ function replaceRedoDepth0OptionVerbosity( test )
   let a = test.assetFor( 'basic' );
 
   a.reflect();
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
@@ -2397,12 +2398,12 @@ function replaceRedoDepth0OptionVerbosity( test )
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -2433,12 +2434,12 @@ undo : 0
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2469,12 +2470,12 @@ undo : 2
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2497,12 +2498,12 @@ undo : 2
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -2534,12 +2535,12 @@ Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2571,12 +2572,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2599,12 +2600,12 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -2640,7 +2641,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -2655,17 +2656,17 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2697,12 +2698,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2725,12 +2726,12 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -2766,7 +2767,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -2781,17 +2782,17 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2823,12 +2824,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2851,12 +2852,12 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -2892,7 +2893,7 @@ undo : 0
 3 : Second line
 4 : Third lineabc
 5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.js' ) }
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -2907,17 +2908,17 @@ undo : 0
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
-+ replace 5 in ${ a.abs( 'before/File2.js' ) }
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2949,12 +2950,12 @@ Nothing to redo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -2974,10 +2975,10 @@ function replaceRedoHardLinked( test )
 
   a.reflect();
 
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
@@ -2987,11 +2988,11 @@ function replaceRedoHardLinked( test )
     a.reflect();
     a.fileProvider.hardLink
     ({
-      dstPath : a.abs( 'before/dir/Link.js' ),
-      srcPath : a.abs( 'before/File1.js' ),
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.js' ), a.abs( 'before/File1.js' ) ) );
+    test.is( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -3006,8 +3007,8 @@ function replaceRedoHardLinked( test )
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/File1.js' ) }
-     + replace 5 in ${ a.abs( 'before/File2.js' ) }
+     + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 `
     test.equivalent( op.output, exp );
 
@@ -3030,7 +3031,7 @@ function replaceRedoHardLinked( test )
 3 : Second line
 4 : Third lineabc
 5 : Last one
- + replace 3 in ${ a.abs( 'before/File1.js' ) }
+ + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -3045,7 +3046,7 @@ function replaceRedoHardLinked( test )
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
- + replace 5 in ${ a.abs( 'before/File2.js' ) }
+ + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
@@ -3054,21 +3055,21 @@ Done 2 action(s). Thrown 0 error(s).
     [
       '.',
       './after',
-      './after/File1.js',
-      './after/File2.js',
+      './after/File1.txt',
+      './after/File2.txt',
       './before',
-      './before/File1.js',
-      './before/File2.js',
+      './before/File1.txt',
+      './before/File2.txt',
       './before/dir',
-      './before/dir/Link.js',
+      './before/dir/Link.txt',
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.txt' ) );
     test.identical( got, file1After );
 
     return null;
@@ -3082,11 +3083,11 @@ Done 2 action(s). Thrown 0 error(s).
     a.reflect();
     a.fileProvider.hardLink
     ({
-      dstPath : a.abs( 'before/dir/Link.js' ),
-      srcPath : a.abs( 'before/File1.js' ),
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.js' ), a.abs( 'before/File1.js' ) ) );
+    test.is( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -3101,7 +3102,7 @@ Done 2 action(s). Thrown 0 error(s).
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/dir/Link.js' ) }
+     + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
 `
     test.equivalent( op.output, exp );
 
@@ -3124,7 +3125,7 @@ Done 2 action(s). Thrown 0 error(s).
 3 : Second line
 4 : Third lineabc
 5 : Last one
- + replace 3 in ${ a.abs( 'before/dir/Link.js' ) }
+ + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
@@ -3133,21 +3134,21 @@ Done 1 action(s). Thrown 0 error(s).
     [
       '.',
       './after',
-      './after/File1.js',
-      './after/File2.js',
+      './after/File1.txt',
+      './after/File2.txt',
       './before',
-      './before/File1.js',
-      './before/File2.js',
+      './before/File1.txt',
+      './before/File2.txt',
       './before/dir',
-      './before/dir/Link.js',
+      './before/dir/Link.txt',
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.txt' ) );
     test.identical( got, file1After );
 
     return null;
@@ -3167,10 +3168,10 @@ function replaceRedoSoftLinked( test )
 
   a.reflect();
 
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
@@ -3180,11 +3181,11 @@ function replaceRedoSoftLinked( test )
     a.reflect();
     a.fileProvider.softLink
     ({
-      dstPath : a.abs( 'before/dir/Link.js' ),
-      srcPath : a.abs( 'before/File1.js' ),
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.js' ), a.abs( 'before/File1.js' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -3199,8 +3200,8 @@ function replaceRedoSoftLinked( test )
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/File1.js' ) }
-     + replace 5 in ${ a.abs( 'before/File2.js' ) }
+     + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 `
     test.equivalent( op.output, exp );
 
@@ -3223,7 +3224,7 @@ function replaceRedoSoftLinked( test )
 3 : Second line
 4 : Third lineabc
 5 : Last one
- + replace 3 in ${ a.abs( 'before/File1.js' ) }
+ + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 2 : First line
@@ -3238,7 +3239,7 @@ function replaceRedoSoftLinked( test )
 5 : Fourth line
 6 : Fifth lineabc
 7 : Last one
- + replace 5 in ${ a.abs( 'before/File2.js' ) }
+ + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
@@ -3247,21 +3248,21 @@ Done 2 action(s). Thrown 0 error(s).
     [
       '.',
       './after',
-      './after/File1.js',
-      './after/File2.js',
+      './after/File1.txt',
+      './after/File2.txt',
       './before',
-      './before/File1.js',
-      './before/File2.js',
+      './before/File1.txt',
+      './before/File2.txt',
       './before/dir',
-      './before/dir/Link.js',
+      './before/dir/Link.txt',
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.txt' ) );
     test.identical( got, file1After );
 
     return null;
@@ -3275,11 +3276,11 @@ Done 2 action(s). Thrown 0 error(s).
     a.reflect();
     a.fileProvider.softLink
     ({
-      dstPath : a.abs( 'before/dir/Link.js' ),
-      srcPath : a.abs( 'before/File1.js' ),
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.js' ), a.abs( 'before/File1.js' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -3294,7 +3295,7 @@ Done 2 action(s). Thrown 0 error(s).
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/dir/Link.js' ) }
+     + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
 `
     test.equivalent( op.output, exp );
 
@@ -3319,7 +3320,7 @@ Done 2 action(s). Thrown 0 error(s).
 3 : Second line
 4 : Third lineabc
 5 : Last one
- + replace 3 in ${ a.abs( 'before/dir/Link.js' ) }
+ + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
@@ -3328,21 +3329,21 @@ Done 1 action(s). Thrown 0 error(s).
     [
       '.',
       './after',
-      './after/File1.js',
-      './after/File2.js',
+      './after/File1.txt',
+      './after/File2.txt',
       './before',
-      './before/File1.js',
-      './before/File2.js',
+      './before/File1.txt',
+      './before/File2.txt',
       './before/dir',
-      './before/dir/Link.js',
+      './before/dir/Link.txt',
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/dir/Link.txt' ) );
     test.identical( got, file1After );
 
     return null;
@@ -3363,20 +3364,20 @@ Done 1 action(s). Thrown 0 error(s).
     });
     a.fileProvider.softLink
     ({
-      dstPath : a.abs( 'before/dir2/Link.js' ),
-      srcPath : a.abs( 'before/File1.js' ),
+      dstPath : a.abs( 'before/dir2/Link.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
 
     test.is( !a.fileProvider.isSoftLink( a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.js' ) ) );
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.txt' ) ) );
     test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.js' ) ) );
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.txt' ) ) );
 
     test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2' ), a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.js' ), a.abs( 'before/dir1/Link.js' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.js' ), a.abs( 'before/File1.js' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.js' ), a.abs( 'before/File1.js' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/dir1/Link.txt' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     return null;
   })
@@ -3392,7 +3393,7 @@ Done 1 action(s). Thrown 0 error(s).
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/dir2/Link.js' ) }
+     + replace 3 in ${ a.abs( 'before/dir2/Link.txt' ) }
 `
     test.equivalent( op.output, exp );
 
@@ -3417,7 +3418,7 @@ Done 1 action(s). Thrown 0 error(s).
 3 : Second line
 4 : Third lineabc
 5 : Last one
- + replace 3 in ${ a.abs( 'before/dir2/Link.js' ) }
+ + replace 3 in ${ a.abs( 'before/dir2/Link.txt' ) }
 Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
@@ -3426,34 +3427,34 @@ Done 1 action(s). Thrown 0 error(s).
     [
       '.',
       './after',
-      './after/File1.js',
-      './after/File2.js',
+      './after/File1.txt',
+      './after/File2.txt',
       './before',
-      './before/File1.js',
-      './before/File2.js',
+      './before/File1.txt',
+      './before/File2.txt',
       './before/dir1',
-      './before/dir1/Link.js',
+      './before/dir1/Link.txt',
       './before/dir2',
-      './before/dir2/Link.js'
+      './before/dir2/Link.txt'
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/dir2/Link.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/dir2/Link.txt' ) );
     test.identical( got, file1After );
 
     test.is( !a.fileProvider.isSoftLink( a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.js' ) ) );
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.txt' ) ) );
     test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.js' ) ) );
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.txt' ) ) );
 
     test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2' ), a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.js' ), a.abs( 'before/dir1/Link.js' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.js' ), a.abs( 'before/File1.js' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.js' ), a.abs( 'before/File1.js' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/dir1/Link.txt' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     return null;
   })
@@ -3473,10 +3474,10 @@ function replaceRedoUndo( test )
   let a = test.assetFor( 'basic' );
 
   a.reflect();
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
@@ -3494,12 +3495,12 @@ function replaceRedoUndo( test )
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3529,17 +3530,17 @@ undo : 0
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3569,17 +3570,17 @@ undo : 0
 
     var exp =
 `
-+ undo replace 5 in ${ a.abs( 'before/File2.js' ) }
++ undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3607,17 +3608,17 @@ undo : 1
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3652,12 +3653,12 @@ undo : 2
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
 
     return null;
@@ -3678,12 +3679,12 @@ undo : 0
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3701,12 +3702,12 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3726,16 +3727,16 @@ function replaceRedoChangeUndo( test )
 
   a.reflect();
 
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
   a.ready.then( ( op ) =>
   {
-    test.case = 'outdated File1.js';
+    test.case = 'outdated File1.txt';
     a.reflect();
     return null;
   })
@@ -3755,7 +3756,7 @@ undo : 2
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1After + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1After + 'xyz' );
 
     return null;
   })
@@ -3768,20 +3769,20 @@ undo : 2
 
     var exp =
 `
- + undo replace 5 in ${ a.abs( 'before/File2.js' ) }
- ! failed to undo action::replace 3 in ${ a.abs( 'before/File1.js' ) }
+ + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
+ ! failed to undo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.js' ) }
+      ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3810,19 +3811,19 @@ undo : 1 -- 1 error(s)
 
     var exp =
 `
- ! failed to undo action::replace 3 in ${ a.abs( 'before/File1.js' ) }
+ ! failed to undo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.js' ) }
+      ${ a.abs( 'before/File1.txt' ) }
 Undone 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3840,7 +3841,7 @@ undo : 1 -- 1 error(s)
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1After );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1After );
 
     return null;
   })
@@ -3853,17 +3854,17 @@ undo : 1 -- 1 error(s)
 
     var exp =
 `
-+ undo replace 3 in ${a.abs( 'before/File1.js' )}
++ undo replace 3 in ${a.abs( 'before/File1.txt' )}
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -3888,7 +3889,7 @@ undo : 0
 
   a.ready.then( ( op ) =>
   {
-    test.case = 'outdated File2.js';
+    test.case = 'outdated File2.txt';
     a.reflect();
     return null;
   })
@@ -3908,7 +3909,7 @@ undo : 2
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2After + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2After + 'xyz' );
 
     return null;
   })
@@ -3921,20 +3922,20 @@ undo : 2
 
     var exp =
 `
- ! failed to undo action::replace 5 in ${ a.abs( 'before/File2.js' ) }
+ ! failed to undo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File2.js' ) }
- + undo replace 3 in ${ a.abs( 'before/File1.js' ) }
+      ${ a.abs( 'before/File2.txt' ) }
+ + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After + 'xyz' );
 
     return null;
@@ -3963,19 +3964,19 @@ undo : 1 -- 1 error(s)
 
     var exp =
 `
- ! failed to undo action::replace 5 in ${ a.abs( 'before/File2.js' ) }
+ ! failed to undo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File2.js' ) }
+      ${ a.abs( 'before/File2.txt' ) }
 Undone 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After + 'xyz' );
 
     return null;
@@ -3993,7 +3994,7 @@ undo : 1 -- 1 error(s)
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2After );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2After );
 
     return null;
   })
@@ -4006,17 +4007,17 @@ undo : 1 -- 1 error(s)
 
     var exp =
 `
-+ undo replace 5 in ${a.abs( 'before/File2.js' )}
++ undo replace 5 in ${a.abs( 'before/File2.txt' )}
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4041,7 +4042,7 @@ undo : 0
 
   a.ready.then( ( op ) =>
   {
-    test.case = 'outdated File2.js';
+    test.case = 'outdated File2.txt';
     a.reflect();
     return null;
   })
@@ -4061,8 +4062,8 @@ undo : 2
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1After + 'xyz' );
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2After + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1After + 'xyz' );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2After + 'xyz' );
 
     return null;
   })
@@ -4075,22 +4076,22 @@ undo : 2
 
     var exp =
 `
- ! failed to undo action::replace 5 in ${ a.abs( './before/File2.js' ) }
+ ! failed to undo action::replace 5 in ${ a.abs( './before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( './before/File2.js' ) }
- ! failed to undo action::replace 3 in ${ a.abs( './before/File1.js' ) }
+      ${ a.abs( './before/File2.txt' ) }
+ ! failed to undo action::replace 3 in ${ a.abs( './before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( './before/File1.js' ) }
+      ${ a.abs( './before/File1.txt' ) }
 Undone 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After + 'xyz' );
 
     return null;
@@ -4119,22 +4120,22 @@ undo : 2 -- 2 error(s)
 
     var exp =
 `
- ! failed to undo action::replace 5 in ${ a.abs( './before/File2.js' ) }
+ ! failed to undo action::replace 5 in ${ a.abs( './before/File2.txt' ) }
     Files are outdated:
-      ${ a.abs( './before/File2.js' ) }
- ! failed to undo action::replace 3 in ${ a.abs( './before/File1.js' ) }
+      ${ a.abs( './before/File2.txt' ) }
+ ! failed to undo action::replace 3 in ${ a.abs( './before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( './before/File1.js' ) }
+      ${ a.abs( './before/File1.txt' ) }
 Undone 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After + 'xyz' );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After + 'xyz' );
 
     return null;
@@ -4152,8 +4153,8 @@ undo : 2 -- 2 error(s)
 `
     test.equivalent( op.output, exp );
 
-    a.fileProvider.fileWrite( a.abs( 'before/File1.js' ), file1After );
-    a.fileProvider.fileWrite( a.abs( 'before/File2.js' ), file2After );
+    a.fileProvider.fileWrite( a.abs( 'before/File1.txt' ), file1After );
+    a.fileProvider.fileWrite( a.abs( 'before/File2.txt' ), file2After );
 
     return null;
   })
@@ -4166,18 +4167,18 @@ undo : 2 -- 2 error(s)
 
     var exp =
 `
-+ undo replace 5 in ${ a.abs( './before/File2.js' ) }
-+ undo replace 3 in ${ a.abs( './before/File1.js' ) }
++ undo replace 5 in ${ a.abs( './before/File2.txt' ) }
++ undo replace 3 in ${ a.abs( './before/File1.txt' ) }
 Undone 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var exp = [ '.', './after', './after/File1.js', './after/File2.js', './before', './before/File1.js', './before/File2.js' ];
+    var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
     test.identical( files, exp );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4211,10 +4212,10 @@ function replaceRedoUndoOptionVerbosity( test )
   let a = test.assetFor( 'basic' );
 
   a.reflect();
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.js' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.js' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   /* - */
 
@@ -4239,9 +4240,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4256,14 +4257,14 @@ Nothing to undo.
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4279,14 +4280,14 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-+ undo replace 5 in ${ a.abs( 'before/File2.js' ) }
++ undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4300,14 +4301,14 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4325,9 +4326,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4350,9 +4351,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4381,9 +4382,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4398,14 +4399,14 @@ Nothing to undo.
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4421,14 +4422,14 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-+ undo replace 5 in ${ a.abs( 'before/File2.js' ) }
++ undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4442,14 +4443,14 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4467,9 +4468,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4492,9 +4493,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4523,9 +4524,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4540,14 +4541,14 @@ Nothing to undo.
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4563,14 +4564,14 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-+ undo replace 5 in ${ a.abs( 'before/File2.js' ) }
++ undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4584,14 +4585,14 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-+ undo replace 3 in ${ a.abs( 'before/File1.js' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
 Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4609,9 +4610,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4634,9 +4635,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4665,9 +4666,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4686,9 +4687,9 @@ Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4708,9 +4709,9 @@ Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4728,9 +4729,9 @@ Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4748,9 +4749,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4773,9 +4774,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4803,9 +4804,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4823,9 +4824,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4844,9 +4845,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1After );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4863,9 +4864,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4882,9 +4883,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
@@ -4906,9 +4907,9 @@ Nothing to undo.
 `
     test.equivalent( op.output, exp );
 
-    var got = a.fileProvider.fileRead( a.abs( 'before/File1.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
-    var got = a.fileProvider.fileRead( a.abs( 'before/File2.js' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
