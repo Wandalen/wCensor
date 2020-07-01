@@ -2,36 +2,33 @@ format: outwillfile-2.0
 root:
   - wFiler.out
 consistency:
-  wFiler.out.will.yml: &ref_0
-    hash: 6f609696207843e2555b2bda1bc3ec50
-    size: 36723
-  ../.ex.will.yml: &ref_1
-    hash: 99fd381f75ae1df53a0daad9f7c79ff0
-    size: 1649
-  ../.im.will.yml: &ref_2
-    hash: 4bd2ad8e081461ac0a9600e6aa2abea9
-    size: 4662
+  ../.ex.will.yml: &ref_0
+    hash: 9cdb266af03c8fcd01e57c4d89bd8747
+    size: 1704
+  ../.im.will.yml: &ref_1
+    hash: 78b5f15f55bc76542b0f30c21aa1e5a8
+    size: 4697
 module:
   wFiler.out:
     about:
       name: wFiler
       org: noorg
-      description: ___
+      description: Utility to edit files massively from console and with undo.
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - tools
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wfiler
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -109,7 +106,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/___
+        path: ../proto/dwtools/atop/filer/entry/Exec
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -119,13 +116,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/___'
+        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Exec'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/___'
+        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Exec'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -157,6 +154,48 @@ module:
           - ../proto/dwtools/abase
           - ../proto/dwtools/amid
           - ../proto/dwtools/atop
+          - ../proto/dwtools/atop/filer
+          - ../proto/dwtools/atop/filer/entry
+          - ../proto/dwtools/atop/filer/entry/Exec
+          - ../proto/dwtools/atop/filer/entry/ExecDebug
+          - ../proto/dwtools/atop/filer/entry/ExecUnrestricted
+          - ../proto/dwtools/atop/filer/include
+          - ../proto/dwtools/atop/filer/include/Base.s
+          - ../proto/dwtools/atop/filer/include/Mid.s
+          - ../proto/dwtools/atop/filer/include/Top.s
+          - ../proto/dwtools/atop/filer/l1
+          - ../proto/dwtools/atop/filer/l1/Namespace.s
+          - ../proto/dwtools/atop/filer/l3
+          - ../proto/dwtools/atop/filer/l3/Main.s
+          - ../proto/dwtools/atop/filer/l8
+          - ../proto/dwtools/atop/filer/l8/Cui.s
+          - ../proto/dwtools/atop/filer/old
+          - ../proto/dwtools/atop/filer/old/Exec
+          - ../proto/dwtools/atop/filer/old/ExecDebug
+          - ../proto/dwtools/atop/filer/old/ExecUnrestricted
+          - ../proto/dwtools/atop/filer/old/IncludeBase.s
+          - ../proto/dwtools/atop/filer/old/IncludeMid.s
+          - ../proto/dwtools/atop/filer/old/MainBase.s
+          - ../proto/dwtools/atop/filer/old/MainTop.s
+          - ../proto/dwtools/atop/filer/old/OperationsDirector.s
+          - ../proto/dwtools/atop/filer/old/l3
+          - ../proto/dwtools/atop/filer.test
+          - ../proto/dwtools/atop/filer.test/Ext.test.s
+          - ../proto/dwtools/atop/filer.test/_asset
+          - ../proto/dwtools/atop/filer.test/_asset/+basic
+          - ../proto/dwtools/atop/filer.test/_asset/+basic/after
+          - ../proto/dwtools/atop/filer.test/_asset/+basic/after/File1.js
+          - ../proto/dwtools/atop/filer.test/_asset/+basic/after/File2.js
+          - ../proto/dwtools/atop/filer.test/_asset/+basic/before
+          - ../proto/dwtools/atop/filer.test/_asset/+basic/before/File1.js
+          - ../proto/dwtools/atop/filer.test/_asset/+basic/before/File2.js
+          - ../proto/dwtools/atop/filer.test/_asset/basic
+          - ../proto/dwtools/atop/filer.test/_asset/basic/after
+          - ../proto/dwtools/atop/filer.test/_asset/basic/after/File1.js
+          - ../proto/dwtools/atop/filer.test/_asset/basic/after/File2.js
+          - ../proto/dwtools/atop/filer.test/_asset/basic/before
+          - ../proto/dwtools/atop/filer.test/_asset/basic/before/File1.js
+          - ../proto/dwtools/atop/filer.test/_asset/basic/before/File2.js
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -581,7 +620,7 @@ module:
           debug: release
       reflect.proto.debug.raw:
         opts:
-          filePath: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto.debug.raw'
         criterion:
           tests: no.tests
           debug: debug
@@ -591,7 +630,7 @@ module:
           - files.reflect
       reflect.proto.release.raw:
         opts:
-          filePath: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto.release.raw'
         criterion:
           tests: no.tests
           debug: release
@@ -601,7 +640,7 @@ module:
           - files.reflect
       reflect.proto.debug.compiled:
         opts:
-          filePath: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto.debug.compiled'
         criterion:
           tests: no.tests
           debug: debug
@@ -611,7 +650,7 @@ module:
           - files.reflect
       reflect.proto.release.compiled:
         opts:
-          filePath: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto.release.compiled'
         criterion:
           tests: no.tests
           debug: release
@@ -622,7 +661,7 @@ module:
       transpile.proto.raw:
         opts:
           entry: 'path::entry.proto.no.tests'
-          filePath: 'reflector::transpile.proto.raw*'
+          filePath: 'reflector::transpile.proto.raw'
         criterion:
           raw: raw
           debug: release
@@ -632,7 +671,7 @@ module:
       transpile.proto.no.tests.compiled.debug:
         opts:
           entry: 'path::entry.proto.*=1'
-          filePath: 'reflector::transpile.proto.no.tests.compiled*'
+          filePath: 'reflector::transpile.proto.no.tests.compiled.debug'
         criterion:
           tests: no.tests
           raw: compiled
@@ -643,7 +682,7 @@ module:
       transpile.proto.no.tests.compiled.release:
         opts:
           entry: 'path::entry.proto.*=1'
-          filePath: 'reflector::transpile.proto.no.tests.compiled*'
+          filePath: 'reflector::transpile.proto.no.tests.compiled.release'
         criterion:
           tests: no.tests
           raw: compiled
@@ -655,7 +694,7 @@ module:
         opts:
           entry: 'path::entry.proto.*=1'
           external.before: '{path::out.*=1}/Main.s'
-          filePath: 'reflector::transpile.proto.only.tests.compiled*'
+          filePath: 'reflector::transpile.proto.only.tests.compiled.debug'
         criterion:
           tests: only.tests
           raw: compiled
@@ -667,7 +706,7 @@ module:
         opts:
           entry: 'path::entry.proto.*=1'
           external.before: '{path::out.*=1}/Main.s'
-          filePath: 'reflector::transpile.proto.only.tests.compiled*'
+          filePath: 'reflector::transpile.proto.only.tests.compiled.release'
         criterion:
           tests: only.tests
           raw: compiled
@@ -675,24 +714,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -781,31 +802,22 @@ module:
           content: proto
           export: 1
     consistency:
-      wFiler.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wFiler
       org: noorg
-      description: ___
+      description: Utility to edit files massively from console and with undo.
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - tools
-        - wTools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wfiler
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -881,7 +893,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/___
+        path: proto/dwtools/atop/filer/entry/Exec
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -891,13 +903,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/___'
+        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Exec'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/___'
+        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Exec'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -1453,9 +1465,8 @@ module:
           - 'build::npm'
     consistency:
       ../.ex.will.yml:
-        hash: 99fd381f75ae1df53a0daad9f7c79ff0
-        size: 1649
+        hash: 9cdb266af03c8fcd01e57c4d89bd8747
+        size: 1704
       ../.im.will.yml:
-        hash: 4bd2ad8e081461ac0a9600e6aa2abea9
-        size: 4662
-      wFiler.out.will.yml: *ref_0
+        hash: 78b5f15f55bc76542b0f30c21aa1e5a8
+        size: 4697
