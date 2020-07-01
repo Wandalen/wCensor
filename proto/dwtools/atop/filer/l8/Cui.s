@@ -334,6 +334,8 @@ commandHlink.commandProperties =
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
   basePath : 'Base path to look for files. Default = current path.',
+  includingPath : 'Glob or path to filter in',
+  excludingPath : 'Glob or path to filter out',
 }
 
 //
