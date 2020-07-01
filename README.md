@@ -1,7 +1,7 @@
 
-# module::Filer - Experimental [![Status](https://github.com/Wandalen/wFiler/workflows/Test/badge.svg)](https://github.com/Wandalen/wFiler/actions?query=workflow%3ATest)
+# utility::Filer - Experimental [![Status](https://github.com/Wandalen/wFiler/workflows/Test/badge.svg)](https://github.com/Wandalen/wFiler/actions?query=workflow%3ATest)
 
-___
+Utility to edit files massively from console and with undo.
 
 ## Try out
 ```
@@ -9,8 +9,7 @@ npm install
 node sample/Sample.js
 ```
 
-## To add as submodule
+## To install
 ```
-npm add 'wfiler@alpha'
+npm i -g 'wfiler@alpha'
 ```
-
