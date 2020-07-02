@@ -205,6 +205,18 @@ module:
           - ../proto/dwtools/atop/filer.test/_asset/hlink/F2.txt
           - ../proto/dwtools/atop/filer.test/_asset/hlink/dir
           - ../proto/dwtools/atop/filer.test/_asset/hlink/dir/F3.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/F.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/F.txt2
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir1
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir1/F.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir1/F.txt2
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir2
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir2/F.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir2/F.txt2
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir3
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir3/F.txt
+          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir3/F.txt2
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -1530,6 +1542,4 @@ module:
       ../.im.will.yml:
         hash: fc08881cc8ecc63314c9b4613ad4c841
         size: 4926
-      wFiler.out.will.yml:
-        hash: 7a76096a90b9cf4fac3064cfd26e2348
-        size: 40498
+      wFiler.out.will.yml: *ref_0
