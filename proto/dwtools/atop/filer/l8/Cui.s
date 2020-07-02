@@ -145,41 +145,14 @@ commandHelp.hint = 'Get help.';
 
 //
 
-function commandVersion( e ) /* xxx qqq : move to NpmTools */
+function commandVersion( e )
 {
   let cui = this;
-
   return _.npm.versionLog
   ({
     localPath : _.path.join( __dirname, '../../../../..' ),
-    remotePath : 'wfiler@latest',
+    remotePath : 'wfiler!alpha',
   });
-
-  // let packageJsonPath = path.join( __dirname, '../../../../../package.json' );
-  // let packageJson =  _.fileProvider.fileRead({ filePath : packageJsonPath, encoding : 'json', throwing : 0 });
-  //
-  // return _.process.start
-  // ({
-  //   execPath : 'npm view wfiler@latest version',
-  //   outputCollecting : 1,
-  //   outputPiping : 0,
-  //   inputMirroring : 0,
-  //   throwingExitCode : 0,
-  // })
-  // .then( ( got ) =>
-  // {
-  //   let current = packageJson ? packageJson.version : 'unknown';
-  //   let latest = _.strStrip( got.output );
-  //
-  //   if( got.exitCode || !latest )
-  //   latest = 'unknown'
-  //
-  //   logger.log( 'Current version:', current );
-  //   logger.log( 'Available version:', latest );
-  //
-  //   return null;
-  // })
-
 }
 
 commandVersion.hint = 'Get information about version.';
