@@ -148,30 +148,37 @@ commandHelp.hint = 'Get help.';
 function commandVersion( e ) /* xxx qqq : move to NpmTools */
 {
   let cui = this;
-  let packageJsonPath = path.join( __dirname, '../../../../../package.json' );
-  let packageJson =  _.fileProvider.fileRead({ filePath : packageJsonPath, encoding : 'json', throwing : 0 });
 
-  return _.process.start
+  return _.npm.versionLog
   ({
-    execPath : 'npm view wfiler@latest version',
-    outputCollecting : 1,
-    outputPiping : 0,
-    inputMirroring : 0,
-    throwingExitCode : 0,
-  })
-  .then( ( got ) =>
-  {
-    let current = packageJson ? packageJson.version : 'unknown';
-    let latest = _.strStrip( got.output );
+    localPath : path.join( __dirname, '../../../../..' ),
+    remotePath : 'wfiler@latest',
+  });
 
-    if( got.exitCode || !latest )
-    latest = 'unknown'
-
-    logger.log( 'Current version:', current );
-    logger.log( 'Available version:', latest );
-
-    return null;
-  })
+  // let packageJsonPath = path.join( __dirname, '../../../../../package.json' );
+  // let packageJson =  _.fileProvider.fileRead({ filePath : packageJsonPath, encoding : 'json', throwing : 0 });
+  //
+  // return _.process.start
+  // ({
+  //   execPath : 'npm view wfiler@latest version',
+  //   outputCollecting : 1,
+  //   outputPiping : 0,
+  //   inputMirroring : 0,
+  //   throwingExitCode : 0,
+  // })
+  // .then( ( got ) =>
+  // {
+  //   let current = packageJson ? packageJson.version : 'unknown';
+  //   let latest = _.strStrip( got.output );
+  //
+  //   if( got.exitCode || !latest )
+  //   latest = 'unknown'
+  //
+  //   logger.log( 'Current version:', current );
+  //   logger.log( 'Available version:', latest );
+  //
+  //   return null;
+  // })
 
 }
 
@@ -489,7 +496,7 @@ let Extend =
   // operation
 
   commandReplace,
-  commandHlink,
+  commandHlink, /* xxx : marry hlink with redo */
 
   // do
 

@@ -15,9 +15,9 @@
   "dependencies" :
   {
     "wTools" : "",
-    "wFiles" : "",
     "wcensorbasic" : "",
-    "wblueprint" : ""
+    "wblueprint" : "",
+    "wnpmtools" : ""
   },
   "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0", "wfiler" : "file:." },
   "keywords" : [ "wTools" ]

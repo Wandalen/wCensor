@@ -5,17 +5,14 @@ submodule :
   wTools :
     path : npm:///wTools
     enabled : 0 # submodule
-
-  wFiles :
-    path : npm:///wFiles
-    enabled : 0 # submodule
-
   wCensorBasic :
     path : npm:///wcensorbasic
     enabled : 0 # submodule
-
   wBlueprint :
     path : npm:///wblueprint
+    enabled : 0 # submodule
+  wNpmTools :
+    path : npm:///wnpmtools
     enabled : 0 # submodule
 
   eslint :
