@@ -4923,6 +4923,58 @@ Nothing to undo.
 
 //
 
+function replaceRedoUndoSingleCommand( test )
+{
+  let context = this;
+  let a = test.assetFor( 'hlink' );
+
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( '.undo d:1 v:0' )
+  .then( ( op ) =>
+  {
+    test.description = '.redo d:1 .redo .redo .undo .undo .undo';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+xxx
+`
+    test.equivalent( op.output, exp );
+
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1After );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2After );
+
+    return null;
+  })
+
+
+  /* - */
+
+  return a.ready;
+}
+
+// --
+// hlink
+// --
+
 function hlinkBasic( test )
 {
   let context = this;
@@ -5693,6 +5745,7 @@ var Self =
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
     // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
+    replaceRedoUndoSingleCommand,
 
     // /* qqq : implement test to check locking */
 
