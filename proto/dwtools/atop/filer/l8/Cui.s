@@ -151,7 +151,7 @@ function commandVersion( e ) /* xxx qqq : move to NpmTools */
 
   return _.npm.versionLog
   ({
-    localPath : path.join( __dirname, '../../../../..' ),
+    localPath : _.path.join( __dirname, '../../../../..' ),
     remotePath : 'wfiler@latest',
   });
 
