@@ -1550,6 +1550,4 @@ module:
       ../.im.will.yml:
         hash: c95d4358aa72b656b820895bd8b464c2
         size: 5016
-      wFiler.out.will.yml:
-        hash: 7989ca46af53bc66fc04533ee837438b
-        size: 41615
+      wFiler.out.will.yml: *ref_0
