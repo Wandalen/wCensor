@@ -1,6 +1,6 @@
 {
   "name" : "wfiler",
-  "version" : "0.2.19",
+  "version" : "0.2.20",
   "description" : "Utility to edit files massively from console and with undo.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
@@ -21,11 +21,11 @@
   },
   "dependencies" :
   {
-    "wCommandsAggregator" : "",
     "wTools" : "alpha",
     "wcensorbasic" : "alpha",
     "wblueprint" : "alpha",
-    "wnpmtools" : "alpha"
+    "wnpmtools" : "alpha",
+    "wcommandsaggregator" : "alpha"
   },
   "devDependencies" : { "eslint" : "7.1.0", "wfiler" : "file:.", "wTesting" : "alpha" },
   "keywords" : [ "wTools" ]
