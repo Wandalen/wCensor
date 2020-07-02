@@ -4926,7 +4926,7 @@ Nothing to undo.
 function replaceRedoUndoSingleCommand( test )
 {
   let context = this;
-  let a = test.assetFor( 'hlink' );
+  let a = test.assetFor( 'basic' );
 
   a.reflect();
 
@@ -4945,10 +4945,11 @@ function replaceRedoUndoSingleCommand( test )
     return null;
   })
 
-  a.appStart( '.undo d:1 v:0' )
+  a.appStart( '.storage.reset' )
+  a.appStart( '.replace filePath:before/** ins:line sub:abc .do' )
   .then( ( op ) =>
   {
-    test.description = '.redo d:1 .redo .redo .undo .undo .undo';
+    test.description = '.';
     test.identical( op.exitCode, 0 );
 
     var exp =
@@ -4964,7 +4965,6 @@ xxx
 
     return null;
   })
-
 
   /* - */
 
