@@ -8,6 +8,13 @@
   "files" : [ "proto/dwtools/atop/filer", "proto/dwtools/Tools.s" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen .build proto" },
   "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wFiler.git" },
+  "bin" :
+  {
+    "single-process-filer" : "proto/dwtools/atop/filer/entry/Exec",
+    "debug-filer" : "proto/dwtools/atop/filer/entry/ExecDebug",
+    "unrestricted-filer" : "proto/dwtools/atop/filer/entry/ExecUnrestricted",
+    "filer" : "proto/dwtools/atop/filer/entry/ExecUnrestricted"
+  },
   "bugs" :
   {
     "url" : "https://github.com/Wandalen/wFiler/issues"
