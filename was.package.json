@@ -1,6 +1,6 @@
 {
   "name" : "wfiler",
-  "version" : "0.2.16",
+  "version" : "0.2.17",
   "description" : "Utility to edit files massively from console and with undo.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
