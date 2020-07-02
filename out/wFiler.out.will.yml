@@ -2,15 +2,12 @@ format: outwillfile-2.0
 root:
   - wFiler.out
 consistency:
-  wFiler.out.will.yml: &ref_0
-    hash: b0c40ffe272ea9968f328d21eb99fa4a
-    size: 40159
-  ../.ex.will.yml: &ref_1
+  ../.ex.will.yml: &ref_0
     hash: 9cdb266af03c8fcd01e57c4d89bd8747
     size: 1704
-  ../.im.will.yml: &ref_2
-    hash: 63d1c5792714445972eca7ed625579ee
-    size: 4923
+  ../.im.will.yml: &ref_1
+    hash: fc08881cc8ecc63314c9b4613ad4c841
+    size: 4926
 module:
   wFiler.out:
     about:
@@ -19,19 +16,19 @@ module:
       description: Utility to edit files massively from console and with undo.
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - tools
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wfiler
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -210,16 +207,16 @@ module:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wFiles:
-        path: 'npm:///wFiles'
-        autoExporting: 0
-        enabled: 0
       wCensorBasic:
         path: 'npm:///wcensorbasic'
         autoExporting: 0
         enabled: 0
       wBlueprint:
         path: 'npm:///wblueprint'
+        autoExporting: 0
+        enabled: 0
+      wNpmTools:
+        path: 'npm:///wnpmtools'
         autoExporting: 0
         enabled: 0
       eslint:
@@ -735,24 +732,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -841,9 +820,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wFiler.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wFiler
@@ -851,21 +829,13 @@ module:
       description: Utility to edit files massively from console and with undo.
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - tools
-        - wTools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wfiler
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -975,16 +945,16 @@ module:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wFiles:
-        path: 'npm:///wFiles'
-        autoExporting: 0
-        enabled: 0
       wCensorBasic:
         path: 'npm:///wcensorbasic'
         autoExporting: 0
         enabled: 0
       wBlueprint:
         path: 'npm:///wblueprint'
+        autoExporting: 0
+        enabled: 0
+      wNpmTools:
+        path: 'npm:///wnpmtools'
         autoExporting: 0
         enabled: 0
       eslint:
@@ -1528,6 +1498,5 @@ module:
         hash: 9cdb266af03c8fcd01e57c4d89bd8747
         size: 1704
       ../.im.will.yml:
-        hash: 63d1c5792714445972eca7ed625579ee
-        size: 4923
-      wFiler.out.will.yml: *ref_0
+        hash: fc08881cc8ecc63314c9b4613ad4c841
+        size: 4926
