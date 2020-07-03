@@ -13,14 +13,14 @@ if( typeof module !== 'undefined' )
 //
 
 let _ = _global_.wTools;
-let Parent = _.Filer;
-let Self = wFilerCli;
-function wFilerCli( o )
+let Parent = _.Censor;
+let Self = wCensorCli;
+function wCensorCli( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
 
-Self.shortName = 'FilerCli';
+Self.shortName = 'CensorCli';
 
 // --
 // exec
@@ -28,25 +28,25 @@ Self.shortName = 'FilerCli';
 
 function Exec()
 {
-  let filer = new this.Self();
-  return filer.exec();
+  let censor = new this.Self();
+  return censor.exec();
 }
 
 //
 
 function exec()
 {
-  let filer = this;
+  let censor = this;
 
-  filer.formAssociates();
+  censor.formAssociates();
 
-  _.assert( _.instanceIs( filer ) );
+  _.assert( _.instanceIs( censor ) );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  let logger = filer.logger;
-  let fileProvider = filer.fileProvider;
+  let logger = censor.logger;
+  let fileProvider = censor.fileProvider;
   let appArgs = _.process.args({ keyValDelimeter : 0 });
-  let ca = filer._commandsMake();
+  let ca = censor._commandsMake();
 
   return ca.appArgsPerform({ appArgs });
 }
@@ -57,19 +57,19 @@ function exec()
 
 function _commandsMake()
 {
-  let filer = this;
-  let logger = filer.logger;
-  let fileProvider = filer.fileProvider;
+  let censor = this;
+  let logger = censor.logger;
+  let fileProvider = censor.fileProvider;
   let appArgs = _.process.args();
 
-  _.assert( _.instanceIs( filer ) );
+  _.assert( _.instanceIs( censor ) );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   let commands =
   {
 
-    'help' :                    { e : _.routineJoin( filer, filer.commandHelp ),                        h : 'Get help.' },
-    'imply' :                   { e : _.routineJoin( filer, filer.commandImply ),                       h : 'Change state or imply value of a variable.' },
+    'help' :                    { e : _.routineJoin( censor, censor.commandHelp ),                        h : 'Get help.' },
+    'imply' :                   { e : _.routineJoin( censor, censor.commandImply ),                       h : 'Change state or imply value of a variable.' },
 
   }
 
@@ -78,13 +78,13 @@ function _commandsMake()
     basePath : fileProvider.path.current(),
     commands,
     commandPrefix : 'node ',
-    logger : filer.logger,
+    logger : censor.logger,
   })
 
-  _.assert( ca.logger === filer.logger );
-  _.assert( ca.verbosity === filer.verbosity );
+  _.assert( ca.logger === censor.logger );
+  _.assert( ca.verbosity === censor.verbosity );
 
-  //filer._commandsConfigAdd( ca );
+  //censor._commandsConfigAdd( ca );
 
   ca.form();
 
@@ -96,9 +96,9 @@ function _commandsMake()
 
 function commandHelp( e )
 {
-  let filer = this;
+  let censor = this;
   let ca = e.ca;
-  let logger = filer.logger;
+  let logger = censor.logger;
 
   ca._commandHelp( e );
 
@@ -113,9 +113,9 @@ function commandHelp( e )
 
 function commandImply( e )
 {
-  let filer = this;
+  let censor = this;
   let ca = e.ca;
-  let logger = filer.logger;
+  let logger = censor.logger;
 
   let namesMap =
   {
@@ -124,11 +124,11 @@ function commandImply( e )
     beeping : 'beeping',
   }
 
-  let request = filer.Resolver.strRequestParse( e.commandArgument );
+  let request = censor.Resolver.strRequestParse( e.commandArgument );
 
   _.process.argsReadTo
   ({
-    dst : filer,
+    dst : censor,
     propertiesMap : request.map,
     namesMap,
   });

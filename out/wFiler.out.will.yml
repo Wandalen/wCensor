@@ -1,8 +1,8 @@
 format: outwillfile-2.0
 root:
-  - wFiler.out
+  - wCensor.out
 consistency:
-  wFiler.out.will.yml: &ref_0
+  wCensor.out.will.yml: &ref_0
     hash: 7989ca46af53bc66fc04533ee837438b
     size: 41615
   ../.ex.will.yml: &ref_1
@@ -12,9 +12,9 @@ consistency:
     hash: c95d4358aa72b656b820895bd8b464c2
     size: 5016
 module:
-  wFiler.out:
+  wCensor.out:
     about:
-      name: wFiler
+      name: wCensor
       org: noorg
       description: Utility to edit files massively from console and with undo.
       enabled: 1
@@ -30,7 +30,7 @@ module:
       author: Kostiantyn Wandalen <wanalen@01.school>
       contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
-      npm.name: wfiler
+      npm.name: wcensor
       npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
@@ -38,11 +38,11 @@ module:
       module.willfiles:
         criterion:
           predefined: 1
-        path: wFiler.out.will.yml
+        path: wCensor.out.will.yml
       module.common:
         criterion:
           predefined: 1
-        path: wFiler.out
+        path: wCensor.out
       module.original.willfiles:
         criterion:
           predefined: 1
@@ -63,13 +63,13 @@ module:
         criterion:
           predefined: 1
       repository:
-        path: 'git+https:///github.com/Wandalen/wFiler.git'
+        path: 'git+https:///github.com/Wandalen/wCensor.git'
       origins:
         path:
-          - 'git+https:///github.com/Wandalen/wFiler.git'
-          - 'npm:///wFiler'
+          - 'git+https:///github.com/Wandalen/wCensor.git'
+          - 'npm:///wCensor'
       bugtracker:
-        path: 'https:///github.com/Wandalen/wFiler/issues'
+        path: 'https:///github.com/Wandalen/wCensor/issues'
       in:
         path: .
       out:
@@ -109,7 +109,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/atop/filer/entry/Include.s
+        path: ../proto/dwtools/atop/censor/entry/Include.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -119,13 +119,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Include.s'
+        path: '{path::out.*=1}/source/dwtools/atop/censor/entry/Include.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Include.s'
+        path: '{path::out.*=1}/source/dwtools/atop/censor/entry/Include.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -157,66 +157,66 @@ module:
           - ../proto/dwtools/abase
           - ../proto/dwtools/amid
           - ../proto/dwtools/atop
-          - ../proto/dwtools/atop/filer
-          - ../proto/dwtools/atop/filer/entry
-          - ../proto/dwtools/atop/filer/entry/Exec
-          - ../proto/dwtools/atop/filer/entry/ExecDebug
-          - ../proto/dwtools/atop/filer/entry/ExecUnrestricted
-          - ../proto/dwtools/atop/filer/entry/Include.s
-          - ../proto/dwtools/atop/filer/include
-          - ../proto/dwtools/atop/filer/include/Base.s
-          - ../proto/dwtools/atop/filer/include/Mid.s
-          - ../proto/dwtools/atop/filer/include/Top.s
-          - ../proto/dwtools/atop/filer/l1
-          - ../proto/dwtools/atop/filer/l1/Namespace.s
-          - ../proto/dwtools/atop/filer/l3
-          - ../proto/dwtools/atop/filer/l3/Main.s
-          - ../proto/dwtools/atop/filer/l8
-          - ../proto/dwtools/atop/filer/l8/Cui.s
-          - ../proto/dwtools/atop/filer/old
-          - ../proto/dwtools/atop/filer/old/Exec
-          - ../proto/dwtools/atop/filer/old/ExecDebug
-          - ../proto/dwtools/atop/filer/old/ExecUnrestricted
-          - ../proto/dwtools/atop/filer/old/IncludeBase.s
-          - ../proto/dwtools/atop/filer/old/IncludeMid.s
-          - ../proto/dwtools/atop/filer/old/MainBase.s
-          - ../proto/dwtools/atop/filer/old/MainTop.s
-          - ../proto/dwtools/atop/filer/old/OperationsDirector.s
-          - ../proto/dwtools/atop/filer/old/l3
-          - ../proto/dwtools/atop/filer.test
-          - ../proto/dwtools/atop/filer.test/Ext.test.s
-          - ../proto/dwtools/atop/filer.test/_asset
-          - ../proto/dwtools/atop/filer.test/_asset/+basic
-          - ../proto/dwtools/atop/filer.test/_asset/+basic/after
-          - ../proto/dwtools/atop/filer.test/_asset/+basic/after/File1.txt
-          - ../proto/dwtools/atop/filer.test/_asset/+basic/after/File2.txt
-          - ../proto/dwtools/atop/filer.test/_asset/+basic/before
-          - ../proto/dwtools/atop/filer.test/_asset/+basic/before/File1.txt
-          - ../proto/dwtools/atop/filer.test/_asset/+basic/before/File2.txt
-          - ../proto/dwtools/atop/filer.test/_asset/basic
-          - ../proto/dwtools/atop/filer.test/_asset/basic/after
-          - ../proto/dwtools/atop/filer.test/_asset/basic/after/File1.txt
-          - ../proto/dwtools/atop/filer.test/_asset/basic/after/File2.txt
-          - ../proto/dwtools/atop/filer.test/_asset/basic/before
-          - ../proto/dwtools/atop/filer.test/_asset/basic/before/File1.txt
-          - ../proto/dwtools/atop/filer.test/_asset/basic/before/File2.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlink
-          - ../proto/dwtools/atop/filer.test/_asset/hlink/F1.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlink/F2.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlink/dir
-          - ../proto/dwtools/atop/filer.test/_asset/hlink/dir/F3.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/F.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/F.txt2
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir1
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir1/F.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir1/F.txt2
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir2
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir2/F.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir2/F.txt2
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir3
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir3/F.txt
-          - ../proto/dwtools/atop/filer.test/_asset/hlinkAdvanced/dir3/F.txt2
+          - ../proto/dwtools/atop/censor
+          - ../proto/dwtools/atop/censor/entry
+          - ../proto/dwtools/atop/censor/entry/Exec
+          - ../proto/dwtools/atop/censor/entry/ExecDebug
+          - ../proto/dwtools/atop/censor/entry/ExecUnrestricted
+          - ../proto/dwtools/atop/censor/entry/Include.s
+          - ../proto/dwtools/atop/censor/include
+          - ../proto/dwtools/atop/censor/include/Base.s
+          - ../proto/dwtools/atop/censor/include/Mid.s
+          - ../proto/dwtools/atop/censor/include/Top.s
+          - ../proto/dwtools/atop/censor/l1
+          - ../proto/dwtools/atop/censor/l1/Namespace.s
+          - ../proto/dwtools/atop/censor/l3
+          - ../proto/dwtools/atop/censor/l3/Main.s
+          - ../proto/dwtools/atop/censor/l8
+          - ../proto/dwtools/atop/censor/l8/Cui.s
+          - ../proto/dwtools/atop/censor/old
+          - ../proto/dwtools/atop/censor/old/Exec
+          - ../proto/dwtools/atop/censor/old/ExecDebug
+          - ../proto/dwtools/atop/censor/old/ExecUnrestricted
+          - ../proto/dwtools/atop/censor/old/IncludeBase.s
+          - ../proto/dwtools/atop/censor/old/IncludeMid.s
+          - ../proto/dwtools/atop/censor/old/MainBase.s
+          - ../proto/dwtools/atop/censor/old/MainTop.s
+          - ../proto/dwtools/atop/censor/old/OperationsDirector.s
+          - ../proto/dwtools/atop/censor/old/l3
+          - ../proto/dwtools/atop/censor.test
+          - ../proto/dwtools/atop/censor.test/Ext.test.s
+          - ../proto/dwtools/atop/censor.test/_asset
+          - ../proto/dwtools/atop/censor.test/_asset/+basic
+          - ../proto/dwtools/atop/censor.test/_asset/+basic/after
+          - ../proto/dwtools/atop/censor.test/_asset/+basic/after/File1.txt
+          - ../proto/dwtools/atop/censor.test/_asset/+basic/after/File2.txt
+          - ../proto/dwtools/atop/censor.test/_asset/+basic/before
+          - ../proto/dwtools/atop/censor.test/_asset/+basic/before/File1.txt
+          - ../proto/dwtools/atop/censor.test/_asset/+basic/before/File2.txt
+          - ../proto/dwtools/atop/censor.test/_asset/basic
+          - ../proto/dwtools/atop/censor.test/_asset/basic/after
+          - ../proto/dwtools/atop/censor.test/_asset/basic/after/File1.txt
+          - ../proto/dwtools/atop/censor.test/_asset/basic/after/File2.txt
+          - ../proto/dwtools/atop/censor.test/_asset/basic/before
+          - ../proto/dwtools/atop/censor.test/_asset/basic/before/File1.txt
+          - ../proto/dwtools/atop/censor.test/_asset/basic/before/File2.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlink
+          - ../proto/dwtools/atop/censor.test/_asset/hlink/F1.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlink/F2.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlink/dir
+          - ../proto/dwtools/atop/censor.test/_asset/hlink/dir/F3.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/F.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/F.txt2
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir1
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir1/F.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir1/F.txt2
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir2
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir2/F.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir2/F.txt2
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir3
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir3/F.txt
+          - ../proto/dwtools/atop/censor.test/_asset/hlinkAdvanced/dir3/F.txt2
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -857,12 +857,12 @@ module:
           content: proto
           export: 1
     consistency:
-      wFiler.out.will.yml: *ref_0
+      wCensor.out.will.yml: *ref_0
       ../.ex.will.yml: *ref_1
       ../.im.will.yml: *ref_2
   ../:
     about:
-      name: wFiler
+      name: wCensor
       org: noorg
       description: Utility to edit files massively from console and with undo.
       enabled: 1
@@ -878,7 +878,7 @@ module:
       author: Kostiantyn Wandalen <wanalen@01.school>
       contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
-      npm.name: wfiler
+      npm.name: wcensor
       npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
@@ -898,7 +898,7 @@ module:
       module.peer.willfiles:
         criterion:
           predefined: 1
-        path: out/wFiler.out.will.yml
+        path: out/wCensor.out.will.yml
       module.peer.in:
         criterion:
           predefined: 1
@@ -911,13 +911,13 @@ module:
         criterion:
           predefined: 1
       repository:
-        path: 'git+https:///github.com/Wandalen/wFiler.git'
+        path: 'git+https:///github.com/Wandalen/wCensor.git'
       origins:
         path:
-          - 'git+https:///github.com/Wandalen/wFiler.git'
-          - 'npm:///wFiler'
+          - 'git+https:///github.com/Wandalen/wCensor.git'
+          - 'npm:///wCensor'
       bugtracker:
-        path: 'https:///github.com/Wandalen/wFiler/issues'
+        path: 'https:///github.com/Wandalen/wCensor/issues'
       in:
         path: .
       out:
@@ -957,7 +957,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/atop/filer/entry/Include.s
+        path: proto/dwtools/atop/censor/entry/Include.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -967,13 +967,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Include.s'
+        path: '{path::out.*=1}/source/dwtools/atop/censor/entry/Include.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/atop/filer/entry/Include.s'
+        path: '{path::out.*=1}/source/dwtools/atop/censor/entry/Include.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -1550,4 +1550,4 @@ module:
       ../.im.will.yml:
         hash: c95d4358aa72b656b820895bd8b464c2
         size: 5016
-      wFiler.out.will.yml: *ref_0
+      wCensor.out.will.yml: *ref_0

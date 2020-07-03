@@ -7,8 +7,8 @@
 
 let _ = _global_.wTools;
 let Parent = null;
-let Self = wFilerCui;
-function wFilerCui( o )
+let Self = wCensorCui;
+function wCensorCui( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
@@ -118,8 +118,8 @@ function _command_pre( routine, args )
 
   let e = args[ 0 ];
 
-  _.assert( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.toStrShort( e.propertiesMap ) );
-  _.assertMapHasOnly( e.propertiesMap, routine.commandProperties, `Command does not expect options:` );
+  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.toStrShort( e.propertiesMap ) );
+  _.sureMapHasOnly( e.propertiesMap, routine.commandProperties, `Command does not expect options:` );
 
   if( routine.commandProperties.v )
   if( e.propertiesMap.v !== undefined )
@@ -153,7 +153,7 @@ function commandVersion( e )
   return _.npm.versionLog
   ({
     localPath : _.path.join( __dirname, '../../../../..' ),
-    remotePath : 'wfiler!alpha',
+    remotePath : 'wcensor!alpha',
   });
 }
 
@@ -267,9 +267,7 @@ function commandReplace( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandReplace, arguments );
-  op.logging = 1;
-
-  debugger;
+  op.logger = 1;
 
   return _.censor.filesReplace( op );
 }
@@ -294,13 +292,13 @@ function commandHlink( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandHlink, arguments );
-  op.logging = 1;
+  op.logger = 1;
 
   if( op.verbosity === undefined )
   op.verbosity = 3;
 
-  if( e.commandArgument )
-  op.basePath = _.arrayAppend( op.basePath || null, e.commandArgument )
+  if( e.subject )
+  op.basePath = _.arrayAppendArrays( _.arrayAs( e.subject ), op.basePath ? _.arrayAs( op.basePath ) : [] );
 
   if( !op.basePath )
   op.basePath = '.';
@@ -313,11 +311,12 @@ function commandHlink( e )
 commandHlink.hint = 'Hard links files with identical content in specified directory.';
 commandHlink.commandProperties =
 {
-  verbosity : 'Level of verbosity. Default = 3',
-  v : 'Level of verbosity. Default = 3',
+  verbosity : 'Level of verbosity. Default = 3.',
+  v : 'Level of verbosity. Default = 3.',
   basePath : 'Base path to look for files. Default = current path.',
-  includingPath : 'Glob or path to filter in',
-  excludingPath : 'Glob or path to filter out',
+  includingPath : 'Glob or path to filter in.',
+  excludingPath : 'Glob or path to filter out.',
+  withHlink : 'To use path::hlink defined in config at ~/.censor/config.yaml. Default : true.'
 }
 
 //
@@ -329,7 +328,15 @@ function commandDo( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandDo, arguments );
-  op.logging = 1;
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  op.logger = 1;
 
   if( op.d !== undefined )
   {
@@ -358,7 +365,15 @@ function commandRedo( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandRedo, arguments );
-  op.logging = 1;
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  op.logger = 1;
 
   if( op.d !== undefined )
   {
@@ -387,7 +402,15 @@ function commandUndo( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandUndo, arguments );
-  op.logging = 1;
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  op.logger = 1;
 
   if( op.d !== undefined )
   {
@@ -503,7 +526,7 @@ _.Copyable.mixin( Self );
 
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
-_.filer[ Self.shortName ] = Self;
+_.censor[ Self.shortName ] = Self;
 if( !module.parent )
 Self.Exec();
 

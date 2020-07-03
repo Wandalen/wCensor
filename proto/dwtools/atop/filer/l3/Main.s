@@ -4,8 +4,8 @@
 //
 // let _ = _global_.wTools;
 // let Parent = null;
-// let Self = wFilerMian;
-// function wFilerMian( o )
+// let Self = wCensorMian;
+// function wCensorMian( o )
 // {
 //   return _.workpiece.construct( Self, this, arguments );
 // }
@@ -133,6 +133,6 @@
 //
 // if( typeof module !== 'undefined' )
 // module[ 'exports' ] = Self;
-// _.filer[ Self.shortName ] = Self;
+// _.censor[ Self.shortName ] = Self;
 //
 // })();

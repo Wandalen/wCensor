@@ -5,7 +5,7 @@
 
 /**
  * Utility to manage files from console.
-  @module Tools/Filer
+  @module Tools/Censor
 */
 
 //
@@ -21,13 +21,13 @@ if( typeof module !== 'undefined' )
 
 let _ = _global_.wTools;
 let Parent = null;
-let Self = wFiler;
-function wFiler( o )
+let Self = wCensor;
+function wCensor( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
 
-Self.shortName = 'Filer';
+Self.shortName = 'Censor';
 
 // --
 // inter
@@ -44,19 +44,19 @@ function finit()
 
 function init( o )
 {
-  let filer = this;
+  let censor = this;
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  let logger = filer.logger = new _.Logger({ output : _global_.logger, name : 'filer' });
+  let logger = censor.logger = new _.Logger({ output : _global_.logger, name : 'censor' });
 
-  _.workpiece.initFields( filer );
-  Object.preventExtensions( filer );
+  _.workpiece.initFields( censor );
+  Object.preventExtensions( censor );
 
-  _.assert( logger === filer.logger );
+  _.assert( logger === censor.logger );
 
   if( o )
-  filer.copy( o );
+  censor.copy( o );
 
 }
 
@@ -64,54 +64,54 @@ function init( o )
 
 function unform()
 {
-  let filer = this;
+  let censor = this;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  _.assert( !!filer.formed );
+  _.assert( !!censor.formed );
 
   /* begin */
 
   /* end */
 
-  filer.formed = 0;
-  return filer;
+  censor.formed = 0;
+  return censor;
 }
 
 //
 
 function form()
 {
-  let filer = this;
+  let censor = this;
 
-  if( filer.formed >= 1 )
-  return filer;
+  if( censor.formed >= 1 )
+  return censor;
 
-  filer.formAssociates();
+  censor.formAssociates();
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  _.assert( !filer.formed );
+  _.assert( !censor.formed );
 
   /* begin */
 
   /* end */
 
-  filer.formed = 1;
-  return filer;
+  censor.formed = 1;
+  return censor;
 }
 
 //
 
 function formAssociates()
 {
-  let filer = this;
-  let logger = filer.logger;
+  let censor = this;
+  let logger = censor.logger;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  _.assert( !filer.formed );
+  _.assert( !censor.formed );
   _.assert( !!logger );
-  _.assert( logger.verbosity === filer.verbosity );
+  _.assert( logger.verbosity === censor.verbosity );
 
-  if( !filer.fileProvider )
+  if( !censor.fileProvider )
   {
 
     let hub = _.FileProvider.System({ providers : [] });
@@ -121,25 +121,25 @@ function formAssociates()
     _.FileProvider.Http().providerRegisterTo( hub );
     _.FileProvider.HardDrive().providerRegisterTo( hub );
     hub.defaultProvider = hub.providersWithProtocolMap.hd;
-    filer.fileProvider = hub;
+    censor.fileProvider = hub;
     _.assert( !!hub.defaultProvider );
 
   }
 
-  let logger2 = new _.Logger({ output : logger, name : 'filer.providers' });
+  let logger2 = new _.Logger({ output : logger, name : 'censor.providers' });
 
-  filer.fileProvider.logger = logger2;
-  for( var f in filer.fileProvider.providersWithProtocolMap )
+  censor.fileProvider.logger = logger2;
+  for( var f in censor.fileProvider.providersWithProtocolMap )
   {
-    let fileProvider = filer.fileProvider.providersWithProtocolMap[ f ];
+    let fileProvider = censor.fileProvider.providersWithProtocolMap[ f ];
     fileProvider.logger = logger2;
   }
 
-  _.assert( filer.fileProvider.logger === logger2 );
-  _.assert( logger.verbosity === filer.verbosity );
-  _.assert( filer.fileProvider.logger !== filer.logger );
+  _.assert( censor.fileProvider.logger === logger2 );
+  _.assert( logger.verbosity === censor.verbosity );
+  _.assert( censor.fileProvider.logger !== censor.logger );
 
-  filer._verbosityChange();
+  censor._verbosityChange();
 
   _.assert( logger2.verbosity <= logger.verbosity );
 }
@@ -150,13 +150,13 @@ function formAssociates()
 
 function _verbosityChange()
 {
-  let filer = this;
+  let censor = this;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
-  _.assert( !filer.fileProvider || filer.fileProvider.logger !== filer.logger );
+  _.assert( !censor.fileProvider || censor.fileProvider.logger !== censor.logger );
 
-  if( filer.fileProvider )
-  filer.fileProvider.verbosity = filer.verbosity-2;
+  if( censor.fileProvider )
+  censor.fileProvider.verbosity = censor.verbosity-2;
 
 }
 
@@ -164,8 +164,8 @@ function _verbosityChange()
 
 function vcsProviderFor( o )
 {
-  let filer = this;
-  let fileProvider = filer.fileProvider;
+  let censor = this;
+  let fileProvider = censor.fileProvider;
   let path = fileProvider.path;
 
   if( !_.mapIs( o ) )
@@ -173,7 +173,7 @@ function vcsProviderFor( o )
 
   _.assert( arguments.length === 1 );
   _.routineOptions( vcsProviderFor, o );
-  _.assert( !!filer.formed );
+  _.assert( !!censor.formed );
 
   if( _.arrayIs( o.filePath ) && o.filePath.length === 0 )
   return null;

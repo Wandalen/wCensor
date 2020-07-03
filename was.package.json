@@ -1,23 +1,23 @@
 {
-  "name" : "wfiler",
+  "name" : "wcensor",
   "version" : "0.2.26",
   "description" : "Utility to edit files massively from console and with undo.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
-  "main" : "proto/dwtools/atop/filer/entry/Include.s",
-  "files" : [ "proto/dwtools/atop/filer", "proto/dwtools/Tools.s" ],
+  "main" : "proto/dwtools/atop/censor/entry/Include.s",
+  "files" : [ "proto/dwtools/atop/censor", "proto/dwtools/Tools.s" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen .build proto" },
-  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wFiler.git" },
+  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wCensor.git" },
   "bin" :
   {
-    "single-process-filer" : "proto/dwtools/atop/filer/entry/Exec",
-    "debug-filer" : "proto/dwtools/atop/filer/entry/ExecDebug",
-    "unrestricted-filer" : "proto/dwtools/atop/filer/entry/ExecUnrestricted",
-    "filer" : "proto/dwtools/atop/filer/entry/ExecUnrestricted"
+    "single-process-censor" : "proto/dwtools/atop/censor/entry/Exec",
+    "debug-censor" : "proto/dwtools/atop/censor/entry/ExecDebug",
+    "unrestricted-censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted",
+    "censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted"
   },
   "bugs" :
   {
-    "url" : "https://github.com/Wandalen/wFiler/issues"
+    "url" : "https://github.com/Wandalen/wCensor/issues"
   },
   "dependencies" :
   {
@@ -27,6 +27,6 @@
     "wnpmtools" : "",
     "wcommandsaggregator" : ""
   },
-  "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0", "wfiler" : "file:." },
+  "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0", "wcensor" : "file:." },
   "keywords" : [ "wTools" ]
 }

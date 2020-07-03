@@ -2,7 +2,7 @@
 
 about :
 
-  name : 'wFiler'
+  name : 'wCensor'
   description : 'Utility to edit files massively from console and with undo.'
   version : '0.4.0'
   enabled : 1
@@ -17,18 +17,18 @@ about :
   author : 'Kostiantyn Wandalen <wanalen@01.school>'
   contributors :
   - 'Kostiantyn Wandalen <wanalen@01.school>'
-  npm.name : 'wfiler'
+  npm.name : 'wcensor'
   npm.scripts :
     test : 'wtest .run proto/**'
     docgen : 'wdocgen .build proto'
 
 path :
 
-  repository : git+https:///github.com/Wandalen/wFiler.git
+  repository : git+https:///github.com/Wandalen/wCensor.git
   origins :
-   - git+https:///github.com/Wandalen/wFiler.git
-   - npm:///wFiler
-  bugtracker : https:///github.com/Wandalen/wFiler/issues
+   - git+https:///github.com/Wandalen/wCensor.git
+   - npm:///wCensor
+  bugtracker : https:///github.com/Wandalen/wCensor/issues
 
 step :
 

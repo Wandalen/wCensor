@@ -1,5 +1,5 @@
 
-let _ = require( 'wfiler' );
+let _ = require( 'wcensor' );
 let filePath = _.path.resolve( __dirname, 'File.txt' );
 
 /**/

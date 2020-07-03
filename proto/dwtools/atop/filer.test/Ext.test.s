@@ -18,9 +18,9 @@ let _ = _testerGlobal_.wTools;
 function onSuiteBegin()
 {
   let context = this;
-  context.suiteTempPath = _.path.pathDirTempOpen( _.path.join( __dirname, '../..' ), 'filer' );
+  context.suiteTempPath = _.path.pathDirTempOpen( _.path.join( __dirname, '../..' ), 'censor' );
   context.assetsOriginalPath = _.path.join( __dirname, '_asset' );
-  context.appJsPath = _.path.nativize( _.module.resolve( 'wFiler' ) );
+  context.appJsPath = _.path.nativize( _.module.resolve( 'wCensor' ) );
 }
 
 //
@@ -28,7 +28,7 @@ function onSuiteBegin()
 function onSuiteEnd()
 {
   let context = this;
-  _.assert( _.strHas( context.suiteTempPath, '/filer' ) )
+  _.assert( _.strHas( context.suiteTempPath, '/censor' ) )
   _.path.pathDirTempClose( context.suiteTempPath );
 }
 
@@ -501,7 +501,7 @@ undo : 0
 
     var exp =
 `
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -538,7 +538,7 @@ undo : 1
 
     var exp =
 `
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -649,7 +649,7 @@ undo : 0
 4 : Third lineabc
 5 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -701,7 +701,7 @@ undo : 1
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -812,7 +812,7 @@ undo : 0
 4 : Third lineabc
 5 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -864,7 +864,7 @@ undo : 1
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -966,16 +966,16 @@ undo : 0
 
     var exp =
 `
-1 : First lineabc
-2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
-+ replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+    1 : First lineabc
+    2 : Second line
+    2 : First line
+    3 : Second lineabc
+    4 : Third line
+    3 : Second line
+    4 : Third lineabc
+    5 : Last one
+  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1027,7 +1027,7 @@ undo : 1
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1141,7 +1141,7 @@ undo : 0
 4 : Third lineabc
 5 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1190,7 +1190,7 @@ undo : 1
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1282,7 +1282,7 @@ undo : 0
 4 : Third lineabc
 5 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1331,7 +1331,7 @@ undo : 1
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1441,7 +1441,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1548,7 +1548,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1655,7 +1655,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1762,7 +1762,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1885,7 +1885,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 1 error(s).
+ + Done 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1926,7 +1926,7 @@ undo : 1
  ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File1.txt' ) }
-Done 0 action(s). Thrown 1 error(s).
+ + Done 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -1975,7 +1975,7 @@ undo : 1
 4 : Third lineabc
 5 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2054,7 +2054,7 @@ undo : 0
  ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 1 error(s).
+ + Done 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2095,7 +2095,7 @@ undo : 1
  ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File2.txt' ) }
-Done 0 action(s). Thrown 1 error(s).
+ + Done 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2150,7 +2150,7 @@ undo : 1
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2224,7 +2224,7 @@ undo : 0
  ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File2.txt' ) }
-Done 0 action(s). Thrown 2 error(s).
+ + Done 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2268,7 +2268,7 @@ undo : 0
  ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File2.txt' ) }
-Done 0 action(s). Thrown 2 error(s).
+ + Done 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2333,7 +2333,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2531,7 +2531,7 @@ undo : 0
 
     var exp =
 `
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2657,7 +2657,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2783,7 +2783,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -2909,7 +2909,7 @@ undo : 0
 6 : Fifth lineabc
 7 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3047,7 +3047,7 @@ function replaceRedoHardLinked( test )
 6 : Fifth lineabc
 7 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3126,7 +3126,7 @@ Done 2 action(s). Thrown 0 error(s).
 4 : Third lineabc
 5 : Last one
  + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3240,7 +3240,7 @@ function replaceRedoSoftLinked( test )
 6 : Fifth lineabc
 7 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Done 2 action(s). Thrown 0 error(s).
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3321,7 +3321,7 @@ Done 2 action(s). Thrown 0 error(s).
 4 : Third lineabc
 5 : Last one
  + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3419,7 +3419,7 @@ Done 1 action(s). Thrown 0 error(s).
 4 : Third lineabc
 5 : Last one
  + replace 3 in ${ a.abs( 'before/dir2/Link.txt' ) }
-Done 1 action(s). Thrown 0 error(s).
+ + Done 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3531,7 +3531,7 @@ undo : 0
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3571,7 +3571,7 @@ undo : 0
     var exp =
 `
 + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3609,7 +3609,7 @@ undo : 1
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3773,7 +3773,7 @@ undo : 2
  ! failed to undo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 1 error(s).
+- Undone 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3814,7 +3814,7 @@ undo : 1 -- 1 error(s)
  ! failed to undo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File1.txt' ) }
-Undone 0 action(s). Thrown 1 error(s).
+- Undone 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3855,7 +3855,7 @@ undo : 1 -- 1 error(s)
     var exp =
 `
 + undo replace 3 in ${a.abs( 'before/File1.txt' )}
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3926,7 +3926,7 @@ undo : 2
     Files are outdated:
       ${ a.abs( 'before/File2.txt' ) }
  + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 1 error(s).
+- Undone 1 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -3967,7 +3967,7 @@ undo : 1 -- 1 error(s)
  ! failed to undo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
       ${ a.abs( 'before/File2.txt' ) }
-Undone 0 action(s). Thrown 1 error(s).
+- Undone 0 action(s). Thrown 1 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4008,7 +4008,7 @@ undo : 1 -- 1 error(s)
     var exp =
 `
 + undo replace 5 in ${a.abs( 'before/File2.txt' )}
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4082,7 +4082,7 @@ undo : 2
  ! failed to undo action::replace 3 in ${ a.abs( './before/File1.txt' ) }
     Files are outdated:
       ${ a.abs( './before/File1.txt' ) }
-Undone 0 action(s). Thrown 2 error(s).
+- Undone 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4126,7 +4126,7 @@ undo : 2 -- 2 error(s)
  ! failed to undo action::replace 3 in ${ a.abs( './before/File1.txt' ) }
     Files are outdated:
       ${ a.abs( './before/File1.txt' ) }
-Undone 0 action(s). Thrown 2 error(s).
+- Undone 0 action(s). Thrown 2 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4169,7 +4169,7 @@ undo : 2 -- 2 error(s)
 `
 + undo replace 5 in ${ a.abs( './before/File2.txt' ) }
 + undo replace 3 in ${ a.abs( './before/File1.txt' ) }
-Undone 2 action(s). Thrown 0 error(s).
+- Undone 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4259,7 +4259,7 @@ Nothing to undo.
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4282,7 +4282,7 @@ Undone 1 action(s). Thrown 0 error(s).
     var exp =
 `
 + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4303,7 +4303,7 @@ Undone 1 action(s). Thrown 0 error(s).
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4401,7 +4401,7 @@ Nothing to undo.
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4424,7 +4424,7 @@ Undone 1 action(s). Thrown 0 error(s).
     var exp =
 `
 + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4445,7 +4445,7 @@ Undone 1 action(s). Thrown 0 error(s).
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4543,7 +4543,7 @@ Nothing to undo.
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4566,7 +4566,7 @@ Undone 1 action(s). Thrown 0 error(s).
     var exp =
 `
 + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4587,7 +4587,7 @@ Undone 1 action(s). Thrown 0 error(s).
     var exp =
 `
 + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4684,7 +4684,7 @@ Nothing to undo.
 
     var exp =
 `
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4706,7 +4706,7 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4726,7 +4726,7 @@ Undone 1 action(s). Thrown 0 error(s).
 
     var exp =
 `
-Undone 1 action(s). Thrown 0 error(s).
+- Undone 1 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4940,7 +4940,7 @@ function replaceRedoUndoSingleCommand( test )
   a.ready
   .then( ( op ) =>
   {
-    test.case = 'basic';
+    test.case = '.replace .do';
     a.reflect();
     return null;
   })
@@ -4954,7 +4954,57 @@ function replaceRedoUndoSingleCommand( test )
 
     var exp =
 `
-xxx
+ + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     1 : First lineabc
+     2 : Second line
+     2 : First line
+     3 : Second lineabc
+     4 : Third line
+     3 : Second line
+     4 : Third lineabc
+     5 : Last one
+ + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+     1 : First lineabc
+     2 : Second line
+     2 : First line
+     3 : Second lineabc
+     4 : Third line
+     3 : Second line
+     4 : Third lineabc
+     5 : Fourth line
+     4 : Third line
+     5 : Fourth lineabc
+     6 : Fifth line
+     5 : Fourth line
+     6 : Fifth lineabc
+     7 : Last one
+ . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
+
+    1 : First lineabc
+    2 : Second line
+    2 : First line
+    3 : Second lineabc
+    4 : Third line
+    3 : Second line
+    4 : Third lineabc
+    5 : Last one
+   + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+    1 : First lineabc
+    2 : Second line
+    2 : First line
+    3 : Second lineabc
+    4 : Third line
+    3 : Second line
+    4 : Third lineabc
+    5 : Fourth line
+    4 : Third line
+    5 : Fourth lineabc
+    6 : Fifth line
+    5 : Fourth line
+    6 : Fifth lineabc
+    7 : Last one
+   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+ + Done 2 action(s). Thrown 0 error(s).
 `
     test.equivalent( op.output, exp );
 
@@ -4962,6 +5012,89 @@ xxx
     test.identical( got, file1After );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2After );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = '.replace .do .undo';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( '.storage.reset' )
+  a.appStart( '.replace filePath:before/** ins:line sub:abc .do .undo' )
+  .then( ( op ) =>
+  {
+    test.description = '.';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+ + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     1 : First lineabc
+     2 : Second line
+     2 : First line
+     3 : Second lineabc
+     4 : Third line
+     3 : Second line
+     4 : Third lineabc
+     5 : Last one
+ + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+     1 : First lineabc
+     2 : Second line
+     2 : First line
+     3 : Second lineabc
+     4 : Third line
+     3 : Second line
+     4 : Third lineabc
+     5 : Fourth line
+     4 : Third line
+     5 : Fourth lineabc
+     6 : Fifth line
+     5 : Fourth line
+     6 : Fifth lineabc
+     7 : Last one
+ . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
+    1 : First lineabc
+    2 : Second line
+    2 : First line
+    3 : Second lineabc
+    4 : Third line
+    3 : Second line
+    4 : Third lineabc
+    5 : Last one
+   + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+    1 : First lineabc
+    2 : Second line
+    2 : First line
+    3 : Second lineabc
+    4 : Third line
+    3 : Second line
+    4 : Third lineabc
+    5 : Fourth line
+    4 : Third line
+    5 : Fourth lineabc
+    6 : Fifth line
+    5 : Fourth line
+    6 : Fifth lineabc
+    7 : Last one
+   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+ + Done 2 action(s). Thrown 0 error(s).
+   + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
+   + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
+ - Undone 2 action(s). Thrown 0 error(s).
+`
+    test.equivalent( op.output, exp );
+
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
 
     return null;
   })
@@ -5101,6 +5234,114 @@ Linked 8 file(s) at ${ a.abs( '.' ) }
       './F.txt',
       './F.txt2',
       './dir1',
+      './dir1/F.txt',
+      './dir1/F.txt2',
+      './dir2',
+      './dir2/F.txt',
+      './dir2/F.txt2',
+      './dir3',
+      './dir3/F.txt',
+      './dir3/F.txt2'
+    ]
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'dir1';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( '.hlink dir1' )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ hardLink : ${ a.abs( 'dir1/' ) } : ./F.txt2 <- ./F.txt
+Linked 2 file(s) at ${ a.abs( 'dir1' ) }
+`
+    test.equivalent( op.output, exp );
+
+    test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+
+    var exp =
+    [
+      '.',
+      './F.txt',
+      './F.txt2',
+      './dir1',
+      './dir1/.warchive',
+      './dir1/F.txt',
+      './dir1/F.txt2',
+      './dir2',
+      './dir2/F.txt',
+      './dir2/F.txt2',
+      './dir3',
+      './dir3/F.txt',
+      './dir3/F.txt2'
+    ]
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'dir1/**';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( '.hlink dir1/**' )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ hardLink : ${ a.abs( 'dir1/' ) } : ./F.txt2 <- ./F.txt
+Linked 2 file(s) at ${ a.abs( 'dir1' ) }/**
+`
+    test.equivalent( op.output, exp );
+
+    test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+
+    var exp =
+    [
+      '.',
+      './F.txt',
+      './F.txt2',
+      './dir1',
+      './dir1/.warchive',
       './dir1/F.txt',
       './dir1/F.txt2',
       './dir2',
@@ -5264,16 +5505,17 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1 , ./dir3 ] )
     var exp =
     [
       '.',
-      './.warchive',
       './F.txt',
       './F.txt2',
       './dir1',
+      './dir1/.warchive',
       './dir1/F.txt',
       './dir1/F.txt2',
       './dir2',
       './dir2/F.txt',
       './dir2/F.txt2',
       './dir3',
+      './dir3/.warchive',
       './dir3/F.txt',
       './dir3/F.txt2'
     ]
@@ -5321,16 +5563,75 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     var exp =
     [
       '.',
-      './.warchive',
       './F.txt',
       './F.txt2',
       './dir1',
+      './dir1/.warchive',
       './dir1/F.txt',
       './dir1/F.txt2',
       './dir2',
       './dir2/F.txt',
       './dir2/F.txt2',
       './dir3',
+      './dir3/.warchive',
+      './dir3/F.txt',
+      './dir3/F.txt2'
+    ]
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'dir1/** basePath:"dir3/**"';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( '.hlink dir1/** basePath:"dir3/**"' )
+  .then( ( op ) =>
+  {
+    test.description = '.hlink';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+ + hardLink : ${ a.abs( '.' ) }/dir1/ : ./F.txt2 <- ./F.txt
+ + hardLink : ${ a.abs( '.' ) }/ : ./dir3/F.txt <- ./dir1/F.txt
+ + hardLink : ${ a.abs( '.' ) }/ : ./dir3/F.txt2 <- ./dir1/F.txt
+Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
+`
+    test.equivalent( op.output, exp );
+
+    test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4 );
+
+    var exp =
+    [
+      '.',
+      './F.txt',
+      './F.txt2',
+      './dir1',
+      './dir1/.warchive',
+      './dir1/F.txt',
+      './dir1/F.txt2',
+      './dir2',
+      './dir2/F.txt',
+      './dir2/F.txt2',
+      './dir3',
+      './dir3/.warchive',
       './dir3/F.txt',
       './dir3/F.txt2'
     ]
@@ -5388,16 +5689,17 @@ Linked 2 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     var exp =
     [
       '.',
-      './.warchive',
       './F.txt',
       './F.txt2',
       './dir1',
+      './dir1/.warchive',
       './dir1/F.txt',
       './dir1/F.txt2',
       './dir2',
       './dir2/F.txt',
       './dir2/F.txt2',
       './dir3',
+      './dir3/.warchive',
       './dir3/F.txt',
       './dir3/F.txt2'
     ]
@@ -5566,16 +5868,17 @@ Linked 2 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     var exp =
     [
       '.',
-      './.warchive',
       './F.txt',
       './F.txt2',
       './dir1',
+      './dir1/.warchive',
       './dir1/F.txt',
       './dir1/F.txt2',
       './dir2',
       './dir2/F.txt',
       './dir2/F.txt2',
       './dir3',
+      './dir3/.warchive',
       './dir3/F.txt',
       './dir3/F.txt2'
     ]
@@ -5714,7 +6017,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 var Self =
 {
 
-  name : 'Tools.atop.Filer.Ext',
+  name : 'Tools.atop.Censor.Ext',
   silencing : 1,
 
   onSuiteBegin,
