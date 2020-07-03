@@ -308,7 +308,7 @@ function commandHlink( e )
   return _.censor.filesHardLink( op );
 }
 
-commandHlink.hint = 'Hard links files with identical content in specified directory.';
+commandHlink.hint = 'Hard links all files with identical content in specified directories.';
 commandHlink.commandProperties =
 {
   verbosity : 'Level of verbosity. Default = 3.',
