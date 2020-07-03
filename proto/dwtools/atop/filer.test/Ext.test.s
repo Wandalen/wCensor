@@ -461,6 +461,7 @@ undo : 2
   })
 
   a.appStart( '.storage.reset' )
+  a.appStart( '.status v:1' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -6049,6 +6050,8 @@ var Self =
     replaceRedoUndoOptionVerbosity,
     // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
     replaceRedoUndoSingleCommand,
+
+    /* xxx qqq : add test routine of repalce of files with borken links */
 
     // /* qqq : implement test to check locking */
 
