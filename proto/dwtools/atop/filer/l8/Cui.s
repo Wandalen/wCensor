@@ -55,7 +55,8 @@ function exec()
   return _.Consequence
   .Try( () =>
   {
-    return ca.appArgsPerform({ appArgs });
+    return ca.programPerform({ program : appArgs.original });
+    // return ca.appArgsPerform({ appArgs });
   })
   .catch( ( err ) =>
   {
@@ -99,6 +100,7 @@ function _commandsMake()
     basePath : _.path.current(),
     commands,
     commandPrefix : 'node ',
+    commandsImplicitDelimiting : 1,
   })
 
   ca.form();
@@ -163,7 +165,7 @@ commandVersion.hint = 'Get information about version.';
 // {
 //   let cui = this;
 //   let ca = e.ca;
-//   let isolated = ca.commandIsolateSecondFromArgument( e.argument );
+//   let isolated = ca.commandIsolateSecondFromArgument( e.commandArgument );
 //
 //   _.assert( !!isolated );
 //   _.assert( 0, 'not tested' );
@@ -204,10 +206,8 @@ function commandStorageReset( e )
 {
   let cui = this;
   let ca = e.ca;
-
   cui._command_pre( commandStorageReset, arguments );
-  _.censor.storageReset( e.propertiesMap );
-
+  return _.censor.storageReset( e.propertiesMap );
 }
 
 commandStorageReset.hint = 'Delete current state forgetting everything.';
@@ -269,6 +269,8 @@ function commandReplace( e )
   cui._command_pre( commandReplace, arguments );
   op.logging = 1;
 
+  debugger;
+
   return _.censor.filesReplace( op );
 }
 
@@ -297,8 +299,8 @@ function commandHlink( e )
   if( op.verbosity === undefined )
   op.verbosity = 3;
 
-  if( e.argument )
-  op.basePath = _.arrayAppend( op.basePath || null, e.argument )
+  if( e.commandArgument )
+  op.basePath = _.arrayAppend( op.basePath || null, e.commandArgument )
 
   if( !op.basePath )
   op.basePath = '.';

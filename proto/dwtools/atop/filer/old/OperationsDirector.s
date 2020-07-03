@@ -146,7 +146,7 @@ function commandHelp( e )
 
   ca._commandHelp( e );
 
-  // if( !e.subject )
+  // if( !e.commandName )
   // {
   //   logger.log( 'Use ' + logger.colorFormat( '"fslink prepare libraryPath:/some/path"', 'code' ) + ' to prepare config' );
   //   logger.log( 'Use ' + logger.colorFormat( '"fslink"', 'code' ) + ' to link all files in the current directory with each other and with files from the library' );

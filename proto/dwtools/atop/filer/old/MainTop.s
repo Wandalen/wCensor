@@ -102,7 +102,7 @@ function commandHelp( e )
 
   ca._commandHelp( e );
 
-  if( !e.subject )
+  if( !e.commandName )
   {
     _.assert( 0 );
   }
@@ -124,7 +124,7 @@ function commandImply( e )
     beeping : 'beeping',
   }
 
-  let request = filer.Resolver.strRequestParse( e.argument );
+  let request = filer.Resolver.strRequestParse( e.commandArgument );
 
   _.process.argsReadTo
   ({
