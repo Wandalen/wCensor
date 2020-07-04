@@ -39,6 +39,7 @@ function onSuiteEnd()
 function replaceBasic( test )
 {
   let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -54,7 +55,7 @@ function replaceBasic( test )
     return null;
   })
 
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -103,6 +104,7 @@ function replaceBasic( test )
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -111,6 +113,7 @@ function replaceBasic( test )
 function replaceStatusOptionVerbosity( test )
 {
   let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -126,8 +129,8 @@ function replaceStatusOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -147,7 +150,7 @@ function replaceStatusOptionVerbosity( test )
 
   /* - */
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = '.status v:1';
@@ -173,7 +176,7 @@ function replaceStatusOptionVerbosity( test )
 
   /* */
 
-  a.appStart( '.status v:2' )
+  a.appStart( `.status v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = '.status v:2';
@@ -200,7 +203,7 @@ function replaceStatusOptionVerbosity( test )
 
   /* */
 
-  a.appStart( '.status' )
+  a.appStart( `.status profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = '.status';
@@ -249,7 +252,7 @@ redo :
 
   /* */
 
-  a.appStart( '.status v:3' )
+  a.appStart( `.status v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = '.status v:3';
@@ -298,6 +301,7 @@ redo :
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -306,6 +310,7 @@ redo :
 function replaceRedoOptionVerbosity( test )
 {
   let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -324,8 +329,8 @@ function replaceRedoOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -343,7 +348,7 @@ function replaceRedoOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -357,7 +362,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1 v:0' )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -379,7 +384,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -393,7 +398,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.redo d:1 v:0' )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -415,7 +420,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -429,7 +434,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:1 v:0' )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -460,9 +465,9 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.status v:1' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.status v:1 profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -480,7 +485,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -494,7 +499,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1 v:1' )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -517,7 +522,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -531,7 +536,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.redo d:1 v:1' )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -554,7 +559,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -568,7 +573,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:1 v:1' )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -600,8 +605,8 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -619,7 +624,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -633,7 +638,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1 v:2' )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -665,7 +670,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -679,7 +684,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.redo d:1 v:2' )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -717,7 +722,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -731,7 +736,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:1 v:2' )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -763,8 +768,8 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -782,7 +787,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -796,7 +801,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1 v:3' )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -828,7 +833,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -842,7 +847,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.redo d:1 v:3' )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -880,7 +885,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -894,7 +899,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:1 v:3' )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -926,8 +931,8 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -945,7 +950,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -959,7 +964,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -991,7 +996,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1005,7 +1010,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1043,7 +1048,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1057,7 +1062,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1082,6 +1087,7 @@ Nothing to redo.
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -1089,7 +1095,8 @@ Nothing to redo.
 
 function replaceRedoOptionDepth( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1108,10 +1115,10 @@ function replaceRedoOptionDepth( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1125,7 +1132,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1154,7 +1161,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1168,7 +1175,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1206,7 +1213,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1220,7 +1227,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1249,10 +1256,10 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1266,7 +1273,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1295,7 +1302,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1309,7 +1316,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1347,7 +1354,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1361,7 +1368,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1393,10 +1400,10 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1410,7 +1417,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:2' )
+  a.appStart( `.redo d:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1454,7 +1461,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1468,7 +1475,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:2' )
+  a.appStart( `.redo d:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1500,10 +1507,10 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1517,7 +1524,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:3' )
+  a.appStart( `.redo d:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1561,7 +1568,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1575,7 +1582,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:3' )
+  a.appStart( `.redo d:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1607,10 +1614,10 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1624,7 +1631,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:0' )
+  a.appStart( `.redo d:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1668,7 +1675,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1682,7 +1689,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo d:0' )
+  a.appStart( `.redo d:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1714,10 +1721,10 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1731,7 +1738,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo' )
+  a.appStart( `.redo profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1775,7 +1782,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1789,7 +1796,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.redo' )
+  a.appStart( `.redo profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1814,6 +1821,7 @@ Nothing to redo.
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -1821,7 +1829,8 @@ Nothing to redo.
 
 function replaceChangeRedo( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1840,10 +1849,10 @@ function replaceChangeRedo( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1860,7 +1869,7 @@ undo : 0
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1901,7 +1910,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1916,7 +1925,7 @@ undo : 1
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1942,7 +1951,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -1959,7 +1968,7 @@ undo : 1
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -1991,7 +2000,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2015,10 +2024,10 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2035,7 +2044,7 @@ undo : 0
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -2070,7 +2079,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2085,7 +2094,7 @@ undo : 1
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -2111,7 +2120,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2128,7 +2137,7 @@ undo : 1
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -2166,7 +2175,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2190,10 +2199,10 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2211,7 +2220,7 @@ undo : 0
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -2240,7 +2249,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2255,7 +2264,7 @@ undo : 0
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -2284,7 +2293,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2302,7 +2311,7 @@ undo : 0
     return null;
   })
 
-  a.appStartNonThrowing( '.redo d:0 v:3' )
+  a.appStartNonThrowing( `.redo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -2349,7 +2358,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2366,6 +2375,7 @@ undo : 2
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -2373,7 +2383,8 @@ undo : 2
 
 function replaceRedoDepth0OptionVerbosity( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -2391,8 +2402,8 @@ function replaceRedoDepth0OptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -2410,7 +2421,7 @@ function replaceRedoDepth0OptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2424,7 +2435,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.do v:0' )
+  a.appStart( `.do v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2446,7 +2457,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2460,7 +2471,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.do v:0' )
+  a.appStart( `.do v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2491,8 +2502,8 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -2510,7 +2521,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2524,7 +2535,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.do v:1' )
+  a.appStart( `.do v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2547,7 +2558,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2561,7 +2572,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.do v:1' )
+  a.appStart( `.do v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2593,8 +2604,8 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -2612,7 +2623,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2626,7 +2637,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.do v:2' )
+  a.appStart( `.do v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2673,7 +2684,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2687,7 +2698,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.do v:2' )
+  a.appStart( `.do v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2719,8 +2730,8 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -2738,7 +2749,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2752,7 +2763,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.do v:3' )
+  a.appStart( `.do v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2799,7 +2810,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2813,7 +2824,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.do v:3' )
+  a.appStart( `.do v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2845,8 +2856,8 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -2864,7 +2875,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2878,7 +2889,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.do' )
+  a.appStart( `.do profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2925,7 +2936,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -2939,7 +2950,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.do' )
+  a.appStart( `.do profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.do';
@@ -2964,6 +2975,7 @@ Nothing to redo.
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -2971,7 +2983,8 @@ Nothing to redo.
 
 function replaceRedoHardLinked( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -2997,10 +3010,10 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:2' )
+  a.appStart( `.status v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3016,7 +3029,7 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( '.redo d:0 v:3' )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -3092,10 +3105,10 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/dir/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:2' )
+  a.appStart( `.status v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3110,7 +3123,7 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( '.redo d:0 v:3' )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -3157,6 +3170,7 @@ function replaceRedoHardLinked( test )
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -3164,7 +3178,8 @@ function replaceRedoHardLinked( test )
 
 function replaceRedoSoftLinked( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3190,10 +3205,10 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:2' )
+  a.appStart( `.status v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3209,7 +3224,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.redo d:0 v:3' )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -3285,10 +3300,10 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/dir/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:2' )
+  a.appStart( `.status v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3304,7 +3319,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.redo d:0 v:3' )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -3383,10 +3398,10 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/dir2/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/dir2/** ins:line sub:abc profile:${profile}` )
 
-  a.appStart( '.status v:2' )
+  a.appStart( `.status v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3402,7 +3417,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.redo d:0 v:3' )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -3462,6 +3477,7 @@ function replaceRedoSoftLinked( test )
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -3471,7 +3487,8 @@ function replaceRedoSoftLinked( test )
 
 function replaceRedoUndo( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3488,8 +3505,8 @@ function replaceRedoUndo( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
@@ -3507,7 +3524,7 @@ function replaceRedoUndo( test )
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3521,9 +3538,9 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1' )
-  a.appStart( '.status v:1' )
-  a.appStart( '.undo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.status v:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .undo';
@@ -3547,7 +3564,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3561,9 +3578,9 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1' )
-  a.appStart( '.redo d:1' )
-  a.appStart( '.undo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .undo';
@@ -3587,7 +3604,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3601,7 +3618,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.undo d:1' )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo';
@@ -3625,7 +3642,7 @@ undo : 1
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3639,9 +3656,9 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.redo d:1' )
-  a.appStart( '.redo d:1' )
-  a.appStart( '.status v:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo';
@@ -3665,9 +3682,9 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.undo d:1' )
-  a.appStart( '.undo d:1' )
-  a.appStart( '.status v:1' )
+  a.appStart( `.undo d:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo .undo';
@@ -3691,7 +3708,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.undo d:1' )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -3716,6 +3733,7 @@ Nothing to undo.
 
   /* */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -3723,7 +3741,8 @@ Nothing to undo.
 
 function replaceRedoChangeUndo( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3742,10 +3761,10 @@ function replaceRedoChangeUndo( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.redo d:0 v:3' )
-  a.appStart( '.status v:1' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3762,7 +3781,7 @@ undo : 2
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -3789,7 +3808,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3804,7 +3823,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -3830,7 +3849,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3847,7 +3866,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -3871,7 +3890,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3895,10 +3914,10 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.redo d:0 v:3' )
-  a.appStart( '.status v:1' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3915,7 +3934,7 @@ undo : 2
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -3942,7 +3961,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -3957,7 +3976,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -3983,7 +4002,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -4000,7 +4019,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -4024,7 +4043,7 @@ undo : 1 -- 1 error(s)
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -4048,10 +4067,10 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.redo d:0 v:3' )
-  a.appStart( '.status v:1' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.redo d:0 v:3 profile:${profile}` )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -4069,7 +4088,7 @@ undo : 2
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -4098,7 +4117,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -4113,7 +4132,7 @@ undo : 2 -- 2 error(s)
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -4142,7 +4161,7 @@ undo : 2 -- 2 error(s)
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -4160,7 +4179,7 @@ undo : 2 -- 2 error(s)
     return null;
   })
 
-  a.appStartNonThrowing( '.undo d:0 v:3' )
+  a.appStartNonThrowing( `.undo d:0 v:3  profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo';
@@ -4185,7 +4204,7 @@ undo : 2 -- 2 error(s)
     return null;
   })
 
-  a.appStart( '.status v:1' )
+  a.appStart( `.status v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.status';
@@ -4202,6 +4221,7 @@ undo : 0
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -4209,7 +4229,8 @@ undo : 0
 
 function replaceRedoUndoOptionVerbosity( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4228,9 +4249,9 @@ function replaceRedoUndoOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.undo d:1' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4250,8 +4271,8 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1' )
-  a.appStart( '.undo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .undo';
@@ -4272,9 +4293,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1' )
-  a.appStart( '.redo d:1' )
-  a.appStart( '.undo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .undo';
@@ -4295,7 +4316,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1' )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4316,7 +4337,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1' )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4336,12 +4357,12 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1' )
-  a.appStart( '.redo d:1' )
-  a.appStart( '.redo d:1' )
-  a.appStart( '.undo d:1' )
-  a.appStart( '.undo d:1' )
-  a.appStart( '.undo d:1' )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
+  a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .redo .undo .undo .undo';
@@ -4370,9 +4391,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.undo d:1 v:3' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4392,8 +4413,8 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:3' )
-  a.appStart( '.undo d:1 v:3' )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .undo';
@@ -4414,9 +4435,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:3' )
-  a.appStart( '.redo d:1 v:3' )
-  a.appStart( '.undo d:1 v:3' )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .undo';
@@ -4437,7 +4458,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:3' )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4458,7 +4479,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:3' )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4478,12 +4499,12 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:3' )
-  a.appStart( '.redo d:1 v:3' )
-  a.appStart( '.redo d:1 v:3' )
-  a.appStart( '.undo d:1 v:3' )
-  a.appStart( '.undo d:1 v:3' )
-  a.appStart( '.undo d:1 v:3' )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
+  a.appStart( `.redo d:1 v:3 profile:${profile}` )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
+  a.appStart( `.undo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .redo .undo .undo .undo';
@@ -4512,9 +4533,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.undo d:1 v:2' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4534,8 +4555,8 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:2' )
-  a.appStart( '.undo d:1 v:2' )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .undo';
@@ -4556,9 +4577,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:2' )
-  a.appStart( '.redo d:1 v:2' )
-  a.appStart( '.undo d:1 v:2' )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .undo';
@@ -4579,7 +4600,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:2' )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4600,7 +4621,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:2' )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4620,12 +4641,12 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:2' )
-  a.appStart( '.redo d:1 v:2' )
-  a.appStart( '.redo d:1 v:2' )
-  a.appStart( '.undo d:1 v:2' )
-  a.appStart( '.undo d:1 v:2' )
-  a.appStart( '.undo d:1 v:2' )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
+  a.appStart( `.redo d:1 v:2 profile:${profile}` )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
+  a.appStart( `.undo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .redo .undo .undo .undo';
@@ -4654,9 +4675,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.undo d:1 v:1' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4676,8 +4697,8 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:1' )
-  a.appStart( '.undo d:1 v:1' )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .undo';
@@ -4697,9 +4718,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:1' )
-  a.appStart( '.redo d:1 v:1' )
-  a.appStart( '.undo d:1 v:1' )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .undo';
@@ -4719,7 +4740,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:1' )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4739,7 +4760,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:1' )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4759,12 +4780,12 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:1' )
-  a.appStart( '.redo d:1 v:1' )
-  a.appStart( '.redo d:1 v:1' )
-  a.appStart( '.undo d:1 v:1' )
-  a.appStart( '.undo d:1 v:1' )
-  a.appStart( '.undo d:1 v:1' )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
+  a.appStart( `.redo d:1 v:1 profile:${profile}` )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
+  a.appStart( `.undo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .redo .undo .undo .undo';
@@ -4793,9 +4814,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc' )
-  a.appStart( '.undo d:1 v:0' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4814,8 +4835,8 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:0' )
-  a.appStart( '.undo d:1 v:0' )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .undo';
@@ -4834,9 +4855,9 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:0' )
-  a.appStart( '.redo d:1 v:0' )
-  a.appStart( '.undo d:1 v:0' )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .undo';
@@ -4855,7 +4876,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:0' )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4874,7 +4895,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.undo d:1 v:0' )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.undo d:1';
@@ -4893,12 +4914,12 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.redo d:1 v:0' )
-  a.appStart( '.redo d:1 v:0' )
-  a.appStart( '.redo d:1 v:0' )
-  a.appStart( '.undo d:1 v:0' )
-  a.appStart( '.undo d:1 v:0' )
-  a.appStart( '.undo d:1 v:0' )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
+  a.appStart( `.redo d:1 v:0 profile:${profile}` )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
+  a.appStart( `.undo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.redo d:1 .redo .redo .undo .undo .undo';
@@ -4919,6 +4940,7 @@ Nothing to undo.
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -4926,7 +4948,8 @@ Nothing to undo.
 
 function replaceRedoUndoSingleCommand( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4946,8 +4969,8 @@ function replaceRedoUndoSingleCommand( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc .do' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc .do profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.';
@@ -5027,8 +5050,8 @@ function replaceRedoUndoSingleCommand( test )
     return null;
   })
 
-  a.appStart( '.arrangement.reset' )
-  a.appStart( '.replace filePath:before/** ins:line sub:abc .do .undo' )
+  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc .do .undo profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.';
@@ -5102,6 +5125,7 @@ function replaceRedoUndoSingleCommand( test )
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -5111,7 +5135,8 @@ function replaceRedoUndoSingleCommand( test )
 
 function hlinkBasic( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlink' );
 
   /* - */
@@ -5129,7 +5154,7 @@ function hlinkBasic( test )
     return null;
   })
 
-  a.appStart( '.hlink' )
+  a.appStart( `.hlink profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5151,6 +5176,7 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -5158,7 +5184,8 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 
 function hlinkOptionBasePath( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -5199,7 +5226,7 @@ function hlinkOptionBasePath( test )
     return null;
   })
 
-  a.appStart( '.hlink' )
+  a.appStart( `.hlink profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5260,7 +5287,7 @@ Linked 8 file(s) at ${ a.abs( '.' ) }
     return null;
   })
 
-  a.appStart( '.hlink dir1' )
+  a.appStart( `.hlink dir1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -5314,7 +5341,7 @@ Linked 2 file(s) at ${ a.abs( 'dir1' ) }
     return null;
   })
 
-  a.appStart( '.hlink dir1/**' )
+  a.appStart( `.hlink dir1/** profile:${profile}` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -5368,7 +5395,7 @@ Linked 2 file(s) at ${ a.abs( 'dir1' ) }/**
     return null;
   })
 
-  a.appStart( '.hlink basePath:dir1' )
+  a.appStart( `.hlink basePath:dir1 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5423,7 +5450,7 @@ Linked 2 file(s) at ${ a.abs( 'dir1' ) }
     return null;
   })
 
-  a.appStart( `.hlink basePath:'dir1/**'` )
+  a.appStart( `.hlink basePath:'dir1/**' profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5478,7 +5505,7 @@ Linked 2 file(s) at ${ a.abs( 'dir1/' ) }**
     return null;
   })
 
-  a.appStart( '.hlink basePath:dir1 basePath:dir3' )
+  a.appStart( `.hlink basePath:dir1 basePath:dir3 profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5536,7 +5563,7 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1 , ./dir3 ] )
     return null;
   })
 
-  a.appStart( '.hlink basePath:"dir1/**" basePath:"dir3/**"' )
+  a.appStart( `.hlink basePath:"dir1/**" basePath:"dir3/**" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5594,7 +5621,7 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     return null;
   })
 
-  a.appStart( '.hlink dir1/** basePath:"dir3/**"' )
+  a.appStart( `.hlink dir1/** basePath:"dir3/**" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5644,6 +5671,7 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -5651,7 +5679,8 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
 
 function hlinkOptionIncludingPath( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -5664,7 +5693,7 @@ function hlinkOptionIncludingPath( test )
     return null;
   })
 
-  a.appStart( '.hlink basePath:"dir1/**" basePath:"dir3/**" includingPath:"**.txt"' )
+  a.appStart( `.hlink basePath:"dir1/**" basePath:"dir3/**" includingPath:"**.txt" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5720,7 +5749,7 @@ Linked 2 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     return null;
   })
 
-  a.appStart( '.hlink includingPath:"*.txt"' )
+  a.appStart( `.hlink includingPath:"*.txt" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5774,7 +5803,7 @@ Linked 0 file(s) at ${ a.abs( '.' ) }
     return null;
   })
 
-  a.appStart( '.hlink includingPath:"**.txt"' )
+  a.appStart( `.hlink includingPath:"**.txt" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5823,6 +5852,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -5830,7 +5860,8 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 
 function hlinkOptionExcludingPath( test )
 {
-  let context = this;
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -5843,7 +5874,7 @@ function hlinkOptionExcludingPath( test )
     return null;
   })
 
-  a.appStart( '.hlink basePath:"dir1/**" basePath:"dir3/**" excludingPath:"**.txt2"' )
+  a.appStart( `.hlink basePath:"dir1/**" basePath:"dir3/**" excludingPath:"**.txt2" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5899,7 +5930,7 @@ Linked 2 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     return null;
   })
 
-  a.appStart( '.hlink excludingPath:"*.txt2"' )
+  a.appStart( `.hlink excludingPath:"*.txt2" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -5959,7 +5990,7 @@ Linked 7 file(s) at ${ a.abs( '.' ) }
     return null;
   })
 
-  a.appStart( '.hlink excludingPath:"**.txt2"' )
+  a.appStart( `.hlink excludingPath:"**.txt2" profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.hlink';
@@ -6008,6 +6039,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 
   /* - */
 
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -6055,10 +6087,10 @@ var Self =
 
     // /* qqq : implement test to check locking */
 
-    // hlinkBasic,
-    // hlinkOptionBasePath,
-    // hlinkOptionIncludingPath,
-    // hlinkOptionExcludingPath,
+    hlinkBasic,
+    hlinkOptionBasePath,
+    hlinkOptionIncludingPath,
+    hlinkOptionExcludingPath,
 
   }
 

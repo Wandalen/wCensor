@@ -85,18 +85,20 @@ function _commandsMake()
     'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
     'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
     // 'imply' :                { e : _.routineJoin( cui, cui.commandImply )                },
-    'storage reset' :           { e : _.routineJoin( cui, cui.commandStorageReset )         },
-    'storage log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
-    'arrangement reset' :       { e : _.routineJoin( cui, cui.commandArrangementReset )     },
-    'arrangement log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
-    'config reset' :            { e : _.routineJoin( cui, cui.commandConfigReset )          },
-    'config log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
-    'status' :                  { e : _.routineJoin( cui, cui.commandStatus )               },
+    'storage.reset' :           { e : _.routineJoin( cui, cui.commandStorageReset )         },
+    'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
+    'profile.reset' :           { e : _.routineJoin( cui, cui.commandProfileReset )         },
+    'profile.log' :             { e : _.routineJoin( cui, cui.commandProfileLog )           },
+    'config.reset' :            { e : _.routineJoin( cui, cui.commandConfigReset )          },
+    'config.log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
+    'arrangement.reset' :       { e : _.routineJoin( cui, cui.commandArrangementReset )     },
+    'arrangement.log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
     'replace' :                 { e : _.routineJoin( cui, cui.commandReplace )              },
     'hlink' :                   { e : _.routineJoin( cui, cui.commandHlink )                },
     'do' :                      { e : _.routineJoin( cui, cui.commandDo )                   },
     'redo' :                    { e : _.routineJoin( cui, cui.commandRedo )                 },
     'undo' :                    { e : _.routineJoin( cui, cui.commandUndo )                 },
+    'status' :                  { e : _.routineJoin( cui, cui.commandStatus )               },
   }
 
   let ca = _.CommandsAggregator
@@ -123,16 +125,39 @@ function _command_pre( routine, args )
   let e = args[ 0 ];
 
   _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.toStrShort( e.propertiesMap ) );
+  if( routine.commandProperties )
   _.sureMapHasOnly( e.propertiesMap, routine.commandProperties, `Command does not expect options:` );
 
-  if( routine.commandProperties.v )
+  debugger;
+  if( _.boolLikeFalse( routine.commandSubjectHint ) )
+  if( e.subject.trim() !== '' )
+  throw _.errBrief
+  (
+    `Command .${e.subjectDescriptor.phraseDescriptor.phrase} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  if( routine.commandProperties && routine.commandProperties.v )
   if( e.propertiesMap.v !== undefined )
   {
     e.propertiesMap.verbosity = e.propertiesMap.v;
     delete e.propertiesMap.v;
   }
 
-  return e;
+  if( routine.commandProperties && routine.commandProperties.profile )
+  if( e.propertiesMap.profile !== undefined )
+  {
+    e.propertiesMap.profileDir = e.propertiesMap.profile;
+    delete e.propertiesMap.profile;
+  }
+
+  if( routine.commandProperties && routine.commandProperties.storage )
+  if( e.propertiesMap.storage !== undefined )
+  {
+    e.propertiesMap.storageTerminal = e.propertiesMap.storage;
+    delete e.propertiesMap.storage;
+  }
+
 }
 
 //
@@ -155,12 +180,7 @@ function commandVersion( e )
 {
   let cui = this;
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
+  cui._command_pre( commandVersion, arguments );
 
   return _.npm.versionLog
   ({
@@ -170,6 +190,7 @@ function commandVersion( e )
 }
 
 commandVersion.hint = 'Get information about version.';
+commandVersion.commandSubjectHint = false;
 
 // //
 //
@@ -221,17 +242,11 @@ function commandStorageReset( e )
 
   cui._command_pre( commandStorageReset, arguments );
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
   return _.censor.storageReset( e.propertiesMap );
 }
 
 commandStorageReset.hint = 'Delete the storage including all profiles and arrangements, forgetting everything.';
+commandStorageReset.commandSubjectHint = false;
 commandStorageReset.commandProperties =
 {
   verbosity : 'Level of verbosity.',
@@ -247,42 +262,12 @@ function commandStorageLog( e )
 
   cui._command_pre( commandStorageLog, arguments );
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
   return _.censor.storageLog( e.propertiesMap );
 }
 
 commandStorageLog.hint = 'Log content of all files of the storage.';
+commandStorageLog.commandSubjectHint = false;
 commandStorageLog.commandProperties =
-{
-}
-
-//
-
-function commandArrangementReset( e )
-{
-  let cui = this;
-  let ca = e.ca;
-
-  cui._command_pre( commandArrangementReset, arguments );
-
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
-  return _.censor.arrangementReset( e.propertiesMap );
-}
-
-commandArrangementReset.hint = 'Delete current arrangement.';
-commandArrangementReset.commandProperties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -290,26 +275,44 @@ commandArrangementReset.commandProperties =
 
 //
 
-function commandArrangementLog( e )
+function commandProfileReset( e )
 {
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandArrangementLog, arguments );
+  cui._command_pre( commandProfileReset, arguments );
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
-  return _.censor.arrangementLog( e.propertiesMap );
+  return _.censor.profileReset( e.propertiesMap );
 }
 
-commandArrangementLog.hint = 'Log content of arrangment file.';
-commandArrangementLog.commandProperties =
+commandProfileReset.hint = 'Delete the profile its arrangements.';
+commandProfileReset.commandSubjectHint = false;
+commandProfileReset.commandProperties =
 {
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+}
+
+//
+
+function commandProfileLog( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandProfileLog, arguments );
+
+  return _.censor.profileLog( e.propertiesMap );
+}
+
+commandProfileLog.hint = 'Log content of all files of the profile.';
+commandProfileLog.commandSubjectHint = false;
+commandProfileLog.commandProperties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
 }
 
 //
@@ -321,21 +324,16 @@ function commandConfigReset( e )
 
   cui._command_pre( commandConfigReset, arguments );
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
   return _.censor.configReset( e.propertiesMap );
 }
 
 commandConfigReset.hint = 'Delete current config.';
+commandConfigReset.commandSubjectHint = false;
 commandConfigReset.commandProperties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
 }
 
 //
@@ -347,48 +345,60 @@ function commandConfigLog( e )
 
   cui._command_pre( commandConfigLog, arguments );
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
   return _.censor.configLog( e.propertiesMap );
 }
 
 commandConfigLog.hint = 'Log content of config file.';
+commandConfigLog.commandSubjectHint = false;
 commandConfigLog.commandProperties =
 {
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
 }
 
 //
 
-function commandStatus( e )
+function commandArrangementReset( e )
 {
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandStatus, arguments );
+  cui._command_pre( commandArrangementReset, arguments );
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
-  let status = _.censor.status( e.propertiesMap );
-
-  logger.log( _.toStrNice( status ) );
-
+  return _.censor.arrangementReset( e.propertiesMap );
 }
 
-commandStatus.hint = 'Get status of the current state.';
-commandStatus.commandProperties =
+commandArrangementReset.hint = 'Delete current arrangement.';
+commandArrangementReset.commandSubjectHint = false;
+commandArrangementReset.commandProperties =
 {
-  verbosity : 'Level of verbosity. Default = 3',
-  v : 'Level of verbosity. Default = 3',
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
+}
+
+//
+
+function commandArrangementLog( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandArrangementLog, arguments );
+
+  return _.censor.arrangementLog( e.propertiesMap );
+}
+
+commandArrangementLog.hint = 'Log content of arrangment file.';
+commandArrangementLog.commandSubjectHint = false;
+commandArrangementLog.commandProperties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 //
@@ -401,19 +411,13 @@ function commandReplace( e )
 
   cui._command_pre( commandReplace, arguments );
 
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
-
   op.logger = 1;
 
   return _.censor.filesReplace( op );
 }
 
 commandReplace.hint = 'Replace text in files.';
+commandReplace.commandSubjectHint = false;
 commandReplace.commandProperties =
 {
   verbosity : 'Level of verbosity. Default = 3',
@@ -422,6 +426,8 @@ commandReplace.commandProperties =
   filePath : 'File path or glob to files to edit.',
   ins : 'Text to find in files to replace by {- sub -}.',
   sub : 'Text to put instead of ins.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 //
@@ -450,6 +456,7 @@ function commandHlink( e )
 }
 
 commandHlink.hint = 'Hard links all files with identical content in specified directories.';
+commandHlink.commandSubjectHint = 'basePath if specified';
 commandHlink.commandProperties =
 {
   verbosity : 'Level of verbosity. Default = 3.',
@@ -457,7 +464,9 @@ commandHlink.commandProperties =
   basePath : 'Base path to look for files. Default = current path.',
   includingPath : 'Glob or path to filter in.',
   excludingPath : 'Glob or path to filter out.',
-  withHlink : 'To use path::hlink defined in config at ~/.censor/config.yaml. Default : true.'
+  withHlink : 'To use path::hlink defined in config at ~/.censor/config.yaml. Default : true.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 //
@@ -469,13 +478,6 @@ function commandDo( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandDo, arguments );
-
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
 
   op.logger = 1;
 
@@ -489,12 +491,15 @@ function commandDo( e )
 }
 
 commandDo.hint = 'Do actions planned earlier. Alias of command redo.';
+commandDo.commandSubjectHint = false;
 commandDo.commandProperties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
   depth : 'How many action to do. Zero for no limit. Default = 0.',
   d : 'How many action to do. Zero for no limit. Default = 0.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 //
@@ -506,13 +511,6 @@ function commandRedo( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandRedo, arguments );
-
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
 
   op.logger = 1;
 
@@ -526,12 +524,15 @@ function commandRedo( e )
 }
 
 commandRedo.hint = 'Do actions planned earlier. Alias of command do.';
+commandRedo.commandSubjectHint = false;
 commandRedo.commandProperties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
   depth : 'How many action to redo. Zero for no limit. Default = 0.',
   d : 'How many action to do. Zero for no limit. Default = 0.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 //
@@ -543,13 +544,6 @@ function commandUndo( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandUndo, arguments );
-
-  _.sure
-  (
-    e.subject === '',
-    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
-    + `, but got "${e.subject}"`
-  );
 
   op.logger = 1;
 
@@ -566,12 +560,40 @@ function commandUndo( e )
 }
 
 commandUndo.hint = 'Undo an action done earlier.';
+commandUndo.commandSubjectHint = false;
 commandUndo.commandProperties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
   depth : 'How many action to undo. Zero for no limit. Default = 0.',
   d : 'How many action to undo. Zero for no limit. Default = 0.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
+}
+
+//
+
+function commandStatus( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandStatus, arguments );
+
+  let status = _.censor.status( e.propertiesMap );
+
+  logger.log( _.toStrNice( status ) );
+
+}
+
+commandStatus.hint = 'Get status of the current state.';
+commandStatus.commandSubjectHint = false;
+commandStatus.commandProperties =
+{
+  verbosity : 'Level of verbosity. Default = 3',
+  v : 'Level of verbosity. Default = 3',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 // --
@@ -628,13 +650,14 @@ let Extend =
 
   // storage
 
-  commandStorageReset,
-  commandStorageLog,
-  commandArrangementReset,
-  commandArrangementLog,
-  commandConfigReset,
-  commandConfigLog,
-  commandStatus,
+  commandStorageReset, /* qqq : cover */
+  commandStorageLog, /* qqq : cover */
+  commandProfileReset, /* qqq : cover */
+  commandProfileLog, /* qqq : cover */
+  commandConfigReset, /* qqq : cover */
+  commandConfigLog, /* qqq : cover */
+  commandArrangementReset, /* qqq : cover */
+  commandArrangementLog, /* qqq : cover */
 
   // operation
 
@@ -646,6 +669,7 @@ let Extend =
   commandDo,
   commandRedo,
   commandUndo,
+  commandStatus,
 
   // relations
 

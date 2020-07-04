@@ -13,7 +13,11 @@
     "single-process-censor" : "proto/dwtools/atop/censor/entry/Exec",
     "debug-censor" : "proto/dwtools/atop/censor/entry/ExecDebug",
     "unrestricted-censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted",
-    "censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted"
+    "censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted",
+    "single-process-wcensor" : "proto/dwtools/atop/censor/entry/Exec",
+    "debug-wcensor" : "proto/dwtools/atop/censor/entry/ExecDebug",
+    "unrestricted-wcensor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted",
+    "wcensor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted"
   },
   "bugs" :
   {
