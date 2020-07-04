@@ -36,6 +36,45 @@ function onSuiteEnd()
 // tests
 // --
 
+function help( test )
+{
+  let context = this;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* */
+
+  a.appStartNonThrowing( `.` )
+  .then( ( op ) =>
+  {
+    test.case = '.';
+    test.notIdentical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'Ambiguity. Did you mean?' ), 1 );
+    test.identical( _.strCount( op.output, '.help - Get help.' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  a.appStartNonThrowing( `` )
+  .then( ( op ) =>
+  {
+    test.case = '';
+    test.notIdentical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'Illformed command ""' ), 1 );
+    test.identical( _.strCount( op.output, '.help - Get help.' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  debugger;
+
+  return a.ready;
+}
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -4970,7 +5009,7 @@ function replaceRedoUndoSingleCommand( test )
   })
 
   a.appStart( `.arrangement.reset profile:${profile}` )
-  a.appStart( `.replace filePath:before/** ins:line sub:abc .do profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} .do profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.';
@@ -5051,7 +5090,7 @@ function replaceRedoUndoSingleCommand( test )
   })
 
   a.appStart( `.arrangement.reset profile:${profile}` )
-  a.appStart( `.replace filePath:before/** ins:line sub:abc .do .undo profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} .do profile:${profile} .undo profile:${profile}` )
   .then( ( op ) =>
   {
     test.description = '.';
@@ -6067,6 +6106,8 @@ var Self =
   tests :
   {
 
+    help,
+
     replaceBasic,
     replaceStatusOptionVerbosity,
     replaceRedoOptionVerbosity,
@@ -6092,7 +6133,7 @@ var Self =
     hlinkOptionIncludingPath,
     hlinkOptionExcludingPath,
 
-  }
+  },
 
 }
 
