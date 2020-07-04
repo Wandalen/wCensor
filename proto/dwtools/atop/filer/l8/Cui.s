@@ -82,17 +82,21 @@ function _commandsMake()
 
   let commands =
   {
-    'help' :              { e : _.routineJoin( cui, cui.commandHelp )          },
-    'version' :           { e : _.routineJoin( cui, cui.commandVersion )       },
-    // 'imply' :             { e : _.routineJoin( cui, cui.commandImply )         },
-    'storage reset' :     { e : _.routineJoin( cui, cui.commandStorageReset )  },
-    'storage print' :     { e : _.routineJoin( cui, cui.commandStoragePrint )  },
-    'status' :            { e : _.routineJoin( cui, cui.commandStatus )        },
-    'replace' :           { e : _.routineJoin( cui, cui.commandReplace )       },
-    'hlink' :             { e : _.routineJoin( cui, cui.commandHlink )         },
-    'do' :                { e : _.routineJoin( cui, cui.commandDo )            },
-    'redo' :              { e : _.routineJoin( cui, cui.commandRedo )          },
-    'undo' :              { e : _.routineJoin( cui, cui.commandUndo )          },
+    'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
+    'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
+    // 'imply' :                { e : _.routineJoin( cui, cui.commandImply )                },
+    'storage reset' :           { e : _.routineJoin( cui, cui.commandStorageReset )         },
+    'storage log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
+    'arrangement reset' :       { e : _.routineJoin( cui, cui.commandArrangementReset )     },
+    'arrangement log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
+    'config reset' :            { e : _.routineJoin( cui, cui.commandConfigReset )          },
+    'config log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
+    'status' :                  { e : _.routineJoin( cui, cui.commandStatus )               },
+    'replace' :                 { e : _.routineJoin( cui, cui.commandReplace )              },
+    'hlink' :                   { e : _.routineJoin( cui, cui.commandHlink )                },
+    'do' :                      { e : _.routineJoin( cui, cui.commandDo )                   },
+    'redo' :                    { e : _.routineJoin( cui, cui.commandRedo )                 },
+    'undo' :                    { e : _.routineJoin( cui, cui.commandUndo )                 },
   }
 
   let ca = _.CommandsAggregator
@@ -150,6 +154,14 @@ commandHelp.hint = 'Get help.';
 function commandVersion( e )
 {
   let cui = this;
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
   return _.npm.versionLog
   ({
     localPath : _.path.join( __dirname, '../../../../..' ),
@@ -206,11 +218,20 @@ function commandStorageReset( e )
 {
   let cui = this;
   let ca = e.ca;
+
   cui._command_pre( commandStorageReset, arguments );
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
   return _.censor.storageReset( e.propertiesMap );
 }
 
-commandStorageReset.hint = 'Delete current state forgetting everything.';
+commandStorageReset.hint = 'Delete the storage including all profiles and arrangements, forgetting everything.';
 commandStorageReset.commandProperties =
 {
   verbosity : 'Level of verbosity.',
@@ -219,20 +240,125 @@ commandStorageReset.commandProperties =
 
 //
 
-function commandStoragePrint( e )
+function commandStorageLog( e )
 {
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandStoragePrint, arguments );
-  let read = _.censor.storageRead( e.propertiesMap );
+  cui._command_pre( commandStorageLog, arguments );
 
-  logger.log( read );
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
 
+  return _.censor.storageLog( e.propertiesMap );
 }
 
-commandStoragePrint.hint = 'Print content of storage file.';
-commandStoragePrint.commandProperties =
+commandStorageLog.hint = 'Log content of all files of the storage.';
+commandStorageLog.commandProperties =
+{
+}
+
+//
+
+function commandArrangementReset( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandArrangementReset, arguments );
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  return _.censor.arrangementReset( e.propertiesMap );
+}
+
+commandArrangementReset.hint = 'Delete current arrangement.';
+commandArrangementReset.commandProperties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+}
+
+//
+
+function commandArrangementLog( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandArrangementLog, arguments );
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  return _.censor.arrangementLog( e.propertiesMap );
+}
+
+commandArrangementLog.hint = 'Log content of arrangment file.';
+commandArrangementLog.commandProperties =
+{
+}
+
+//
+
+function commandConfigReset( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandConfigReset, arguments );
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  return _.censor.configReset( e.propertiesMap );
+}
+
+commandConfigReset.hint = 'Delete current config.';
+commandConfigReset.commandProperties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+}
+
+//
+
+function commandConfigLog( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandConfigLog, arguments );
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
+  return _.censor.configLog( e.propertiesMap );
+}
+
+commandConfigLog.hint = 'Log content of config file.';
+commandConfigLog.commandProperties =
 {
 }
 
@@ -244,6 +370,13 @@ function commandStatus( e )
   let ca = e.ca;
 
   cui._command_pre( commandStatus, arguments );
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
 
   let status = _.censor.status( e.propertiesMap );
 
@@ -267,6 +400,14 @@ function commandReplace( e )
   let op = e.propertiesMap;
 
   cui._command_pre( commandReplace, arguments );
+
+  _.sure
+  (
+    e.subject === '',
+    () => `Command ${e.subjectDescriptor.words.join( e.ca.lookingDelimeter )} does not expect subject`
+    + `, but got "${e.subject}"`
+  );
+
   op.logger = 1;
 
   return _.censor.filesReplace( op );
@@ -488,7 +629,11 @@ let Extend =
   // storage
 
   commandStorageReset,
-  commandStoragePrint,
+  commandStorageLog,
+  commandArrangementReset,
+  commandArrangementLog,
+  commandConfigReset,
+  commandConfigLog,
   commandStatus,
 
   // operation

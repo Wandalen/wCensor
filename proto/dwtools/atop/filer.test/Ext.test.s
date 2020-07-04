@@ -18,7 +18,7 @@ let _ = _testerGlobal_.wTools;
 function onSuiteBegin()
 {
   let context = this;
-  context.suiteTempPath = _.path.pathDirTempOpen( _.path.join( __dirname, '../..' ), 'censor' );
+  context.suiteTempPath = _.path.tempOpen( _.path.join( __dirname, '../..' ), 'censor' );
   context.assetsOriginalPath = _.path.join( __dirname, '_asset' );
   context.appJsPath = _.path.nativize( _.module.resolve( 'wCensor' ) );
 }
@@ -29,7 +29,7 @@ function onSuiteEnd()
 {
   let context = this;
   _.assert( _.strHas( context.suiteTempPath, '/censor' ) )
-  _.path.pathDirTempClose( context.suiteTempPath );
+  _.path.tempClose( context.suiteTempPath );
 }
 
 // --
@@ -126,7 +126,7 @@ function replaceStatusOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -324,7 +324,7 @@ function replaceRedoOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -460,7 +460,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.status v:1' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
@@ -600,7 +600,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -763,7 +763,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -926,7 +926,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -1108,7 +1108,7 @@ function replaceRedoOptionDepth( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -1249,7 +1249,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -1393,7 +1393,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -1500,7 +1500,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -1607,7 +1607,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -1714,7 +1714,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -1840,7 +1840,7 @@ function replaceChangeRedo( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -2015,7 +2015,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -2190,7 +2190,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:1' )
@@ -2391,7 +2391,7 @@ function replaceRedoDepth0OptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -2491,7 +2491,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -2593,7 +2593,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -2719,7 +2719,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -2845,7 +2845,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -2997,7 +2997,7 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:2' )
@@ -3092,7 +3092,7 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/dir/** ins:line sub:abc' )
 
   a.appStart( '.status v:2' )
@@ -3190,7 +3190,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
 
   a.appStart( '.status v:2' )
@@ -3285,7 +3285,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/dir/** ins:line sub:abc' )
 
   a.appStart( '.status v:2' )
@@ -3383,7 +3383,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/dir2/** ins:line sub:abc' )
 
   a.appStart( '.status v:2' )
@@ -3488,7 +3488,7 @@ function replaceRedoUndo( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   .then( ( op ) =>
   {
@@ -3742,7 +3742,7 @@ function replaceRedoChangeUndo( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.redo d:0 v:3' )
   a.appStart( '.status v:1' )
@@ -3895,7 +3895,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.redo d:0 v:3' )
   a.appStart( '.status v:1' )
@@ -4048,7 +4048,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.redo d:0 v:3' )
   a.appStart( '.status v:1' )
@@ -4228,7 +4228,7 @@ function replaceRedoUndoOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.undo d:1' )
   .then( ( op ) =>
@@ -4370,7 +4370,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.undo d:1 v:3' )
   .then( ( op ) =>
@@ -4512,7 +4512,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.undo d:1 v:2' )
   .then( ( op ) =>
@@ -4654,7 +4654,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.undo d:1 v:1' )
   .then( ( op ) =>
@@ -4793,7 +4793,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc' )
   a.appStart( '.undo d:1 v:0' )
   .then( ( op ) =>
@@ -4946,7 +4946,7 @@ function replaceRedoUndoSingleCommand( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc .do' )
   .then( ( op ) =>
   {
@@ -5027,7 +5027,7 @@ function replaceRedoUndoSingleCommand( test )
     return null;
   })
 
-  a.appStart( '.storage.reset' )
+  a.appStart( '.arrangement.reset' )
   a.appStart( '.replace filePath:before/** ins:line sub:abc .do .undo' )
   .then( ( op ) =>
   {
@@ -6055,10 +6055,10 @@ var Self =
 
     // /* qqq : implement test to check locking */
 
-    hlinkBasic,
-    hlinkOptionBasePath,
-    hlinkOptionIncludingPath,
-    hlinkOptionExcludingPath,
+    // hlinkBasic,
+    // hlinkOptionBasePath,
+    // hlinkOptionIncludingPath,
+    // hlinkOptionExcludingPath,
 
   }
 
