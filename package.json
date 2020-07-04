@@ -1,6 +1,6 @@
 {
   "name" : "wcensor",
-  "version" : "0.2.29",
+  "version" : "0.2.30",
   "description" : "Utility to edit files massively from console and with undo.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
@@ -13,7 +13,11 @@
     "single-process-censor" : "proto/dwtools/atop/censor/entry/Exec",
     "debug-censor" : "proto/dwtools/atop/censor/entry/ExecDebug",
     "unrestricted-censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted",
-    "censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted"
+    "censor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted",
+    "single-process-wcensor" : "proto/dwtools/atop/censor/entry/Exec",
+    "debug-wcensor" : "proto/dwtools/atop/censor/entry/ExecDebug",
+    "unrestricted-wcensor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted",
+    "wcensor" : "proto/dwtools/atop/censor/entry/ExecUnrestricted"
   },
   "bugs" :
   {
