@@ -412,6 +412,7 @@ function commandReplace( e )
   cui._command_pre( commandReplace, arguments );
 
   op.logger = 1;
+  op.resetting = 1;
 
   return _.censor.filesReplace( op );
 }
@@ -428,6 +429,7 @@ commandReplace.commandProperties =
   sub : 'Text to put instead of ins.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
+  resetting : 'Reset redo/undo list. Default is true',
 }
 
 //
