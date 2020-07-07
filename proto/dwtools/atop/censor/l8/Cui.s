@@ -84,13 +84,15 @@ function _commandsMake()
   {
     'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
     'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
-    // 'imply' :                { e : _.routineJoin( cui, cui.commandImply )                },
+    'imply' :                   { e : _.routineJoin( cui, cui.commandImply )                },
     'storage.reset' :           { e : _.routineJoin( cui, cui.commandStorageReset )         },
     'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
     'profile.reset' :           { e : _.routineJoin( cui, cui.commandProfileReset )         },
     'profile.log' :             { e : _.routineJoin( cui, cui.commandProfileLog )           },
     'config.reset' :            { e : _.routineJoin( cui, cui.commandConfigReset )          },
     'config.log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
+    'config.set' :              { e : _.routineJoin( cui, cui.commandConfigSet )            },
+    'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )            },
     'arrangement.reset' :       { e : _.routineJoin( cui, cui.commandArrangementReset )     },
     'arrangement.log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
     'replace' :                 { e : _.routineJoin( cui, cui.commandReplace )              },
@@ -116,20 +118,41 @@ function _commandsMake()
 
 //
 
-function _command_pre( routine, args )
+// function _command_pre( routine, args )
+function _command_pre( o )
 {
+  let cui = this;
 
-  _.assert( arguments.length === 2 );
-  _.assert( args.length === 1 );
+  if( arguments.length === 2 )
+  o = { routine : arguments[ 0 ], args : arguments[ 1 ] }
 
-  let e = args[ 0 ];
+  _.routineOptions( _command_pre, o );
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.assert( o.args.length === 1 );
+
+  let e = o.args[ 0 ];
+
+  if( o.propertiesMapAsProperty )
+  {
+    let propertiesMap = Object.create( null );
+    if( e.propertiesMap )
+    propertiesMap[ o.propertiesMapAsProperty ] = e.propertiesMap;
+    e.propertiesMap = propertiesMap;
+  }
+
+  if( cui.implied )
+  {
+    if( o.routine.commandProperties )
+    _.mapExtend( e.propertiesMap, _.mapOnly( cui.implied, o.routine.commandProperties ) );
+    else
+    _.mapExtend( e.propertiesMap, cui.implied );
+  }
 
   _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.toStrShort( e.propertiesMap ) );
-  if( routine.commandProperties )
-  _.sureMapHasOnly( e.propertiesMap, routine.commandProperties, `Command does not expect options:` );
+  if( o.routine.commandProperties )
+  _.sureMapHasOnly( e.propertiesMap, o.routine.commandProperties, `Command does not expect options:` );
 
-  debugger;
-  if( _.boolLikeFalse( routine.commandSubjectHint ) )
+  if( _.boolLikeFalse( o.routine.commandSubjectHint ) )
   if( e.subject.trim() !== '' )
   throw _.errBrief
   (
@@ -137,27 +160,34 @@ function _command_pre( routine, args )
     + `, but got "${e.subject}"`
   );
 
-  if( routine.commandProperties && routine.commandProperties.v )
+  if( o.routine.commandProperties && o.routine.commandProperties.v )
   if( e.propertiesMap.v !== undefined )
   {
     e.propertiesMap.verbosity = e.propertiesMap.v;
     delete e.propertiesMap.v;
   }
 
-  if( routine.commandProperties && routine.commandProperties.profile )
+  if( o.routine.commandProperties && o.routine.commandProperties.profile )
   if( e.propertiesMap.profile !== undefined )
   {
     e.propertiesMap.profileDir = e.propertiesMap.profile;
     delete e.propertiesMap.profile;
   }
 
-  if( routine.commandProperties && routine.commandProperties.storage )
+  if( o.routine.commandProperties && o.routine.commandProperties.storage )
   if( e.propertiesMap.storage !== undefined )
   {
     e.propertiesMap.storageTerminal = e.propertiesMap.storage;
     delete e.propertiesMap.storage;
   }
 
+}
+
+_command_pre.defaults =
+{
+  routine : null,
+  args : null,
+  propertiesMapAsProperty : 0,
 }
 
 //
@@ -192,41 +222,46 @@ function commandVersion( e )
 commandVersion.hint = 'Get information about version.';
 commandVersion.commandSubjectHint = false;
 
-// //
 //
-// function commandImply( e )
-// {
-//   let cui = this;
-//   let ca = e.ca;
-//   let isolated = ca.commandIsolateSecondFromArgument( e.commandArgument );
-//
-//   _.assert( !!isolated );
-//   _.assert( 0, 'not tested' );
-//
-//   let request = _.strRequestParse( isolated.argument );
-//
-//   let namesMap =
-//   {
-//     v : 'verbosity',
-//     verbosity : 'verbosity',
-//   }
-//
-//   if( request.map.v !== undefined )
-//   {
-//     request.map.verbosity = request.map.v;
-//     delete request.map.v;
-//   }
-//
-//   _.process.argsReadTo
-//   ({
-//     dst : implied,
-//     propertiesMap : request.map,
-//     namesMap,
-//   });
-//
-// }
-//
-// commandImply.hint = 'Change state or imply value of a variable.';
+
+function commandImply( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre( commandImply, arguments );
+
+  cui.implied = e.propertiesMap;
+
+  // let isolated = ca.commandIsolateSecondFromArgument( e.commandArgument );
+  //
+  // _.assert( !!isolated );
+  // _.assert( 0, 'not tested' );
+
+  // let request = _.strRequestParse( isolated.argument );
+  //
+  // let namesMap =
+  // {
+  //   v : 'verbosity',
+  //   verbosity : 'verbosity',
+  // }
+  //
+  // if( request.map.v !== undefined )
+  // {
+  //   request.map.verbosity = request.map.v;
+  //   delete request.map.v;
+  // }
+  //
+  // _.process.argsReadTo
+  // ({
+  //   dst : implied,
+  //   propertiesMap : request.map,
+  //   namesMap,
+  // });
+
+}
+
+commandImply.hint = 'Change state or imply value of a variable.';
 // commandImply.commandProperties =
 // {
 //   verbosity : 'Level of verbosity.',
@@ -352,6 +387,72 @@ commandConfigLog.hint = 'Log content of config file.';
 commandConfigLog.commandSubjectHint = false;
 commandConfigLog.commandProperties =
 {
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+}
+
+//
+
+function commandConfigSet( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre({ routine : commandConfigSet, args : arguments, propertiesMapAsProperty : 'set' });
+
+  _.sure
+  (
+    _.mapIs( e.propertiesMap.set ) && _.lengthOf( e.propertiesMap.set ),
+    'Expects one or more pair "key:value" to append to the config'
+  );
+
+  return _.censor.configSet( e.propertiesMap );
+}
+
+commandConfigSet.hint = 'Set one or several variables of config persistently. Does not delete variables config have had before setting, but may rewrite them by new values.';
+commandConfigSet.commandSubjectHint = false;
+commandConfigSet.commandProperties =
+{
+  set : 'Map of pairs "key:value" to set. Key is selector.',
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+}
+
+//
+
+function commandConfigDel( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre({ routine : commandConfigDel, args : arguments });
+
+  if( !e.propertiesMap.del )
+  e.propertiesMap.del = [];
+  else
+  e.propertiesMap.del = _.arrayAs( e.propertiesMap.del );
+
+  if( e.subject )
+  {
+    _.arrayAppendArray( e.propertiesMap.del, _.strSplit( e.subject ) );
+  }
+
+  _.sure
+  (
+    _.strsAreAll( e.propertiesMap.del ),
+    'Expects key or array of keys to delete'
+  );
+
+  return _.censor.configDel( e.propertiesMap );
+}
+
+commandConfigDel.hint = 'Delete one or several variables of config persistently. Delete whole config if no keys are specified.';
+commandConfigDel.commandSubjectHint = 'Key or array of keys to delete. Could be selectors.';
+commandConfigDel.commandProperties =
+{
+  del : 'Key or array of keys to delete. Could be selectors.',
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
   profile : 'Name of profile to use. Default is "default"',
@@ -648,7 +749,7 @@ let Extend =
 
   commandHelp,
   commandVersion, /* qqq : cover */
-  // commandImply,
+  commandImply,
 
   // storage
 
@@ -658,6 +759,8 @@ let Extend =
   commandProfileLog, /* qqq : cover */
   commandConfigReset, /* qqq : cover */
   commandConfigLog, /* qqq : cover */
+  commandConfigSet,
+  commandConfigDel,
   commandArrangementReset, /* qqq : cover */
   commandArrangementLog, /* qqq : cover */
 

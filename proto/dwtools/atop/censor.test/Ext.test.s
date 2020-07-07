@@ -6,6 +6,7 @@
 if( typeof module !== 'undefined' )
 {
   let _ = require( '../../../dwtools/Tools.s' );
+  require( '../censor/entry/Include.s' );
   _.include( 'wTesting' );;
 }
 
@@ -70,6 +71,175 @@ function help( test )
 
   debugger;
 
+  return a.ready;
+}
+
+//
+
+function configSetBasic( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = '.config.set ab:cd';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'null\n' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.set ab:cd` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, '' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ "about" : {}, "path" : {}, "ab" : `cd` }' ), 1 );
+
+    var exp = { 'about' : {}, 'path' : {}, 'ab' : 'cd' };
+    var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+    test.identical( got.storage, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = '.config.set key1:val1 key2:val2';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.set key1:val1 key2:val2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, '' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    var exp = { 'about' : {}, 'path' : {}, 'key1' : 'val1', 'key2' : 'val2' };
+    var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+    test.identical( got.storage, exp );
+    return null;
+  })
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = '.config.set path/key1:val1 about/key2:val2';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 about/key2:val2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, '' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    var exp =
+    {
+      'about' : { 'key2' : 'val2' },
+      'path' : { 'key1' : 'val1' },
+    }
+    var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+    test.identical( got.storage, exp );
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function configDelBasic( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = '.config.del path/key1';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
+  a.appStart( `.imply profile:${profile} .config.del path/key1` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, '' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+    {
+      'about' : {},
+      'path' : { 'key2' : 'val2' }
+    }
+    var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+    test.identical( got.storage, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.reset profile:${profile}` );
   return a.ready;
 }
 
@@ -6107,6 +6277,9 @@ var Self =
   {
 
     help,
+
+    configSetBasic,
+    // configDelBasic,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
