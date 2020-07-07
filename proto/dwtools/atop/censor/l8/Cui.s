@@ -118,7 +118,6 @@ function _commandsMake()
 
 //
 
-// function _command_pre( routine, args )
 function _command_pre( o )
 {
   let cui = this;
@@ -229,44 +228,15 @@ function commandImply( e )
   let cui = this;
   let ca = e.ca;
 
+  cui.implied = null;
+
   cui._command_pre( commandImply, arguments );
 
   cui.implied = e.propertiesMap;
 
-  // let isolated = ca.commandIsolateSecondFromArgument( e.commandArgument );
-  //
-  // _.assert( !!isolated );
-  // _.assert( 0, 'not tested' );
-
-  // let request = _.strRequestParse( isolated.argument );
-  //
-  // let namesMap =
-  // {
-  //   v : 'verbosity',
-  //   verbosity : 'verbosity',
-  // }
-  //
-  // if( request.map.v !== undefined )
-  // {
-  //   request.map.verbosity = request.map.v;
-  //   delete request.map.v;
-  // }
-  //
-  // _.process.argsReadTo
-  // ({
-  //   dst : implied,
-  //   propertiesMap : request.map,
-  //   namesMap,
-  // });
-
 }
 
 commandImply.hint = 'Change state or imply value of a variable.';
-// commandImply.commandProperties =
-// {
-//   verbosity : 'Level of verbosity.',
-//   v : 'Level of verbosity.',
-// }
 
 //
 

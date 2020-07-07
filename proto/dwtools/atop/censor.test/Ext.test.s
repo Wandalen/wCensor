@@ -203,9 +203,84 @@ function configDelBasic( test )
 
   /* - */
 
+  // a.ready.then( ( op ) =>
+  // {
+  //   test.case = '.config.del path/key1';
+  //   a.reflect();
+  //   return null;
+  // })
+  //
+  // a.appStart( `.profile.reset profile:${profile}` );
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // a.appStart( `.imply profile:${profile} .config.del path/key1` )
+  // .then( ( op ) =>
+  // {
+  //   test.identical( op.exitCode, 0 );
+  //   test.identical( op.output, '' );
+  //   return null;
+  // })
+  //
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // .then( ( op ) =>
+  // {
+  //   test.identical( op.exitCode, 0 );
+  //
+  //   var exp =
+  //   {
+  //     'about' : {},
+  //     'path' : { 'key2' : 'val2' }
+  //   }
+  //   var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+  //   test.identical( got.storage, exp );
+  //
+  //   return null;
+  // })
+  //
+  // /* - */
+  //
+  // a.ready.then( ( op ) =>
+  // {
+  //   test.case = '.config.del path/key1 path/key3';
+  //   a.reflect();
+  //   return null;
+  // })
+  //
+  // a.appStart( `.profile.reset profile:${profile}` );
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2 path/key3:val3` )
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // a.appStart( `.imply profile:${profile} .config.del path/key1 path/key3` )
+  // .then( ( op ) =>
+  // {
+  //   test.identical( op.exitCode, 0 );
+  //   test.identical( op.output, '' );
+  //   return null;
+  // })
+  //
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // .then( ( op ) =>
+  // {
+  //   test.identical( op.exitCode, 0 );
+  //
+  //   var exp =
+  //   {
+  //     'about' : {},
+  //     'path' : { 'key2' : 'val2' }
+  //   }
+  //   var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+  //   test.identical( got.storage, exp );
+  //
+  //   return null;
+  // })
+  // xxx
+
+  /* - */
+
   a.ready.then( ( op ) =>
   {
-    test.case = '.config.del path/key1';
+    test.case = '.config.del';
     a.reflect();
     return null;
   })
@@ -213,7 +288,8 @@ function configDelBasic( test )
   a.appStart( `.profile.reset profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
-  a.appStart( `.imply profile:${profile} .config.del path/key1` )
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.del` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -225,17 +301,54 @@ function configDelBasic( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'xxx' );
 
     var exp =
     {
-      'about' : {},
-      'path' : { 'key2' : 'val2' }
     }
     var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
     test.identical( got.storage, exp );
 
     return null;
   })
+
+  /* - */
+
+  // a.ready.then( ( op ) =>
+  // {
+  //   test.case = '.config.del "path/key 1" path/key3`';
+  //   a.reflect();
+  //   return null;
+  // })
+  //
+  // a.appStart( `.profile.reset profile:${profile}` );
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // a.appStart( `.imply profile:${profile} .config.set "path/key 1":val1 "path/key 2":val2 "path/key3":'val3'` )
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // a.appStart( `.imply profile:${profile} .config.del "path/key 1" path/key3` )
+  // .then( ( op ) =>
+  // {
+  //   test.identical( op.exitCode, 0 );
+  //   test.identical( op.output, '' );
+  //   return null;
+  // })
+  //
+  // a.appStart( `.imply profile:${profile} .config.log` )
+  // .then( ( op ) =>
+  // {
+  //   test.identical( op.exitCode, 0 );
+  //
+  //   var exp =
+  //   {
+  //     'about' : {},
+  //     'path' : { 'key 2' : 'val2' }
+  //   }
+  //   var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+  //   test.identical( got.storage, exp );
+  //
+  //   return null;
+  // })
+  // /* xxx qqq : should work after fix of strRequestParse */
 
   /* - */
 
@@ -6279,7 +6392,7 @@ var Self =
     help,
 
     configSetBasic,
-    // configDelBasic,
+    configDelBasic,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
@@ -6298,6 +6411,7 @@ var Self =
     replaceRedoUndoSingleCommand,
 
     /* xxx qqq : add test routine of repalce of files with borken links */
+    /* qqq : add test routine to cover command option session */
 
     // /* qqq : implement test to check locking */
 
