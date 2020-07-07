@@ -76,6 +76,72 @@ function help( test )
 
 //
 
+function configGetBasic( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'single selector';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.get path/key1` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'val1\n' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.get path/key2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'val2\n' );
+    return null;
+  })
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'several selectors';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2 path/key3:val3` )
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.get path/key1 path/key1 path/key3` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, '[ val1, val1, val3 ]\n' );
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  return a.ready;
+}
+
+//
+
 function configSetBasic( test )
 {
   let context = this;
@@ -203,78 +269,77 @@ function configDelBasic( test )
 
   /* - */
 
-  // a.ready.then( ( op ) =>
-  // {
-  //   test.case = '.config.del path/key1';
-  //   a.reflect();
-  //   return null;
-  // })
-  //
-  // a.appStart( `.profile.reset profile:${profile}` );
-  // a.appStart( `.imply profile:${profile} .config.log` )
-  // a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
-  // a.appStart( `.imply profile:${profile} .config.log` )
-  // a.appStart( `.imply profile:${profile} .config.del path/key1` )
-  // .then( ( op ) =>
-  // {
-  //   test.identical( op.exitCode, 0 );
-  //   test.identical( op.output, '' );
-  //   return null;
-  // })
-  //
-  // a.appStart( `.imply profile:${profile} .config.log` )
-  // .then( ( op ) =>
-  // {
-  //   test.identical( op.exitCode, 0 );
-  //
-  //   var exp =
-  //   {
-  //     'about' : {},
-  //     'path' : { 'key2' : 'val2' }
-  //   }
-  //   var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
-  //   test.identical( got.storage, exp );
-  //
-  //   return null;
-  // })
-  //
-  // /* - */
-  //
-  // a.ready.then( ( op ) =>
-  // {
-  //   test.case = '.config.del path/key1 path/key3';
-  //   a.reflect();
-  //   return null;
-  // })
-  //
-  // a.appStart( `.profile.reset profile:${profile}` );
-  // a.appStart( `.imply profile:${profile} .config.log` )
-  // a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2 path/key3:val3` )
-  // a.appStart( `.imply profile:${profile} .config.log` )
-  // a.appStart( `.imply profile:${profile} .config.del path/key1 path/key3` )
-  // .then( ( op ) =>
-  // {
-  //   test.identical( op.exitCode, 0 );
-  //   test.identical( op.output, '' );
-  //   return null;
-  // })
-  //
-  // a.appStart( `.imply profile:${profile} .config.log` )
-  // .then( ( op ) =>
-  // {
-  //   test.identical( op.exitCode, 0 );
-  //
-  //   var exp =
-  //   {
-  //     'about' : {},
-  //     'path' : { 'key2' : 'val2' }
-  //   }
-  //   var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
-  //   test.identical( got.storage, exp );
-  //
-  //   return null;
-  // })
-  // xxx
+  a.ready.then( ( op ) =>
+  {
+    test.case = '.config.del path/key1';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.del path/key1` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, '' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+    {
+      'about' : {},
+      'path' : { 'key2' : 'val2' }
+    }
+    var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+    test.identical( got.storage, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = '.config.del path/key1 path/key3';
+    a.reflect();
+    return null;
+  })
+
+  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2 path/key3:val3` )
+  a.appStart( `.imply profile:${profile} .config.log` )
+  a.appStart( `.imply profile:${profile} .config.del path/key1 path/key3` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, '' );
+    return null;
+  })
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+    {
+      'about' : {},
+      'path' : { 'key2' : 'val2' }
+    }
+    var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
+    test.identical( got.storage, exp );
+
+    return null;
+  })
 
   /* - */
 
@@ -301,14 +366,12 @@ function configDelBasic( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( op.output, 'xxx' );
-
+    test.identical( op.output, '{}\n' );
     var exp =
     {
     }
     var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
     test.identical( got.storage, exp );
-
     return null;
   })
 
@@ -6391,6 +6454,7 @@ var Self =
 
     help,
 
+    configGetBasic,
     configSetBasic,
     configDelBasic,
 

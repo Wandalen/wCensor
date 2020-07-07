@@ -91,6 +91,7 @@ function _commandsMake()
     'profile.log' :             { e : _.routineJoin( cui, cui.commandProfileLog )           },
     'config.reset' :            { e : _.routineJoin( cui, cui.commandConfigReset )          },
     'config.log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
+    'config.get' :              { e : _.routineJoin( cui, cui.commandConfigGet )            },
     'config.set' :              { e : _.routineJoin( cui, cui.commandConfigSet )            },
     'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )            },
     'arrangement.reset' :       { e : _.routineJoin( cui, cui.commandArrangementReset )     },
@@ -364,6 +365,45 @@ commandConfigLog.commandProperties =
 
 //
 
+function commandConfigGet( e )
+{
+  let cui = this;
+  let ca = e.ca;
+
+  cui._command_pre({ routine : commandConfigGet, args : arguments });
+
+  if( !e.propertiesMap.selector )
+  e.propertiesMap.selector = [];
+  else
+  e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
+
+  if( e.subject )
+  {
+    _.arrayAppendArray( e.propertiesMap.selector, _.strSplitNonPreserving( e.subject ) );
+  }
+
+  _.sure
+  (
+    _.strsAreAll( e.propertiesMap.selector ),
+    'Expects key or array of keys to delete'
+  );
+
+  logger.log( _.censor.configGet( e.propertiesMap ) );
+
+}
+
+commandConfigGet.hint = 'Delete one or several variables of config persistently. Delete whole config if no keys are specified.';
+commandConfigGet.commandSubjectHint = 'Key or array of keys to delete. Could be selectors.';
+commandConfigGet.commandProperties =
+{
+  selector : 'Key or array of keys to delete. Could be selectors.',
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+}
+
+//
+
 function commandConfigSet( e )
 {
   let cui = this;
@@ -399,19 +439,19 @@ function commandConfigDel( e )
 
   cui._command_pre({ routine : commandConfigDel, args : arguments });
 
-  if( !e.propertiesMap.del )
-  e.propertiesMap.del = [];
+  if( !e.propertiesMap.selector )
+  e.propertiesMap.selector = [];
   else
-  e.propertiesMap.del = _.arrayAs( e.propertiesMap.del );
+  e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
 
   if( e.subject )
   {
-    _.arrayAppendArray( e.propertiesMap.del, _.strSplit( e.subject ) );
+    _.arrayAppendArray( e.propertiesMap.selector, _.strSplitNonPreserving( e.subject ) );
   }
 
   _.sure
   (
-    _.strsAreAll( e.propertiesMap.del ),
+    _.strsAreAll( e.propertiesMap.selector ),
     'Expects key or array of keys to delete'
   );
 
@@ -422,7 +462,7 @@ commandConfigDel.hint = 'Delete one or several variables of config persistently.
 commandConfigDel.commandSubjectHint = 'Key or array of keys to delete. Could be selectors.';
 commandConfigDel.commandProperties =
 {
-  del : 'Key or array of keys to delete. Could be selectors.',
+  selector : 'Key or array of keys to delete. Could be selectors.',
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
   profile : 'Name of profile to use. Default is "default"',
@@ -729,6 +769,7 @@ let Extend =
   commandProfileLog, /* qqq : cover */
   commandConfigReset, /* qqq : cover */
   commandConfigLog, /* qqq : cover */
+  commandConfigGet,
   commandConfigSet,
   commandConfigDel,
   commandArrangementReset, /* qqq : cover */
