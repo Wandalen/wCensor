@@ -61,7 +61,7 @@ function exec()
   .catch( ( err ) =>
   {
     _.process.exitCode( -1 );
-    logger.log( _.errOnce( err ) );
+    logger.error( _.errOnce( err ) );
     _.procedure.terminationBegin();
     _.process.exit();
     return err;
@@ -85,16 +85,16 @@ function _commandsMake()
     'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
     'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
     'imply' :                   { e : _.routineJoin( cui, cui.commandImply )                },
-    'storage.reset' :           { e : _.routineJoin( cui, cui.commandStorageReset )         },
+    'storage.del' :             { e : _.routineJoin( cui, cui.commandStorageDel )         },
     'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
-    'profile.reset' :           { e : _.routineJoin( cui, cui.commandProfileReset )         },
+    'profile.del' :             { e : _.routineJoin( cui, cui.commandProfileDel )         },
     'profile.log' :             { e : _.routineJoin( cui, cui.commandProfileLog )           },
-    'config.reset' :            { e : _.routineJoin( cui, cui.commandConfigReset )          },
+    'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )          },
     'config.log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
     'config.get' :              { e : _.routineJoin( cui, cui.commandConfigGet )            },
     'config.set' :              { e : _.routineJoin( cui, cui.commandConfigSet )            },
     'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )            },
-    'arrangement.reset' :       { e : _.routineJoin( cui, cui.commandArrangementReset )     },
+    'arrangement.del' :         { e : _.routineJoin( cui, cui.commandArrangementDel )     },
     'arrangement.log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
     'replace' :                 { e : _.routineJoin( cui, cui.commandReplace )              },
     'hlink' :                   { e : _.routineJoin( cui, cui.commandHlink )                },
@@ -241,19 +241,19 @@ commandImply.hint = 'Change state or imply value of a variable.';
 
 //
 
-function commandStorageReset( e )
+function commandStorageDel( e )
 {
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandStorageReset, arguments );
+  cui._command_pre( commandStorageDel, arguments );
 
-  return _.censor.storageReset( e.propertiesMap );
+  return _.censor.storageDel( e.propertiesMap );
 }
 
-commandStorageReset.hint = 'Delete the storage including all profiles and arrangements, forgetting everything.';
-commandStorageReset.commandSubjectHint = false;
-commandStorageReset.commandProperties =
+commandStorageDel.hint = 'Delete the storage including all profiles and arrangements, forgetting everything. Reset defaults.';
+commandStorageDel.commandSubjectHint = false;
+commandStorageDel.commandProperties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -281,19 +281,19 @@ commandStorageLog.commandProperties =
 
 //
 
-function commandProfileReset( e )
+function commandProfileDel( e )
 {
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandProfileReset, arguments );
+  cui._command_pre( commandProfileDel, arguments );
 
-  return _.censor.profileReset( e.propertiesMap );
+  return _.censor.profileDel( e.propertiesMap );
 }
 
-commandProfileReset.hint = 'Delete the profile its arrangements.';
-commandProfileReset.commandSubjectHint = false;
-commandProfileReset.commandProperties =
+commandProfileDel.hint = 'Delete the profile its arrangements.';
+commandProfileDel.commandSubjectHint = false;
+commandProfileDel.commandProperties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -323,19 +323,19 @@ commandProfileLog.commandProperties =
 
 //
 
-function commandConfigReset( e )
+function commandConfigDel( e )
 {
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandConfigReset, arguments );
+  cui._command_pre( commandConfigDel, arguments );
 
-  return _.censor.configReset( e.propertiesMap );
+  return _.censor.configDel( e.propertiesMap );
 }
 
-commandConfigReset.hint = 'Delete current config.';
-commandConfigReset.commandSubjectHint = false;
-commandConfigReset.commandProperties =
+commandConfigDel.hint = 'Delete current config.';
+commandConfigDel.commandSubjectHint = false;
+commandConfigDel.commandProperties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -470,19 +470,19 @@ commandConfigDel.commandProperties =
 
 //
 
-function commandArrangementReset( e )
+function commandArrangementDel( e )
 {
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandArrangementReset, arguments );
+  cui._command_pre( commandArrangementDel, arguments );
 
-  return _.censor.arrangementReset( e.propertiesMap );
+  return _.censor.arrangementDel( e.propertiesMap );
 }
 
-commandArrangementReset.hint = 'Delete current arrangement.';
-commandArrangementReset.commandSubjectHint = false;
-commandArrangementReset.commandProperties =
+commandArrangementDel.hint = 'Delete current arrangement.';
+commandArrangementDel.commandSubjectHint = false;
+commandArrangementDel.commandProperties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -540,7 +540,7 @@ commandReplace.commandProperties =
   sub : 'Text to put instead of ins.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
-  resetting : 'Reset redo/undo list. Default is true',
+  resetting : 'Del redo/undo list. Default is true',
 }
 
 //
@@ -763,16 +763,16 @@ let Extend =
 
   // storage
 
-  commandStorageReset, /* qqq : cover */
+  commandStorageDel, /* qqq : cover */
   commandStorageLog, /* qqq : cover */
-  commandProfileReset, /* qqq : cover */
+  commandProfileDel, /* qqq : cover */
   commandProfileLog, /* qqq : cover */
-  commandConfigReset, /* qqq : cover */
+  commandConfigDel, /* qqq : cover */
   commandConfigLog, /* qqq : cover */
   commandConfigGet,
   commandConfigSet,
   commandConfigDel,
-  commandArrangementReset, /* qqq : cover */
+  commandArrangementDel, /* qqq : cover */
   commandArrangementLog, /* qqq : cover */
 
   // operation

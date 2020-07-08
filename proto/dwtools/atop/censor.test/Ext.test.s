@@ -93,7 +93,7 @@ function configGetBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
   a.appStart( `.imply profile:${profile} .config.log` )
@@ -122,7 +122,7 @@ function configGetBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2 path/key3:val3` )
   a.appStart( `.imply profile:${profile} .config.log` )
@@ -136,7 +136,7 @@ function configGetBasic( test )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -159,7 +159,7 @@ function configSetBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   .then( ( op ) =>
   {
@@ -198,7 +198,7 @@ function configSetBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set key1:val1 key2:val2` )
   .then( ( op ) =>
@@ -227,7 +227,7 @@ function configSetBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set path/key1:val1 about/key2:val2` )
   .then( ( op ) =>
@@ -253,7 +253,7 @@ function configSetBasic( test )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -276,7 +276,7 @@ function configDelBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
   a.appStart( `.imply profile:${profile} .config.log` )
@@ -313,7 +313,7 @@ function configDelBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2 path/key3:val3` )
   a.appStart( `.imply profile:${profile} .config.log` )
@@ -350,7 +350,7 @@ function configDelBasic( test )
     return null;
   })
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   a.appStart( `.imply profile:${profile} .config.log` )
   a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
   a.appStart( `.imply profile:${profile} .config.log` )
@@ -384,7 +384,7 @@ function configDelBasic( test )
   //   return null;
   // })
   //
-  // a.appStart( `.profile.reset profile:${profile}` );
+  // a.appStart( `.profile.del profile:${profile}` );
   // a.appStart( `.imply profile:${profile} .config.log` )
   // a.appStart( `.imply profile:${profile} .config.set "path/key 1":val1 "path/key 2":val2 "path/key3":'val3'` )
   // a.appStart( `.imply profile:${profile} .config.log` )
@@ -415,7 +415,7 @@ function configDelBasic( test )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -489,7 +489,7 @@ function replaceBasic( test )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -514,7 +514,7 @@ function replaceStatusOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -686,7 +686,7 @@ redo :
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -714,7 +714,7 @@ function replaceRedoOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -850,7 +850,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.status v:1 profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
@@ -990,7 +990,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -1153,7 +1153,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -1316,7 +1316,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -1472,7 +1472,7 @@ Nothing to redo.
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -1500,7 +1500,7 @@ function replaceRedoOptionDepth( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -1641,7 +1641,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -1785,7 +1785,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -1892,7 +1892,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -1999,7 +1999,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -2106,7 +2106,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -2206,7 +2206,7 @@ Nothing to redo.
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -2234,7 +2234,7 @@ function replaceChangeRedo( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -2409,7 +2409,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -2584,7 +2584,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:1 profile:${profile}` )
@@ -2760,7 +2760,7 @@ undo : 2
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -2787,7 +2787,7 @@ function replaceRedoDepth0OptionVerbosity( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -2887,7 +2887,7 @@ undo : 2
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -2989,7 +2989,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -3115,7 +3115,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -3241,7 +3241,7 @@ Nothing to redo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -3360,7 +3360,7 @@ Nothing to redo.
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -3395,7 +3395,7 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:2 profile:${profile}` )
@@ -3490,7 +3490,7 @@ function replaceRedoHardLinked( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:2 profile:${profile}` )
@@ -3555,7 +3555,7 @@ function replaceRedoHardLinked( test )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -3590,7 +3590,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:2 profile:${profile}` )
@@ -3685,7 +3685,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:2 profile:${profile}` )
@@ -3783,7 +3783,7 @@ function replaceRedoSoftLinked( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/dir2/** ins:line sub:abc profile:${profile}` )
 
   a.appStart( `.status v:2 profile:${profile}` )
@@ -3862,7 +3862,7 @@ function replaceRedoSoftLinked( test )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -3890,7 +3890,7 @@ function replaceRedoUndo( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
@@ -4118,7 +4118,7 @@ Nothing to undo.
 
   /* */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -4146,7 +4146,7 @@ function replaceRedoChangeUndo( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.redo d:0 v:3 profile:${profile}` )
   a.appStart( `.status v:1 profile:${profile}` )
@@ -4299,7 +4299,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.redo d:0 v:3 profile:${profile}` )
   a.appStart( `.status v:1 profile:${profile}` )
@@ -4452,7 +4452,7 @@ undo : 0
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.redo d:0 v:3 profile:${profile}` )
   a.appStart( `.status v:1 profile:${profile}` )
@@ -4606,7 +4606,7 @@ undo : 0
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -4634,7 +4634,7 @@ function replaceRedoUndoOptionVerbosity( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.undo d:1 profile:${profile}` )
   .then( ( op ) =>
@@ -4776,7 +4776,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.undo d:1 v:3 profile:${profile}` )
   .then( ( op ) =>
@@ -4918,7 +4918,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.undo d:1 v:2 profile:${profile}` )
   .then( ( op ) =>
@@ -5060,7 +5060,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.undo d:1 v:1 profile:${profile}` )
   .then( ( op ) =>
@@ -5199,7 +5199,7 @@ Nothing to undo.
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
   a.appStart( `.undo d:1 v:0 profile:${profile}` )
   .then( ( op ) =>
@@ -5325,7 +5325,7 @@ Nothing to undo.
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -5354,7 +5354,7 @@ function replaceRedoUndoSingleCommand( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} .do profile:${profile}` )
   .then( ( op ) =>
   {
@@ -5435,7 +5435,7 @@ function replaceRedoUndoSingleCommand( test )
     return null;
   })
 
-  a.appStart( `.arrangement.reset profile:${profile}` )
+  a.appStart( `.arrangement.del profile:${profile}` )
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} .do profile:${profile} .undo profile:${profile}` )
   .then( ( op ) =>
   {
@@ -5510,7 +5510,7 @@ function replaceRedoUndoSingleCommand( test )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -5561,7 +5561,7 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -6056,7 +6056,7 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -6237,7 +6237,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -6424,7 +6424,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 
   /* - */
 
-  a.appStart( `.profile.reset profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
