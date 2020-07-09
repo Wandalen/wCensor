@@ -607,6 +607,9 @@ function commandEntryAdd( e )
 
   if( op.verbosity === undefined )
   op.verbosity = 3;
+  if( e.subject )
+  op.appPath = e.subject;
+
   if( op.appPath )
   op.appPath = _.path.s.resolve( op.appPath );
   if( op.entryDirPath )
