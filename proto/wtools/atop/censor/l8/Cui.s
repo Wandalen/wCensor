@@ -60,6 +60,11 @@ function exec()
   })
   .catch( ( err ) =>
   {
+    logger.error( 'xxx' );
+    console.error( '!!!' );
+    console.error( 'err.logged :', err.logged );
+    console.error( 'err.attended :', err.attended );
+    debugger;
     _.process.exitCode( -1 );
     logger.error( _.errOnce( err ) );
     _.procedure.terminationBegin();
@@ -89,7 +94,6 @@ function _commandsMake()
     'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
     'profile.del' :             { e : _.routineJoin( cui, cui.commandProfileDel )           },
     'profile.log' :             { e : _.routineJoin( cui, cui.commandProfileLog )           },
-    'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )            },
     'config.log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
     'config.get' :              { e : _.routineJoin( cui, cui.commandConfigGet )            },
     'config.set' :              { e : _.routineJoin( cui, cui.commandConfigSet )            },
@@ -328,27 +332,6 @@ commandProfileLog.commandProperties =
 
 //
 
-function commandConfigDel( e )
-{
-  let cui = this;
-  let ca = e.ca;
-
-  cui._command_pre( commandConfigDel, arguments );
-
-  return _.censor.configDel( e.propertiesMap );
-}
-
-commandConfigDel.hint = 'Delete current config.';
-commandConfigDel.commandSubjectHint = false;
-commandConfigDel.commandProperties =
-{
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
-}
-
-//
-
 function commandConfigLog( e )
 {
   let cui = this;
@@ -472,6 +455,27 @@ commandConfigDel.commandProperties =
   v : 'Level of verbosity.',
   profile : 'Name of profile to use. Default is "default"',
 }
+
+// //
+//
+// function commandConfigDel( e )
+// {
+//   let cui = this;
+//   let ca = e.ca;
+//
+//   cui._command_pre( commandConfigDel, arguments );
+//
+//   return _.censor.configDel( e.propertiesMap );
+// }
+//
+// commandConfigDel.hint = 'Delete current config.';
+// commandConfigDel.commandSubjectHint = false;
+// commandConfigDel.commandProperties =
+// {
+//   verbosity : 'Level of verbosity.',
+//   v : 'Level of verbosity.',
+//   profile : 'Name of profile to use. Default is "default"',
+// }
 
 //
 
@@ -784,7 +788,6 @@ let Extend =
   commandStorageLog, /* qqq : cover */
   commandProfileDel, /* qqq : cover */
   commandProfileLog, /* qqq : cover */
-  commandConfigDel, /* qqq : cover */
   commandConfigLog, /* qqq : cover */
   commandConfigGet,
   commandConfigSet,
