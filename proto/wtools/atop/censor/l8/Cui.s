@@ -60,15 +60,18 @@ function exec()
   })
   .catch( ( err ) =>
   {
-    logger.error( 'xxx' );
-    console.error( '!!!' );
+    // logger.error( 'xxx1' );
+    // logger.log( 'xxx2' );
+    console.error( '!!!a' );
     console.error( 'err.logged :', err.logged );
     console.error( 'err.attended :', err.attended );
-    debugger;
     _.process.exitCode( -1 );
+    debugger;
     logger.error( _.errOnce( err ) );
+    console.error( '!!!b' );
     _.procedure.terminationBegin();
     _.process.exit();
+    console.error( '!!!c' );
     return err;
   });
 }
