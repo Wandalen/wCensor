@@ -60,18 +60,10 @@ function exec()
   })
   .catch( ( err ) =>
   {
-    // logger.error( 'xxx1' );
-    // logger.log( 'xxx2' );
-    console.error( '!!!a' );
-    console.error( 'err.logged :', err.logged );
-    console.error( 'err.attended :', err.attended );
     _.process.exitCode( -1 );
-    debugger;
     logger.error( _.errOnce( err ) );
-    console.error( '!!!b' );
     _.procedure.terminationBegin();
     _.process.exit();
-    console.error( '!!!c' );
     return err;
   });
 }
@@ -440,11 +432,11 @@ function commandConfigDel( e )
     _.arrayAppendArray( e.propertiesMap.selector, _.strSplitNonPreserving( e.subject ) );
   }
 
-  _.sure
-  (
-    _.strsAreAll( e.propertiesMap.selector ),
-    'Expects key or array of keys to delete'
-  );
+  // _.sure
+  // (
+  //   _.strsAreAll( e.propertiesMap.selector ),
+  //   'Expects key or array of keys to delete'
+  // );
 
   return _.censor.configDel( e.propertiesMap );
 }
@@ -597,7 +589,44 @@ commandHlink.commandProperties =
   basePath : 'Base path to look for files. Default = current path.',
   includingPath : 'Glob or path to filter in.',
   excludingPath : 'Glob or path to filter out.',
-  withHlink : 'To use path::hlink defined in config at ~/.censor/config.yaml. Default : true.',
+  withHlink : 'To use path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
+}
+
+//
+
+function commandEntryAdd( e )
+{
+  let cui = this;
+  let ca = e.ca;
+  let op = e.propertiesMap;
+
+  cui._command_pre( commandEntryAdd, arguments );
+  op.logger = 1;
+
+  if( op.verbosity === undefined )
+  op.verbosity = 3;
+  if( op.appPath )
+  op.appPath = _.path.s.resolve( op.appPath );
+  if( op.entryDirPath )
+  op.entryDirPath = _.path.s.resolve( op.entryDirPath );
+
+  return _.censor.filesHardLink( op );
+}
+
+commandEntryAdd.hint = 'Add.';
+commandEntryAdd.commandSubjectHint = 'appPath if specified';
+commandEntryAdd.commandProperties =
+{
+  verbosity : 'Level of verbosity. Default = 3.',
+  v : 'Level of verbosity. Default = 3.',
+  entryDirPath : 'Path to directory to put entry. This path should be in evnironment valriable $PATH. If not specified it use variable path/entry of config ~/.censor/default/config.json.',
+  appPath : 'Path to application for which entry will be added.',
+  name : 'Name of entry. If not specified, deduced from appPath.',
+  platform : 'Platform. If not specified then add entry of both kind, for Windows and Posix platforms.',
+  relative : 'Relativize path to application from the entry. Default : 1',
+  // allowingMissed : 0,
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
 }
@@ -802,7 +831,7 @@ let Extend =
 
   commandReplace,
   commandHlink, /* xxx : marry hlink with redo */
-  // commandAppInstall,
+  commandEntryAdd,
 
   // do commands
 
