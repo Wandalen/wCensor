@@ -1,0 +1,42 @@
+about:
+  name: wcensor
+  version: 0.4.0
+  enabled: 1
+  description: Utility to edit files massively from console and with undo.
+  keywords:
+    - tools
+    - wTools
+  license: MIT
+  interpreters: node >= 10.0.0
+  author: Kostiantyn Wandalen <wanalen@01.school>
+  contributors:
+    - Kostiantyn Wandalen <wanalen@01.school>
+  npm.scripts:
+    test: wtest .run proto/**
+    docgen: wdocgen .build proto
+  npm.name: wcensor
+path:
+  origins:
+    - 'git+https:///github.com/Wandalen/wCensor.git'
+    - 'npm:///wcensor'
+  repository: 'git+https:///github.com/Wandalen/wCensor.git'
+  bugtracker: 'https:///github.com/Wandalen/wCensor/issues'
+submodule:
+  wTools:
+    path: 'npm:///wTools'
+    enabled: 1
+  wcensorbasic:
+    path: 'npm:///wcensorbasic'
+    enabled: 1
+  wblueprint:
+    path: 'npm:///wblueprint'
+    enabled: 1
+  wnpmtools:
+    path: 'npm:///wnpmtools'
+    enabled: 1
+  wcommandsaggregator:
+    path: 'npm:///wcommandsaggregator'
+    enabled: 1
+  eslint:
+    path: 'npm:///eslint#7.1.0'
+    enabled: 1

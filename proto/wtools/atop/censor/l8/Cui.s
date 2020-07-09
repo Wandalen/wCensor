@@ -69,7 +69,7 @@ function exec()
 }
 
 // --
-// commands
+// meta commands
 // --
 
 function _commandsMake()
@@ -85,16 +85,16 @@ function _commandsMake()
     'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
     'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
     'imply' :                   { e : _.routineJoin( cui, cui.commandImply )                },
-    'storage.del' :             { e : _.routineJoin( cui, cui.commandStorageDel )         },
+    'storage.del' :             { e : _.routineJoin( cui, cui.commandStorageDel )           },
     'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
-    'profile.del' :             { e : _.routineJoin( cui, cui.commandProfileDel )         },
+    'profile.del' :             { e : _.routineJoin( cui, cui.commandProfileDel )           },
     'profile.log' :             { e : _.routineJoin( cui, cui.commandProfileLog )           },
-    'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )          },
+    'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )            },
     'config.log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
     'config.get' :              { e : _.routineJoin( cui, cui.commandConfigGet )            },
     'config.set' :              { e : _.routineJoin( cui, cui.commandConfigSet )            },
     'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )            },
-    'arrangement.del' :         { e : _.routineJoin( cui, cui.commandArrangementDel )     },
+    'arrangement.del' :         { e : _.routineJoin( cui, cui.commandArrangementDel )       },
     'arrangement.log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
     'replace' :                 { e : _.routineJoin( cui, cui.commandReplace )              },
     'hlink' :                   { e : _.routineJoin( cui, cui.commandHlink )                },
@@ -190,7 +190,9 @@ _command_pre.defaults =
   propertiesMapAsProperty : 0,
 }
 
-//
+// --
+// general commands
+// --
 
 function commandHelp( e )
 {
@@ -238,8 +240,11 @@ function commandImply( e )
 }
 
 commandImply.hint = 'Change state or imply value of a variable.';
+commandImply.commandSubjectHint = false;
 
-//
+// --
+// storage commands
+// --
 
 function commandStorageDel( e )
 {
@@ -512,7 +517,9 @@ commandArrangementLog.commandProperties =
   session : 'Name of session to use. Default is "default"',
 }
 
-//
+// --
+// operation commands
+// --
 
 function commandReplace( e )
 {
@@ -582,7 +589,9 @@ commandHlink.commandProperties =
   session : 'Name of session to use. Default is "default"',
 }
 
-//
+// --
+// do commands
+// --
 
 function commandDo( e )
 {
@@ -752,16 +761,18 @@ let Extend =
   Exec,
   exec,
 
-  // commands
+  // meta commands
 
   _commandsMake,
   _command_pre,
+
+  // general commands
 
   commandHelp,
   commandVersion, /* qqq : cover */
   commandImply,
 
-  // storage
+  // storage commands
 
   commandStorageDel, /* qqq : cover */
   commandStorageLog, /* qqq : cover */
@@ -775,12 +786,13 @@ let Extend =
   commandArrangementDel, /* qqq : cover */
   commandArrangementLog, /* qqq : cover */
 
-  // operation
+  // operation commands
 
   commandReplace,
   commandHlink, /* xxx : marry hlink with redo */
+  // commandAppInstall,
 
-  // do
+  // do commands
 
   commandDo,
   commandRedo,

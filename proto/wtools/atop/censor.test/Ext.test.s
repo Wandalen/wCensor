@@ -5,7 +5,7 @@
 
 if( typeof module !== 'undefined' )
 {
-  let _ = require( '../../../dwtools/Tools.s' );
+  let _ = require( '../../../wtools/Tools.s' );
   require( '../censor/entry/Include.s' );
   _.include( 'wTesting' );;
 }
@@ -6474,7 +6474,7 @@ var Self =
     // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
     replaceRedoUndoSingleCommand,
 
-    /* xxx qqq : add test routine of repalce of files with borken links */
+    /* qqq : add test routine of repalce of files which have several borken links */
     /* qqq : add test routine to cover command option session */
 
     // /* qqq : implement test to check locking */
@@ -6483,6 +6483,8 @@ var Self =
     hlinkOptionBasePath,
     hlinkOptionIncludingPath,
     hlinkOptionExcludingPath,
+
+    /* qqq : add test routine of hlink of files which have several borken links */
 
   },
 

@@ -59,7 +59,7 @@ path :
       content : prime
 
   entry.proto.no.tests :
-    path : proto/dwtools/atop/censor/entry/Include.s
+    path : proto/wtools/atop/censor/entry/Include.s
     criterion :
       tests : 'no.tests'
   entry.proto.only.tests :
@@ -68,7 +68,7 @@ path :
       tests : 'only.tests'
 
   entry.out.raw.debug :
-    path : '{path::out.*=1}/source/dwtools/atop/censor/entry/Include.s'
+    path : '{path::out.*=1}/source/wtools/atop/censor/entry/Include.s'
     criterion :
       debug : [ debug, release ]
       raw : raw
