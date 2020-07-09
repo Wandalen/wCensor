@@ -532,6 +532,12 @@ function commandReplace( e )
   op.logger = 1;
   op.resetting = 1;
 
+  if( !op.basePath )
+  op.basePath = '.';
+  op.basePath = _.path.s.resolve( op.basePath );
+  if( !op.filePath )
+  op.filePath = '**';
+
   return _.censor.filesReplace( op );
 }
 
