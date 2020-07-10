@@ -1,6 +1,6 @@
 {
   "name" : "wcensor",
-  "version" : "0.2.44",
+  "version" : "0.2.45",
   "description" : "Utility to edit files massively from console and with undo.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
@@ -29,7 +29,8 @@
     "wcensorbasic" : "alpha",
     "wblueprint" : "alpha",
     "wnpmtools" : "alpha",
-    "wcommandsaggregator" : "alpha"
+    "wcommandsaggregator" : "alpha",
+    "wprocess" : "alpha"
   },
   "devDependencies" : { "eslint" : "7.1.0", "wcensor" : "file:.", "wTesting" : "alpha" },
   "keywords" : [ "wTools" ]
