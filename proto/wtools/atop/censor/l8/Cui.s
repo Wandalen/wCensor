@@ -97,6 +97,7 @@ function _commandsMake()
     'arrangement.log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
     'replace' :                 { e : _.routineJoin( cui, cui.commandReplace )              },
     'hlink' :                   { e : _.routineJoin( cui, cui.commandHlink )                },
+    'entry.add' :               { e : _.routineJoin( cui, cui.commandEntryAdd )             },
     'do' :                      { e : _.routineJoin( cui, cui.commandDo )                   },
     'redo' :                    { e : _.routineJoin( cui, cui.commandRedo )                 },
     'undo' :                    { e : _.routineJoin( cui, cui.commandUndo )                 },
@@ -589,7 +590,7 @@ commandHlink.commandProperties =
   basePath : 'Base path to look for files. Default = current path.',
   includingPath : 'Glob or path to filter in.',
   excludingPath : 'Glob or path to filter out.',
-  withHlink : 'To use path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
+  withConfigPath : 'To add path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
 }
@@ -607,31 +608,37 @@ function commandEntryAdd( e )
 
   if( op.verbosity === undefined )
   op.verbosity = 3;
+
   if( e.subject )
   op.appPath = e.subject;
-
   if( op.appPath )
   op.appPath = _.path.s.resolve( op.appPath );
   if( op.entryDirPath )
   op.entryDirPath = _.path.s.resolve( op.entryDirPath );
+  if( op.addingRights !== undefined && !_.numberIs( op.addingRights ) )
+  op.addingRights = null;
 
-  return _.censor.filesHardLink( op );
+  return _.censor.systemEntryAdd( op );
 }
 
-commandEntryAdd.hint = 'Add.';
-commandEntryAdd.commandSubjectHint = 'appPath if specified';
+commandEntryAdd.hint = 'Add entry for application making it available globally on your machine.';
+commandEntryAdd.commandSubjectHint = 'Set option appPath if specified';
 commandEntryAdd.commandProperties =
 {
   verbosity : 'Level of verbosity. Default = 3.',
   v : 'Level of verbosity. Default = 3.',
-  entryDirPath : 'Path to directory to put entry. This path should be in evnironment valriable $PATH. If not specified it use variable path/entry of config ~/.censor/default/config.json.',
+  entryDirPath : 'Path to directory to put entry. This path should be in evnironment valriable $PATH. If not specified variable "path/entry" of config "~/.censor/default/config.json" used.',
   appPath : 'Path to application for which entry will be added.',
   name : 'Name of entry. If not specified, deduced from appPath.',
-  platform : 'Platform. If not specified then add entry of both kind, for Windows and Posix platforms.',
+  platform : 'Platform. If not specified then add entry of both kind, for Windows and Posix platforms. "windows" for Windows, "posix" for posix OSs, "multiple" for both kind of platforms. By default deduced from current OS.',
   relative : 'Relativize path to application from the entry. Default : 1',
-  // allowingMissed : 0,
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
+  prefix : 'Prefix to use to prepend starting of the application. Default is "node ".',
+  addingRights : 'Setting rights of the entry file. Default is 0o777.',
+  allowingMissed : 'Allowing creating entry on application file which does not exist. Default is 0.',
+  allowingNotInPath : 'Allowing creating entry in the entryDirPath which is not in the environment variable $PATH. Default is 0.',
+  forcing : 'Allowing ignoring fail of safegaurd checks. Default is 0.',
 }
 
 // --

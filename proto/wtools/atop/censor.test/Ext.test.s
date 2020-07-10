@@ -6427,6 +6427,63 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
   return a.ready;
 }
 
+//
+
+function entryAddBasic( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let a = test.assetFor( 'entry' );
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = '';
+    a.reflect();
+    return null;
+  })
+
+  // a.appStart( `.imply profile:${profile} .config.set` )
+  // a.appStart( `.entry.add F1.js profile:${profile}` )
+  a.appStart( `.entry.add F1.js relative:1` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp = `+ Add entry`;
+    test.identical( _.strCount( op.output, exp ), 1 );
+
+    var exp = [ '.', './F1.js', './F2.js' ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.shell( `F1` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+F1.js
+`
+    test.equivalent( op.output, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
 // --
 // declare
 // --
@@ -6465,25 +6522,25 @@ var Self =
     replaceRedoDepth0OptionVerbosity,
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
-    // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked */
+    // replaceRedoTextLinked, /* qqq : implement. look replaceRedoTextLinked. add option resolvingTextLink */
 
     replaceRedoUndo,
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
     // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
     replaceRedoUndoSingleCommand,
-
     /* qqq : add test routine of repalce of files which have several borken links */
     /* qqq : add test routine to cover command option session */
 
-    // /* qqq : implement test to check locking */
+    // /* qqq : implement test to check locking, tell how first */
 
     hlinkBasic,
     hlinkOptionBasePath,
     hlinkOptionIncludingPath,
     hlinkOptionExcludingPath,
-
     /* qqq : add test routine of hlink of files which have several borken links */
+
+    // entryAddBasic, /* xxx : extend and enable */
 
   },
 
