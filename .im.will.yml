@@ -17,6 +17,9 @@ submodule :
   wCommandsAggregator :
     path : npm:///wcommandsaggregator
     enabled : 0 # submodule
+  wProcess :
+    path : npm:///wprocess
+    enabled : 0 # submodule
 
   eslint :
     path : npm:///eslint#7.1.0

@@ -29,7 +29,8 @@
     "wcensorbasic" : "",
     "wblueprint" : "",
     "wnpmtools" : "",
-    "wcommandsaggregator" : ""
+    "wcommandsaggregator" : "",
+    "wprocess" : ""
   },
   "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0", "wcensor" : "file:." },
   "keywords" : [ "wTools" ]
