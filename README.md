@@ -6,7 +6,7 @@ Utility to edit files massively from console and with undo.
 ## Try out
 ```
 npm install
-node sample/Sample.js
+node sample/Sample.s
 ```
 
 ## To install
