@@ -6488,7 +6488,7 @@ F1.js
 // declare
 // --
 
-var Self =
+let Self =
 {
 
   name : 'Tools.atop.Censor.Ext',
