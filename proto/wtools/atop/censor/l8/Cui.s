@@ -554,6 +554,7 @@ commandReplace.commandProperties =
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
   resetting : 'Del redo/undo list. Default is true',
+  fileSizeLimit : 'Max size of file to read',
 }
 
 //

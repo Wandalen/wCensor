@@ -448,30 +448,31 @@ function replaceBasic( test )
     var exp =
 `
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
-1 : First lineabc
-2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+ 1 : First lineabc
+ 2 : Second line
+ 1 : First line
+ 2 : Second lineabc
+ 3 : Third line
+ 2 : Second line
+ 3 : Third lineabc
+ 4 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
-1 : First lineabc
-2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+ 1 : First lineabc
+ 2 : Second line
+ 1 : First line
+ 2 : Second lineabc
+ 3 : Third line
+ 2 : Second line
+ 3 : Third lineabc
+ 4 : Fourth line
+ 3 : Third line
+ 4 : Fourth lineabc
+ 5 : Fifth line
+ 4 : Fourth line
+ 5 : Fifth lineabc
+ 6 : Last one
 . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
+
 `
     test.equivalent( op.output, exp );
 
@@ -599,27 +600,27 @@ redo :
   + replace 3 in ${ a.abs( 'before/File1.txt' ) }
   1 : First lineabc
   2 : Second line
-  2 : First line
-  3 : Second lineabc
-  4 : Third line
-  3 : Second line
-  4 : Third lineabc
-  5 : Last one
+  1 : First line
+  2 : Second lineabc
+  3 : Third line
+  2 : Second line
+  3 : Third lineabc
+  4 : Last one
   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First lineabc
   2 : Second line
-  2 : First line
-  3 : Second lineabc
-  4 : Third line
-  3 : Second line
-  4 : Third lineabc
-  5 : Fourth line
-  4 : Third line
-  5 : Fourth lineabc
-  6 : Fifth line
-  5 : Fourth line
-  6 : Fifth lineabc
-  7 : Last one
+  1 : First line
+  2 : Second lineabc
+  3 : Third line
+  2 : Second line
+  3 : Third lineabc
+  4 : Fourth line
+  3 : Third line
+  4 : Fourth lineabc
+  5 : Fifth line
+  4 : Fourth line
+  5 : Fifth lineabc
+  6 : Last one
 `
     test.equivalent( op.output, exp );
 
@@ -648,27 +649,27 @@ redo :
   + replace 3 in ${ a.abs( 'before/File1.txt' ) }
   1 : First lineabc
   2 : Second line
-  2 : First line
-  3 : Second lineabc
-  4 : Third line
-  3 : Second line
-  4 : Third lineabc
-  5 : Last one
+  1 : First line
+  2 : Second lineabc
+  3 : Third line
+  2 : Second line
+  3 : Third lineabc
+  4 : Last one
   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First lineabc
   2 : Second line
-  2 : First line
-  3 : Second lineabc
-  4 : Third line
-  3 : Second line
-  4 : Third lineabc
-  5 : Fourth line
-  4 : Third line
-  5 : Fourth lineabc
-  6 : Fifth line
-  5 : Fourth line
-  6 : Fifth lineabc
-  7 : Last one
+  1 : First line
+  2 : Second lineabc
+  3 : Third line
+  2 : Second line
+  3 : Third lineabc
+  4 : Fourth line
+  3 : Third line
+  4 : Fourth lineabc
+  5 : Fifth line
+  4 : Fourth line
+  5 : Fifth lineabc
+  6 : Last one
 `
     test.equivalent( op.output, exp );
 
@@ -1032,12 +1033,12 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1078,18 +1079,18 @@ undo : 1
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1195,12 +1196,12 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1241,18 +1242,18 @@ undo : 1
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1358,12 +1359,12 @@ undo : 0
 `
     1 : First lineabc
     2 : Second line
-    2 : First line
-    3 : Second lineabc
-    4 : Third line
-    3 : Second line
-    4 : Third lineabc
-    5 : Last one
+    1 : First line
+    2 : Second lineabc
+    3 : Third line
+    2 : Second line
+    3 : Third lineabc
+    4 : Last one
   + replace 3 in ${ a.abs( 'before/File1.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1404,18 +1405,18 @@ undo : 1
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1526,12 +1527,12 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1569,18 +1570,18 @@ undo : 1
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1667,12 +1668,12 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1710,18 +1711,18 @@ undo : 1
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -1811,27 +1812,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -1918,27 +1919,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -2025,27 +2026,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -2132,27 +2133,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -2266,18 +2267,18 @@ undo : 0
       ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 1 action(s). Thrown 1 error(s).
 `
@@ -2362,12 +2363,12 @@ undo : 1
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -2438,12 +2439,12 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
  ! failed to redo action::replace 5 in ${ a.abs( 'before/File2.txt' ) }
     Files are outdated:
@@ -2531,18 +2532,18 @@ undo : 1
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -2705,27 +2706,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -3031,27 +3032,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -3157,27 +3158,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -3283,27 +3284,27 @@ undo : 0
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
 + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -3423,27 +3424,27 @@ function replaceRedoHardLinked( test )
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -3517,12 +3518,12 @@ function replaceRedoHardLinked( test )
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
  + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -3618,27 +3619,27 @@ function replaceRedoSoftLinked( test )
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Fourth line
-4 : Third line
-5 : Fourth lineabc
-6 : Fifth line
-5 : Fourth line
-6 : Fifth lineabc
-7 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -3714,12 +3715,12 @@ function replaceRedoSoftLinked( test )
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
  + replace 3 in ${ a.abs( 'before/dir/Link.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -3812,12 +3813,12 @@ function replaceRedoSoftLinked( test )
 `
 1 : First lineabc
 2 : Second line
-2 : First line
-3 : Second lineabc
-4 : Third line
-3 : Second line
-4 : Third lineabc
-5 : Last one
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
  + replace 3 in ${ a.abs( 'before/dir2/Link.txt' ) }
  + Done 1 action(s). Thrown 0 error(s).
 `
@@ -3865,6 +3866,93 @@ function replaceRedoSoftLinked( test )
   return a.ready;
 }
 
+//
+
+function replaceBigFile( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let a = test.assetFor( false );
+  let times = 1e6;
+  let originalData = _.dup( '1234567890\n', times ) + 'ins1';
+  let expectedData = _.dup( '1234567890\n', times ) + 's';
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    a.reflect();
+    a.fileProvider.fileWrite( a.abs( 'File.txt' ), originalData );
+    return null;
+  });
+
+  a.appStartNonThrowing( `.replace filePath:** ins:ins1 sub:s profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = `.replace filePath:** ins:ins1 sub:s`;
+    test.ni( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, `File ${a.abs( 'File.txt' )} is too big` ), 1 );
+
+    var exp = [ '.', './File.txt' ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+    var got = a.fileProvider.fileRead( a.abs( 'File.txt' ) );
+    test.identical( got.length, originalData.length );
+    test.is( got === originalData );
+
+    return null;
+  });
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    a.reflect();
+    a.fileProvider.fileWrite( a.abs( 'File.txt' ), originalData );
+    return null;
+  });
+
+  a.appStart( `.replace filePath:** ins:ins1 sub:s fileSizeLimit:100000000 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = `.replace filePath:** ins:ins1 sub:s`;
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '. Found 1 file(s). Arranged 1 replacement(s) in 1 file(s).' ), 1 );
+
+    var exp = [ '.', './File.txt' ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+    var got = a.fileProvider.fileRead( a.abs( 'File.txt' ) );
+    test.identical( got.length, originalData.length );
+    test.is( got === originalData );
+
+    return null;
+  });
+
+  a.appStart( `.do profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = `.do`;
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '+ Done 1 action(s). Thrown 0 error(s).' ), 1 );
+
+    var exp = [ '.', './File.txt' ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+    var got = a.fileProvider.fileRead( a.abs( 'File.txt' ) );
+    test.identical( got.length, expectedData.length );
+    test.is( got === expectedData );
+
+    return null;
+  });
+
+  /* */
+
+  return a.ready;
+}
+
+replaceBigFile.rapidity = -1;
+
 // --
 // redo - undo
 // --
@@ -3876,6 +3964,7 @@ function replaceRedoUndo( test )
   let a = test.assetFor( 'basic' );
 
   a.reflect();
+
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
   let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
@@ -5365,52 +5454,52 @@ function replaceRedoUndoSingleCommand( test )
  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
      1 : First lineabc
      2 : Second line
-     2 : First line
-     3 : Second lineabc
-     4 : Third line
-     3 : Second line
-     4 : Third lineabc
-     5 : Last one
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
      1 : First lineabc
      2 : Second line
-     2 : First line
-     3 : Second lineabc
-     4 : Third line
-     3 : Second line
-     4 : Third lineabc
-     5 : Fourth line
-     4 : Third line
-     5 : Fourth lineabc
-     6 : Fifth line
-     5 : Fourth line
-     6 : Fifth lineabc
-     7 : Last one
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Fourth line
+     3 : Third line
+     4 : Fourth lineabc
+     5 : Fifth line
+     4 : Fourth line
+     5 : Fifth lineabc
+     6 : Last one
  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
 
     1 : First lineabc
     2 : Second line
-    2 : First line
-    3 : Second lineabc
-    4 : Third line
-    3 : Second line
-    4 : Third lineabc
-    5 : Last one
+    1 : First line
+    2 : Second lineabc
+    3 : Third line
+    2 : Second line
+    3 : Third lineabc
+    4 : Last one
    + replace 3 in ${ a.abs( 'before/File1.txt' ) }
     1 : First lineabc
     2 : Second line
-    2 : First line
-    3 : Second lineabc
-    4 : Third line
-    3 : Second line
-    4 : Third lineabc
-    5 : Fourth line
-    4 : Third line
-    5 : Fourth lineabc
-    6 : Fifth line
-    5 : Fourth line
-    6 : Fifth lineabc
-    7 : Last one
+    1 : First line
+    2 : Second lineabc
+    3 : Third line
+    2 : Second line
+    3 : Third lineabc
+    4 : Fourth line
+    3 : Third line
+    4 : Fourth lineabc
+    5 : Fifth line
+    4 : Fourth line
+    5 : Fifth lineabc
+    6 : Last one
    + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
 `
@@ -5446,51 +5535,51 @@ function replaceRedoUndoSingleCommand( test )
  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
      1 : First lineabc
      2 : Second line
-     2 : First line
-     3 : Second lineabc
-     4 : Third line
-     3 : Second line
-     4 : Third lineabc
-     5 : Last one
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
      1 : First lineabc
      2 : Second line
-     2 : First line
-     3 : Second lineabc
-     4 : Third line
-     3 : Second line
-     4 : Third lineabc
-     5 : Fourth line
-     4 : Third line
-     5 : Fourth lineabc
-     6 : Fifth line
-     5 : Fourth line
-     6 : Fifth lineabc
-     7 : Last one
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Fourth line
+     3 : Third line
+     4 : Fourth lineabc
+     5 : Fifth line
+     4 : Fourth line
+     5 : Fifth lineabc
+     6 : Last one
  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
     1 : First lineabc
     2 : Second line
-    2 : First line
-    3 : Second lineabc
-    4 : Third line
-    3 : Second line
-    4 : Third lineabc
-    5 : Last one
+    1 : First line
+    2 : Second lineabc
+    3 : Third line
+    2 : Second line
+    3 : Third lineabc
+    4 : Last one
    + replace 3 in ${ a.abs( 'before/File1.txt' ) }
     1 : First lineabc
     2 : Second line
-    2 : First line
-    3 : Second lineabc
-    4 : Third line
-    3 : Second line
-    4 : Third lineabc
-    5 : Fourth line
-    4 : Third line
-    5 : Fourth lineabc
-    6 : Fifth line
-    5 : Fourth line
-    6 : Fifth lineabc
-    7 : Last one
+    1 : First line
+    2 : Second lineabc
+    3 : Third line
+    2 : Second line
+    3 : Third lineabc
+    4 : Fourth line
+    3 : Third line
+    4 : Fourth lineabc
+    5 : Fifth line
+    4 : Fourth line
+    5 : Fifth lineabc
+    6 : Last one
    + replace 5 in ${ a.abs( 'before/File2.txt' ) }
  + Done 2 action(s). Thrown 0 error(s).
    + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
@@ -6523,6 +6612,7 @@ let Self =
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoTextLinked. add option resolvingTextLink */
+    replaceBigFile,
 
     replaceRedoUndo,
     replaceRedoChangeUndo,
