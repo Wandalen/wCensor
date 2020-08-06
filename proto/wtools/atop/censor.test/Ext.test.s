@@ -3564,7 +3564,7 @@ function replaceRedoHardLinked( test )
 function replaceRedoSoftLinked( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3864,6 +3864,29 @@ function replaceRedoSoftLinked( test )
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
+}
+
+//
+
+function replaceRedoBrokenSoftLink( test )
+{
+
+}
+
+//
+
+function replaceRedoTextLinked( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 }
 
 //
@@ -5419,6 +5442,150 @@ Nothing to undo.
 
 //
 
+function replaceRedoUndoOptionDepth( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+
+  // a.ready.then( ( op ) =>
+  // {
+  //   test.case = 'setup';
+  //   a.reflect();
+  //   return null;
+  // })
+
+  a.appStart( `.arrangement.del profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  // a.appStart( `.undo d:1 profile:${profile}` )
+  //   .then( ( op ) =>
+  //   {
+  //     test.description = '.undo d:1';
+  //     test.identical( op.exitCode, 0 );
+
+  //     var exp =
+  // `
+  // Nothing to undo.
+  // `
+  //     test.equivalent( op.output, exp );
+
+  //     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  //     test.identical( got, file1Before );
+  //     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  //     test.identical( got, file2Before );
+
+  //     return null;
+  //   })
+
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc1 profile:${profile}` )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:abc1 sub:abc2 profile:${profile}` )
+  a.appStart( `.redo d:1 profile:${profile}` )
+  a.appStart( `.undo depth:1 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = '.redo d:1 .undo';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
+- Undone 1 action(s). Thrown 0 error(s).
+`
+
+    return null;
+  })
+  // test.equivalent( op.output, exp );
+
+  // var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  // test.identical( got, file1Before );
+  // var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  // test.identical( got, file2Before );
+  a.appStart( `.replace filePath:before/** ins:abc1 sub:test profile:${profile}` )
+  .then( ( op ) =>
+  {
+
+    var exp =
+`
+ + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     1 : First abc1test
+     2 : Second abc1test
+     1 : First abc1test
+     2 : Second abc1test
+     3 : Third abc1test
+     2 : Second abc1test
+     3 : Third abc1test
+     4 : Last one
+ + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+     1 : First abc1test
+     2 : Second abc1test
+     1 : First abc1test
+     2 : Second abc1test
+     3 : Third abc1test
+     2 : Second abc1test
+     3 : Third abc1test
+     4 : Fourth abc1test
+     3 : Third abc1test
+     4 : Fourth abc1test
+     5 : Fifth abc1test
+     4 : Fourth abc1test
+     5 : Fifth abc1test
+     6 : Last one
+ . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
+
+    1 : First abc1test
+    2 : Second abc1test
+    1 : First abc1test
+    2 : Second abc1test
+    3 : Third abc1test
+    2 : Second abc1test
+    3 : Third abc1test
+    4 : Last one
+   + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+    1 : First abc1test
+    2 : Second abc1test
+    1 : First abc1test
+    2 : Second abc1test
+    3 : Third abc1test
+    2 : Second abc1test
+    3 : Third abc1test
+    4 : Fourth abc1test
+    3 : Third abc1test
+    4 : Fourth abc1test
+    5 : Fifth abc1test
+    4 : Fourth abc1test
+    5 : Fifth abc1test
+    6 : Last one
+   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+ + Done 2 action(s). Thrown 0 error(s).
+`
+    test.equivalent( op.output, exp );
+
+    return null;
+  })
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+
+}
+
+//
+
+function replaceRedoUndoOptionSession( test )
+{
+
+}
+
+//c
+
 function replaceRedoUndoSingleCommand( test )
 {
   let context = this
@@ -6611,16 +6778,16 @@ let Self =
     replaceRedoDepth0OptionVerbosity,
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
-    // replaceRedoTextLinked, /* qqq : implement. look replaceRedoTextLinked. add option resolvingTextLink */
+    replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : Working on it. Yevhen S.*/
+    replaceRedoTextLinked, /* qqq : implement. look replaceRedoTextLinked. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
     replaceBigFile,
 
     replaceRedoUndo,
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
-    // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
+    replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Working on it. Yevhen S. */
+    replaceRedoUndoOptionSession, /* qqq : add test routine to cover command option session  | aaa : Working on it. Yevhen S.*/
     replaceRedoUndoSingleCommand,
-    /* qqq : add test routine of repalce of files which have several borken links */
-    /* qqq : add test routine to cover command option session */
 
     // /* qqq : implement test to check locking, tell how first */
 
