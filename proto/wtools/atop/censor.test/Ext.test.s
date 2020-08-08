@@ -5440,13 +5440,7 @@ Nothing to undo.
   return a.ready;
 }
 
-//--------------------------------
-//--------------------------------
-//--------------------------------
-//--------------------------------
-//--------------------------------
-//--------------------------------
-//--------------------------------
+//
 
 
 function replaceRedoUndoOptionDepth( test )
@@ -7130,7 +7124,7 @@ let Self =
     replaceRedoUndo,
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
-    replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Working on it. Yevhen S. */
+    replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Done. Yevhen S. */
     replaceRedoUndoOptionSession, /* qqq : add test routine to cover command option session  | aaa : Working on it. Yevhen S.*/
     replaceRedoUndoSingleCommand,
 
