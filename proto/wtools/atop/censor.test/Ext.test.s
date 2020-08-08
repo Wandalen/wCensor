@@ -3870,7 +3870,80 @@ function replaceRedoSoftLinked( test )
 
 function replaceRedoBrokenSoftLink( test )
 {
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
 
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  // let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.softLink )
+    a.fileProvider.softLink
+    ({
+      dstPath : a.abs( 'before/File1.txt' ),
+      srcPath : a.abs( 'before/dir/FileNotExist.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1
+    });
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/File1.txt' ), a.abs( 'before/dir/FileNotExist.txt' ) ) );
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'softlink that doesn\'t exist';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 2 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.arrangement.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.softLink )
+    a.fileProvider.softLink
+    ({
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/dir/Link.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1
+    });
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'softlink to itself';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } )
+
+  return a.ready;
 }
 
 //
@@ -3887,6 +3960,68 @@ function replaceRedoTextLinked( test )
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
   let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
   let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.textLink )
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/File1.txt' ),
+      srcPath : a.abs( 'after/File1.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1
+    });
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/File1.txt' ), a.abs( 'after/File1.txt' ) ) );
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/File1.txt ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'textlink';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.arrangement.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.softLink )
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1
+    });
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'softlink to itself';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } )
+
+  return a.ready;
 }
 
 //
@@ -5921,7 +6056,84 @@ function replaceRedoUndoOptionDepth( test )
 
 function replaceRedoUndoOptionSession( test )
 {
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let session1 = 'ses1';
+  let session2 = 'ses2';
+  let session3 = 'ses3';
+  let a = test.assetFor( 'basic' );
 
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  test.open( 'undo session' );
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.redo profile:${profile} session:${session1}` )
+  a.appStart( `.arrangement.log profile:${profile} session:${session1}` )
+  .then( ( op ) =>
+  {
+    console.log( op )
+    var exp = `
+    {
+      "redo" : [], 
+      "undo" : []
+    }  
+      `
+    test.equivalent( op, exp )
+  })
+
+  a.appStart( `.arrangement.log profile:${profile} session:${session2}` )
+  .then( ( op ) =>
+  {
+    console.log( op )
+    var exp = `
+    {
+      "redo" : [], 
+      "undo" : []
+    }  
+      `
+    test.equivalent( op, exp )
+  })
+
+  reverseChanges();
+  a.appStart( `.storage.del` );
+
+
+  test.close( 'undo session' );
+
+  /* - */
+
+  test.open( 'redo session' );
+  test.close( 'redo session' );
+
+  /* - */
+
+  reverseChanges()
+  .then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  } )
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+
+  //
+
+  function reverseChanges()
+  {
+    a.appStart( `.replace filePath:before/** ins:abc2 sub:line profile:${profile}` );
+    a.appStart( `.redo profile:${profile}` );
+    a.appStart( `.replace filePath:before/** ins:abc sub:line profile:${profile}` );
+    return a.appStart( `.redo profile:${profile}` );
+  }
 }
 
 //c

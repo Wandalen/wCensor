@@ -537,7 +537,7 @@ function commandReplace( e )
   op.basePath = _.path.s.resolve( op.basePath );
   if( !op.filePath )
   op.filePath = '**';
-
+  debugger;
   return _.censor.filesReplace( op );
 }
 
