@@ -3965,6 +3965,8 @@ function replaceRedoBrokenSoftLink( test )
   return a.ready;
 }
 
+replaceRedoBrokenSoftLink.experimental = true;
+
 //
 
 function replaceRedoTextLink( test )
@@ -4045,6 +4047,8 @@ function replaceRedoTextLink( test )
 
   return a.ready;
 }
+
+replaceRedoTextLink.experimental = true;
 
 //
 
@@ -6129,6 +6133,7 @@ function replaceRedoUndoOptionSession( test )
   /* - */
 
   test.open( 'redo session' );
+
   test.close( 'redo session' );
 
   /* - */
@@ -6158,7 +6163,9 @@ function replaceRedoUndoOptionSession( test )
   }
 }
 
-//c
+replaceRedoUndoOptionSession.experimental = true;
+
+//
 
 function replaceRedoUndoSingleCommand( test )
 {
