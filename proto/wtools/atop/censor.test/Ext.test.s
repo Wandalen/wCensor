@@ -679,6 +679,73 @@ storageLog.experimental = true;
 
 //
 
+function storageDel( test )
+{
+
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    test.case = 'empty storage';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( '.storage.del' );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    var exp = 'null';
+    test.ne( op.output, exp );
+
+    return null;
+  });
+
+  a.appStart( '.storage.del' );
+  a.appStart( '.storage.log' )
+  .then( ( op ) =>
+  {
+    test.case = 'empty storage, after being full';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  })
+
+  return a.ready;
+}
+
+storageDel.experimental = true;
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -7613,6 +7680,7 @@ let Self =
     arrangementDel,
 
     storageLog,
+    storageDel,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
