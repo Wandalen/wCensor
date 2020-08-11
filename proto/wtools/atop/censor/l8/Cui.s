@@ -827,8 +827,8 @@ let Extension =
 
   // storage commands
 
-  commandStorageDel, /* qqq : cover */
-  commandStorageLog, /* qqq : cover */
+  commandStorageDel, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandStorageLog, /* qqq : cover | aaa : Done. Yevhen S.*/
   commandProfileDel, /* qqq : cover */
   commandProfileLog, /* qqq : cover */
   commandConfigLog, /* qqq : cover */
