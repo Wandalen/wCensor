@@ -620,6 +620,65 @@ function arrangementDel( test )
 
 //
 
+function storageLog( test )
+{
+
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    test.case = 'empty storage';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.storage.log verbosity:1` )
+  .then( ( op ) =>
+  {
+    test.case = 'non-empty storage';
+    var exp =`null`
+    test.ne( op.output, exp );
+    // console.log( 'OP: ', op.output )
+    // console.log( 'CENSOR: ', _global_.wTools.censor.storageRead() )
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  })
+
+  return a.ready;
+}
+
+storageLog.experimental = true;
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -4186,7 +4245,7 @@ function replaceRedoTextLink( test )
   {
     test.case = 'basic';
     a.reflect();
-    console.log( a.fileProvider.textLink )
+    // console.log( a.fileProvider.textLink )
     debugger;
     a.fileProvider.textLink
     ({
@@ -7552,6 +7611,8 @@ let Self =
 
     arrangementLog,
     arrangementDel,
+
+    storageLog,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
