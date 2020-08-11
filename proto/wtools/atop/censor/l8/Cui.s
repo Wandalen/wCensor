@@ -836,7 +836,7 @@ let Extension =
   commandConfigSet,
   commandConfigDel,
   commandArrangementDel, /* qqq : cover */
-  commandArrangementLog, /* qqq : cover */
+  commandArrangementLog, /* qqq : cover | aaa : Working on it. Yevhen S.*/
 
   // operation commands
 
