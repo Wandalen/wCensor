@@ -443,7 +443,7 @@ function arrangementLog( test )
 
     var got2 = _global_.wTools.censor.arrangementOpen({ profileDir : profile, locking : 0 }).storage;
     var exp2 = { redo : [], undo : [] };
-    test.equivalent( got2, exp2);
+    test.equivalent( got2, exp2 );
 
     return null;
   })
@@ -457,174 +457,46 @@ function arrangementLog( test )
     test.case = '1 arrangement';
     test.identical( op.exitCode, 0 );
 
-//     var exp =
-// `
-// {
-//   redo: [
-//     {
-//       name: 'action::replace 3 in ${a.abs( 'before/File1.txt' )}',
-//       redoDescription: ' + replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#',
-//       redoDescription2: ' + replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Last one#inputRaw:0#',
-//       undoDescription: ' + undo replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#',
-//       undoDescription2: ' + undo replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Last one#inputRaw:0#',
-//       filePath: '${a.abs( 'before/File1.txt' )}',
-//       hashBefore: [Object],
-//       hashAfter: null,
-//       dataMapBefore: null,
-//       status: [Object],
-//       parameters: [Object],
-//       redo: 'function redo( op )\n' +
-//         '  {\n' +
-//         '    let _ = _global_.wTools;\n' +
-//         '\n' +
-//         '    let o2 =\n' +
-//         '    {\n' +
-//         '      src : _.strFrom( op.dataMap[ op.action.filePath ] ),\n' +
-//         '      parcels : op.action.parameters.parcels,\n' +
-//         '      logger : op.logger,\n' +
-//         '      verbosity : op.verbosity,\n' +
-//         '    }\n' +
-//         '    op.dst = _.strSearchReplace( o2 );\n' +
-//         '    op.log = o2.log;\n' +
-//         '\n' +
-//         '    _.fileProvider.fileWrite( op.action.filePath, op.dst );\n' +
-//         '\n' +
-//         '    op.hashAfterUpdate();\n' +
-//         '\n' +
-//         '  }',
-//       undo: 'function undo( op )\n' +
-//         '  {\n' +
-//         '    let _ = _global_.wTools;\n' +
-//         '    op.filesUndo();\n' +
-//         '  }'
-//     },
-//     {
-//       name: 'action::replace 5 in ${a.abs( 'before/File2.txt' )}',
-//       redoDescription: ' + replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#',
-//       redoDescription2: ' + replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#6#foreground : default# : #inputRaw:1#Last one#inputRaw:0#',
-//       undoDescription: ' + undo replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#',
-//       undoDescription2: ' + undo replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n' +
-//         '     #foreground : bright black##foreground : default##foreground : bright black#6#foreground : default# : #inputRaw:1#Last one#inputRaw:0#',
-//       filePath: '${a.abs( 'before/File2.txt' )}',
-//       hashBefore: [Object],
-//       hashAfter: null,
-//       dataMapBefore: null,
-//       status: [Object],
-//       parameters: [Object],
-//       redo: 'function redo( op )\n' +
-//         '  {\n' +
-//         '    let _ = _global_.wTools;\n' +
-//         '\n' +
-//         '    let o2 =\n' +
-//         '    {\n' +
-//         '      src : _.strFrom( op.dataMap[ op.action.filePath ] ),\n' +
-//         '      parcels : op.action.parameters.parcels,\n' +
-//         '      logger : op.logger,\n' +
-//         '      verbosity : op.verbosity,\n' +
-//         '    }\n' +
-//         '    op.dst = _.strSearchReplace( o2 );\n' +
-//         '    op.log = o2.log;\n' +
-//         '\n' +
-//         '    _.fileProvider.fileWrite( op.action.filePath, op.dst );\n' +
-//         '\n' +
-//         '    op.hashAfterUpdate();\n' +
-//         '\n' +
-//         '  }',
-//       undo: 'function undo( op )\n' +
-//         '  {\n' +
-//         '    let _ = _global_.wTools;\n' +
-//         '    op.filesUndo();\n' +
-//         '  }'
-//     }
-//   ],
-//   undo: []
-// }
-// `;
-
     var got1 =  _global_.wTools.censor.arrangementOpen({ profileDir : profile, locking : 0 }).storage;
     test.equivalent( got1.undo, [] );
     test.equivalent( got1.redo[ 0 ].name, `action::replace 3 in ${a.abs( 'before/File1.txt' )}` )
     var expDesc1 =
 `
-+ replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#\n
-#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Last one#inputRaw:0#
-`
++ replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#\n`
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
+
     test.equivalent( got1.redo[ 0 ].redoDescription2, expDesc1 )
 
     test.equivalent( got1.redo[ 1 ].name, `action::replace 5 in ${a.abs( 'before/File2.txt' )}` )
     var expDesc2 =
 `
-+ replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#\n
-#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n
-#foreground : bright black##foreground : default##foreground : bright black#6#foreground : default# : #inputRaw:1#Last one#inputRaw:0#
-`
++ replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#\n`
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#6#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
+
     test.equivalent( got1.redo[ 1 ].redoDescription2, expDesc2 );
-    // var testDesc = ` + replace 5 in ${a.abs( 'before/File2.txt' )}\n1 : First lineabc\n2 : Second line\n1 : First line\n2 : Second lineabc\n3 : Third line\n2 : Second line\n3 : Third lineabc\n4 : Fourth line\n3 : Third line\n4 : Fourth lineabc\n5 : Fifth line\n4 : Fourth line\n5 : Fifth lineabc\n6 : Last one`
 
     return null;
-  })
+  });
 
   /* */
 
