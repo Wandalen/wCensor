@@ -431,6 +431,8 @@ function arrangementLog( test )
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
+  /* - */
+
   a.appStart( `.arrangement.log profile:${profile}` )
   .then( ( op ) =>
   {
@@ -448,7 +450,7 @@ function arrangementLog( test )
     return null;
   })
 
-  /* */
+  /* - */
 
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.arrangement.log profile:${profile}` )
@@ -498,7 +500,110 @@ function arrangementLog( test )
     return null;
   });
 
-  /* */
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  })
+
+  return a.ready;
+}
+
+//
+
+function arrangementDel( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    var exp =
+`
++ replace 3 in ${ a.abs( 'before/File1.txt' )}
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
++ replace 5 in ${a.abs( 'before/File2.txt' )}
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
+. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).    
+`
+    test.equivalent( op.output, exp );
+    return null;
+  } );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.arrangement.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'delete arrangement';
+
+    console.log( op.output )
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  });
+  a.appStart( `.status profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.equivalent( op.output, '' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc2 sub:abc3 profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc3 sub:abc4 profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.arrangement.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'delete arrangement multiple times';
+
+    console.log( op.output )
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
 
   a.ready.then( ( op ) =>
   {
@@ -7446,6 +7551,7 @@ let Self =
     configDelBasic,
 
     arrangementLog,
+    arrangementDel,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
