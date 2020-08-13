@@ -654,8 +654,6 @@ function storageLog( test )
     test.case = 'non-empty storage';
     var exp =`null`
     test.ne( op.output, exp );
-    // console.log( 'OP: ', op.output )
-    // console.log( 'CENSOR: ', _global_.wTools.censor.storageRead() )
 
     return null;
   })
@@ -743,6 +741,152 @@ function storageDel( test )
 }
 
 storageDel.experimental = true;
+
+//
+
+function statusBasic( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  /* - */
+
+  a.appStart( `.status profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'status empty';
+    test.equivalent( op.output, '' );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.status profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'status not empty'
+    var exp =
+`
+redo : 
+     + replace 3 in ${a.abs( 'before/File1.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Last one 
+     + replace 5 in ${a.abs( 'before/File2.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Fourth line
+     3 : Third line
+     4 : Fourth lineabc
+     5 : Fifth line
+     4 : Fourth line
+     5 : Fifth lineabc
+     6 : Last one
+
+`
+    test.et( op.output, exp );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function statusOptionSession( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+  let session1 = 'ses1';
+  let session2 = 'ses2';
+
+  /* - */
+
+  a.appStart( `.status profile:${profile} session:${session1}` )
+  .then( ( op ) =>
+  {
+    test.case = 'status empty';
+    test.equivalent( op.output, '' );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.status profile:${profile} session:${session1}` )
+  .then( ( op ) =>
+  {
+    test.case = 'not empty'
+    var exp =
+`
+redo : 
+     + replace 3 in ${a.abs( 'before/File1.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Last one 
+     + replace 5 in ${a.abs( 'before/File2.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Fourth line
+     3 : Third line
+     4 : Fourth lineabc
+     5 : Fifth line
+     4 : Fourth line
+     5 : Fifth lineabc
+     6 : Last one
+`
+    test.et( op.output, exp );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.status profile:${profile} session:${session2}` )
+  .then( ( op ) =>
+  {
+    test.case = 'not empty, wrong session'
+    var exp = ``;
+    test.et( op.output, exp );
+
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
 
 //
 
@@ -4221,7 +4365,8 @@ function replaceRedoBrokenSoftLink( test )
       srcPath : a.abs( 'before/File2.txt' ),
       makingDirectory : 1,
       allowingCycled : 1,
-      allowingMissed : 1
+      allowingMissed : 1,
+      sync : 1
     });
     test.is( a.fileProvider.isSoftLink( a.abs( 'before/softFile.txt' ) ) );
     test.is( a.fileProvider.areSoftLinked( a.abs( 'before/softFile.txt' ), a.abs( 'before/File2.txt' ) ) );
@@ -6422,36 +6567,33 @@ function replaceRedoUndoOptionSession( test )
 
   test.open( 'undo session' );
 
-  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
-  a.appStart( `.redo profile:${profile} session:${session1}` )
-  a.appStart( `.arrangement.log profile:${profile} session:${session1}` )
-  .then( ( op ) =>
-  {
-    console.log( op )
-    var exp = `
-    {
-      "redo" : [], 
-      "undo" : []
-    }  
-      `
-    test.equivalent( op, exp )
-  })
-
-  a.appStart( `.arrangement.log profile:${profile} session:${session2}` )
-  .then( ( op ) =>
-  {
-    console.log( op )
-    var exp = `
-    {
-      "redo" : [], 
-      "undo" : []
-    }  
-      `
-    test.equivalent( op, exp )
-  })
-
-  reverseChanges();
   a.appStart( `.storage.del` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
+    console.log( 'CENSOR: ', _global_.wTools.censor.storageRead() )
+    var got1 = _global_.wTools.censor.storageRead();
+    test.ne( op, 'null' );
+    return null;
+  })
+
+  // a.appStart( `.arrangement.log profile:${profile} session:${session2}` )
+  // .then( ( op ) =>
+  // {
+  //   console.log( op )
+  //   var exp = `
+  //   {
+  //     "redo" : [],
+  //     "undo" : []
+  //   }
+  //     `
+  //   test.equivalent( op, exp )
+  // })
+
+  // reverseChanges();
+  // a.appStart( `.storage.del` );
 
 
   test.close( 'undo session' );
@@ -7681,6 +7823,9 @@ let Self =
 
     storageLog,
     storageDel,
+
+    statusBasic,
+    statusOptionSession,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
