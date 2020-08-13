@@ -917,6 +917,8 @@ redo :
   return a.ready;
 }
 
+statusOptionSession.experimental = true;
+
 //
 
 function profileLog( test )
@@ -4471,11 +4473,6 @@ function replaceRedoBrokenSoftLink( test )
 
   a.reflect();
 
-  // let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
-  // let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
-  // let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
-  // let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
-
   /* - */
 
   a.ready.then( ( op ) =>
@@ -4544,6 +4541,21 @@ function replaceRedoBrokenSoftLink( test )
     });
     test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir/Link.txt' ) ) )
     test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/softFile.txt',
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.equivalent( files, exp );
+
     return null;
   });
 
@@ -4594,7 +4606,8 @@ function replaceRedoTextLink( test )
     });
     debugger;
     test.is( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
-    // test.is( a.fileProvider.areTextLinked( a.abs( 'before/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+
     return null;
   });
 
