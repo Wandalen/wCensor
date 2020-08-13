@@ -6667,32 +6667,35 @@ function replaceOptionSession( test )
 
   test.open( 'undo session' );
 
-  a.appStart( `.storage.del` );
-  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
-  a.appStart( `.storage.log` )
-  .then( ( op ) =>
-  {
-    // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
-    console.log( 'CENSOR: ', _global_.wTools.censor.storageRead() )
-    var got1 = _global_.wTools.censor.storageRead();
-    test.ne( op, 'null' );
-    return null;
-  })
-
-  // a.appStart( `.arrangement.log profile:${profile} session:${session2}` )
+  // a.appStart( `.storage.del` );
+  // a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  // a.appStart( `.storage.log` )
   // .then( ( op ) =>
   // {
-  //   console.log( op )
-  //   var exp = `
-  //   {
-  //     "redo" : [],
-  //     "undo" : []
-  //   }
-  //     `
-  //   test.equivalent( op, exp )
+  //   // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
+  //   console.log( 'CENSOR: ', _global_.wTools.censor.storageRead() )
+  //   var got1 = _global_.wTools.censor.storageRead();
+  //   test.ne( op, 'null' );
+  //   return null;
   // })
+  // a.appStart( `.storage.del` );
 
-  // reverseChanges();
+  /* - */
+
+  a.appStart( `.arrangement.log profile:${profile} session:${session2}` )
+  .then( ( op ) =>
+  {
+    console.log( op )
+    var exp = `
+    {
+      "redo" : [],
+      "undo" : []
+    }
+      `
+    test.equivalent( op, exp )
+  })
+
+  reverseChanges();
   // a.appStart( `.storage.del` );
 
 
