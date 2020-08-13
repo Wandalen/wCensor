@@ -512,6 +512,7 @@ function arrangementLog( test )
     return null;
   })
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -615,6 +616,7 @@ function arrangementDel( test )
     return null;
   })
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -648,15 +650,38 @@ function storageLog( test )
 
   a.appStart( `.storage.del` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.storage.log verbosity:1` )
+  a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    test.case = 'non-empty storage';
-    var exp =`null`
-    test.ne( op.output, exp );
+    test.case = '1 replace command, 1 file in storage';
+    var gotStr = JSON.stringify( op );
+
+    test.is( gotStr.includes( 'arrangement.default.json' ) );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
 
     return null;
   })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    test.case = '4 replace commands, 1 file in storage';
+    var gotStr = JSON.stringify( op );
+
+    test.is( gotStr.includes( 'arrangement.default.json' ) );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
 
   /* - */
 
@@ -670,10 +695,9 @@ function storageLog( test )
     return null;
   })
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
-
-storageLog.experimental = true;
 
 //
 
@@ -737,10 +761,9 @@ function storageDel( test )
     return null;
   })
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
-
-storageDel.experimental = true;
 
 //
 
@@ -806,7 +829,7 @@ redo :
 
   /* - */
 
-  // a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -890,7 +913,7 @@ redo :
 
   /* - */
 
-  // a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -947,6 +970,7 @@ function profileLog( test )
 
   /* - */
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -985,6 +1009,7 @@ function profileDel( test )
 
   /* - */
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -6649,6 +6674,8 @@ function replaceRedoUndoOptionDepth( test )
 
 }
 
+replaceRedoUndoOptionDepth.experimental = true;
+
 //
 
 function replaceOptionSession( test )
@@ -6657,7 +6684,6 @@ function replaceOptionSession( test )
   let profile = `test-${ _.intRandom( 1000000 ) }`;
   let session1 = 'ses1';
   let session2 = 'ses2';
-  let session3 = 'ses3';
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -6665,52 +6691,90 @@ function replaceOptionSession( test )
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
-  test.open( 'undo session' );
-
-  // a.appStart( `.storage.del` );
-  // a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
-  // a.appStart( `.storage.log` )
-  // .then( ( op ) =>
-  // {
-  //   // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
-  //   console.log( 'CENSOR: ', _global_.wTools.censor.storageRead() )
-  //   var got1 = _global_.wTools.censor.storageRead();
-  //   test.ne( op, 'null' );
-  //   return null;
-  // })
-  // a.appStart( `.storage.del` );
-
-  /* - */
-
-  a.appStart( `.arrangement.log profile:${profile} session:${session2}` )
+  a.appStart( `.storage.del` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    console.log( op )
-    var exp = `
-    {
-      "redo" : [],
-      "undo" : []
-    }
-      `
-    test.equivalent( op, exp )
+    // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
+    test.case = '1 arrangement, 1 session'
+
+    var got = _global_.wTools.censor.storageRead();
+    var got1Str = JSON.stringify( op );
+    var got2Str = JSON.stringify( got );
+
+    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+
+    test.identical( _.strCount( got2Str, '.json' ), 1 );
+
+    return null;
   })
-
-  reverseChanges();
-  // a.appStart( `.storage.del` );
-
-
-  test.close( 'undo session' );
+  a.appStart( `.storage.del` );
 
   /* - */
 
-  test.open( 'redo session' );
-
-  test.close( 'redo session' );
-
-  /* - */
-
-  reverseChanges()
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session2}` );
+  a.appStart( `.storage.log` )
   .then( ( op ) =>
+  {
+    console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
+
+    test.case = '2 arrangement, 2 session'
+
+    var got = _global_.wTools.censor.storageRead();
+    var got1Str = JSON.stringify( op );
+    var got2Str = JSON.stringify( got );
+
+    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
+
+    test.is( got1Str.includes( `arrangement.${session2}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session2}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
+
+    test.identical( _.strCount( got2Str, '.json' ), 2 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session2}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session2}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+
+    test.case = '5 arrangement, 2 session'
+
+    var got = _global_.wTools.censor.storageRead();
+    var got1Str = JSON.stringify( op );
+    var got2Str = JSON.stringify( got );
+
+    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
+
+    test.is( got1Str.includes( `arrangement.${session2}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session2}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
+
+    test.identical( _.strCount( got2Str, '.json' ), 2 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.ready.then( ( op ) =>
   {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
@@ -6723,18 +6787,9 @@ function replaceOptionSession( test )
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 
-  //
-
-  function reverseChanges()
-  {
-    a.appStart( `.replace filePath:before/** ins:abc2 sub:line profile:${profile}` );
-    a.appStart( `.redo profile:${profile}` );
-    a.appStart( `.replace filePath:before/** ins:abc sub:line profile:${profile}` );
-    return a.appStart( `.redo profile:${profile}` );
-  }
 }
 
-replaceRedoUndoOptionSession.experimental = true;
+replaceOptionSession.experimental = true;
 
 //
 
