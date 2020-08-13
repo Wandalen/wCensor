@@ -750,6 +750,8 @@ function statusBasic( test )
   let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
+  a.reflect();
+
   /* - */
 
   a.appStart( `.status profile:${profile}` )
@@ -804,7 +806,7 @@ redo :
 
   /* - */
 
-  a.appStart( `.profile.del profile:${profile}` );
+  // a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -818,7 +820,11 @@ function statusOptionSession( test )
   let session1 = 'ses1';
   let session2 = 'ses2';
 
+  a.reflect();
+
   /* - */
+
+  a.appStart( `.storage.del` )
 
   a.appStart( `.status profile:${profile} session:${session1}` )
   .then( ( op ) =>
@@ -884,7 +890,101 @@ redo :
 
   /* - */
 
+  // a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function profileLog( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile2 = 'another_profile';
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'empty profile';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'profile with info';
+
+    test.ne( op.output, 'null' );
+
+    return null;
+  });
+
+  a.appStart( '.storage.del' );
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.profile.log profile:${profile2}` )
+  .then( ( op ) =>
+  {
+    test.case = 'profile with info, wrong profile';
+
+    test.et( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
+function profileDel( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'profile with info';
+
+    test.ne( op.output, 'null' );
+
+    return null;
+  });
   a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'deleted profile';
+
+    test.et( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
+
   return a.ready;
 }
 
@@ -6551,7 +6651,7 @@ function replaceRedoUndoOptionDepth( test )
 
 //
 
-function replaceRedoUndoOptionSession( test )
+function replaceOptionSession( test )
 {
   let context = this
   let profile = `test-${ _.intRandom( 1000000 ) }`;
@@ -7827,6 +7927,9 @@ let Self =
     statusBasic,
     statusOptionSession,
 
+    profileLog,
+    profileDel,
+
     replaceBasic,
     replaceStatusOptionVerbosity,
     replaceRedoOptionVerbosity,
@@ -7843,7 +7946,7 @@ let Self =
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
     replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Done. Yevhen S. */
-    replaceRedoUndoOptionSession, /* qqq : add test routine to cover command option session  | aaa : Working on it. Yevhen S.*/
+    replaceOptionSession, /* qqq : add test routine to cover command option session  | aaa : Working on it. Yevhen S.*/
     replaceRedoUndoSingleCommand,
 
     // /* qqq : implement test to check locking, tell how first */
