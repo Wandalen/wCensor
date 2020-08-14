@@ -4502,7 +4502,6 @@ function replaceRedoBrokenSoftLink( test )
       './after/File2.txt',
       './before',
       './before/File1.txt',
-      // './before/File2.txt',
       './before/softFile.txt',
     ];
     var files = a.findAll( a.abs( '.' ) );
