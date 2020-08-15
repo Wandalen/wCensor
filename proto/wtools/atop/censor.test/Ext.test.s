@@ -420,6 +420,54 @@ function configDelBasic( test )
 
 //
 
+function configLogBasic( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    var exp = 'null';
+    test.case = 'not empty config'
+    test.identical( op.exitCode, 0 );
+    test.et( op.output, exp );
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    console.log( 'OUTPUT: ', op.output );
+    var exp =
+`
+{
+  "about" : {}, 
+  "path" : { "key1" : \`val1\`, "key2" : \`val2\` }
+}
+`;
+    test.case = 'not empty config'
+    test.identical( op.exitCode, 0 );
+    test.et( op.output, exp );
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
 function arrangementLog( test )
 {
   let context = this;
@@ -4579,7 +4627,7 @@ replaceRedoBrokenSoftLink.experimental = true;
 function replaceRedoTextLink( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -7987,6 +8035,7 @@ let Self =
     configGetBasic,
     configSetBasic,
     configDelBasic,
+    configLogBasic,
 
     arrangementLog,
     arrangementDel,
