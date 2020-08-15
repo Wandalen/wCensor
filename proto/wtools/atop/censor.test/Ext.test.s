@@ -6611,7 +6611,7 @@ let Self =
     replaceRedoDepth0OptionVerbosity,
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
-    // replaceRedoTextLinked, /* qqq : implement. look replaceRedoTextLinked. add option resolvingTextLink */
+    // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
     replaceRedoUndo,
