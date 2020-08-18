@@ -420,6 +420,651 @@ function configDelBasic( test )
 
 //
 
+function configLogBasic( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    var exp = 'null';
+    test.case = 'not empty config'
+    test.identical( op.exitCode, 0 );
+    test.et( op.output, exp );
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.imply profile:${profile} .config.set path/key1:val1 path/key2:val2` )
+  a.appStart( `.imply profile:${profile} .config.log` )
+  .then( ( op ) =>
+  {
+    console.log( 'OUTPUT: ', op.output );
+    var exp =
+`
+{
+  "about" : {}, 
+  "path" : { "key1" : \`val1\`, "key2" : \`val2\` }
+}
+`;
+    test.case = 'not empty config'
+    test.identical( op.exitCode, 0 );
+    test.et( op.output, exp );
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function arrangementLog( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  /* - */
+
+  a.appStart( `.arrangement.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'no arrangements';
+    test.identical( op.exitCode, 0 );
+
+    var exp1 = 'null';
+    var got1 = op.output;
+    test.equivalent( got1, exp1 );
+
+    var got2 = _global_.wTools.censor.arrangementOpen({ profileDir : profile, locking : 0 }).storage;
+    var exp2 = { redo : [], undo : [] };
+    test.equivalent( got2, exp2 );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.arrangement.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '1 arrangement';
+    test.identical( op.exitCode, 0 );
+
+    var got1 =  _global_.wTools.censor.arrangementOpen({ profileDir : profile, locking : 0 }).storage;
+    test.equivalent( got1.undo, [] );
+    test.equivalent( got1.redo[ 0 ].name, `action::replace 3 in ${a.abs( 'before/File1.txt' )}` )
+    var expDesc1 =
+`
++ replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#\n`
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
+
+    test.equivalent( got1.redo[ 0 ].redoDescription2, expDesc1 )
+
+    test.equivalent( got1.redo[ 1 ].name, `action::replace 5 in ${a.abs( 'before/File2.txt' )}` )
+    var expDesc2 =
+`
++ replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#\n`
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
++ '#foreground : bright black##foreground : default##foreground : bright black#6#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
+
+    test.equivalent( got1.redo[ 1 ].redoDescription2, expDesc2 );
+
+    return null;
+  });
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  })
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function arrangementDel( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    var exp =
+`
++ replace 3 in ${ a.abs( 'before/File1.txt' )}
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
++ replace 5 in ${a.abs( 'before/File2.txt' )}
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
+. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).    
+`
+    test.equivalent( op.output, exp );
+    return null;
+  } );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.arrangement.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'delete arrangement';
+
+    console.log( op.output )
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  });
+  a.appStart( `.status profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.equivalent( op.output, '' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc2 sub:abc3 profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc3 sub:abc4 profile:${profile}` );
+  a.appStart( `.arrangement.del profile:${profile}` );
+  a.appStart( `.arrangement.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'delete arrangement multiple times';
+
+    console.log( op.output )
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  })
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function storageLog( test )
+{
+
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    test.case = 'empty storage';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    test.case = '1 replace command, 1 file in storage';
+    var gotStr = JSON.stringify( op );
+
+    test.is( gotStr.includes( 'arrangement.default.json' ) );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    test.case = '4 replace commands, 1 file in storage';
+    var gotStr = JSON.stringify( op );
+
+    test.is( gotStr.includes( 'arrangement.default.json' ) );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  })
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function storageDel( test )
+{
+
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  /* - */
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    test.case = 'empty storage';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( '.storage.del' );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    var exp = 'null';
+    test.ne( op.output, exp );
+
+    return null;
+  });
+
+  a.appStart( '.storage.del' );
+  a.appStart( '.storage.log' )
+  .then( ( op ) =>
+  {
+    test.case = 'empty storage, after being full';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  })
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  })
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function statusBasic( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.status profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'status empty';
+    test.equivalent( op.output, '' );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.status profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'status not empty'
+    var exp =
+`
+redo : 
+     + replace 3 in ${a.abs( 'before/File1.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Last one 
+     + replace 5 in ${a.abs( 'before/File2.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Fourth line
+     3 : Third line
+     4 : Fourth lineabc
+     5 : Fifth line
+     4 : Fourth line
+     5 : Fifth lineabc
+     6 : Last one
+
+`
+    test.et( op.output, exp );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function statusOptionSession( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+  let session1 = 'ses1';
+  let session2 = 'ses2';
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.storage.del` )
+
+  a.appStart( `.status profile:${profile} session:${session1}` )
+  .then( ( op ) =>
+  {
+    test.case = 'status empty';
+    test.equivalent( op.output, '' );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.status profile:${profile} session:${session1}` )
+  .then( ( op ) =>
+  {
+    test.case = 'not empty'
+    var exp =
+`
+redo : 
+     + replace 3 in ${a.abs( 'before/File1.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Last one 
+     + replace 5 in ${a.abs( 'before/File2.txt' )}
+     1 : First lineabc
+     2 : Second line
+     1 : First line
+     2 : Second lineabc
+     3 : Third line
+     2 : Second line
+     3 : Third lineabc
+     4 : Fourth line
+     3 : Third line
+     4 : Fourth lineabc
+     5 : Fifth line
+     4 : Fourth line
+     5 : Fifth lineabc
+     6 : Last one
+`
+    test.et( op.output, exp );
+
+    return null;
+  } )
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.status profile:${profile} session:${session2}` )
+  .then( ( op ) =>
+  {
+    test.case = 'not empty, wrong session'
+    var exp = ``;
+    test.et( op.output, exp );
+
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+statusOptionSession.experimental = true;
+
+//
+
+function profileLog( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile2 = 'another_profile';
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'empty profile';
+
+    test.equivalent( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'profile with info';
+
+    test.ne( op.output, 'null' );
+
+    return null;
+  });
+
+  a.appStart( '.storage.del' );
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.profile.log profile:${profile2}` )
+  .then( ( op ) =>
+  {
+    test.case = 'profile with info, wrong profile';
+
+    test.et( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function profileDel( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'profile with info';
+
+    test.ne( op.output, 'null' );
+
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.log profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'deleted profile';
+
+    test.et( op.output, 'null' );
+
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -3564,7 +4209,7 @@ function replaceRedoHardLinked( test )
 function replaceRedoSoftLinked( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3865,6 +4510,201 @@ function replaceRedoSoftLinked( test )
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
+
+//
+
+function replaceRedoBrokenSoftLink( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.softLink )
+    debugger;
+    a.fileProvider.softLink
+    ({
+      dstPath : a.abs( 'before/softFile.txt' ),
+      srcPath : a.abs( 'before/File2.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+      sync : 1
+    });
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/softFile.txt' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/softFile.txt' ), a.abs( 'before/File2.txt' ) ) );
+    a.fileProvider.fileDelete({ filePath : a.abs( 'before/File2.txt' ) });
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/File1.txt',
+      './before/softFile.txt',
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.equivalent( files, exp );
+
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/softFile.txt ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'softlink that doesn\'t exist';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 0 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.arrangement.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.softLink )
+    a.fileProvider.softLink
+    ({
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/dir/Link.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1
+    });
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir/Link.txt' ) ) )
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/softFile.txt',
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.equivalent( files, exp );
+
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'softlink to itself';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } )
+
+  return a.ready;
+}
+
+replaceRedoBrokenSoftLink.experimental = true;
+
+//
+
+function replaceRedoTextLink( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  // let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  // let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  // let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  // let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.textLink )
+    debugger;
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/dir/textLink.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1
+    });
+    debugger;
+    test.is( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/dir/textLink.txt ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'textlink';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.arrangement.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    // console.log( a.fileProvider.softLink )
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/dir/Link.txt' ),
+      srcPath : a.abs( 'before/File1.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1
+    });
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+    return null;
+  });
+
+  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'softlink to itself';
+    test.identical( op.exitCode, 0 );
+    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    test.equivalent( op.output, exp );
+
+    return null;
+  } )
+
+  return a.ready;
+}
+
+replaceRedoTextLink.experimental = true;
 
 //
 
@@ -5419,6 +6259,600 @@ Nothing to undo.
 
 //
 
+
+function replaceRedoUndoOptionDepth( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  test.open( 'undo depth' );
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.undo profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo default depth, undo all actions';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+    + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
+    + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
+    + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
+    + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
+  - Undone 4 action(s). Thrown 0 error(s).
+`;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo default depth, undo all actions, check files';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+      1 : First lineabc
+      2 : Second line
+      1 : First line
+      2 : Second lineabc
+      3 : Third line
+      2 : Second line
+      3 : Third lineabc
+      4 : Last one
+  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+      1 : First lineabc
+      2 : Second line
+      1 : First line
+      2 : Second lineabc
+      3 : Third line
+      2 : Second line
+      3 : Third lineabc
+      4 : Fourth line
+      3 : Third line
+      4 : Fourth lineabc
+      5 : Fifth line
+      4 : Fourth line
+      5 : Fifth lineabc
+      6 : Last one
+  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
+`;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  });
+
+  a.appStart( `.arrangement.del profile:${profile}` )
+
+  /* */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.undo depth:1 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo depth:1, depth < actions ( changes in 1 file )';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+  `
+      + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
+    - Undone 1 action(s). Thrown 0 error(s).
+  `;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo depth:1, depth < actions ( changes in 1 file ), check files';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+  `
+  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+  1 : First abcabc22
+  2 : Second abc2
+  1 : First abc2
+  2 : Second abcabc22
+  3 : Third abc2
+  2 : Second abc2
+  3 : Third abcabc22
+  4 : Last one
+  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+  1 : First abcabc2
+  2 : Second abc
+  1 : First abc
+  2 : Second abcabc2
+  3 : Third abc
+  2 : Second abc
+  3 : Third abcabc2
+  4 : Fourth abc
+  3 : Third abc
+  4 : Fourth abcabc2
+  5 : Fifth abc
+  4 : Fourth abc
+  5 : Fifth abcabc2
+  6 : Last one
+  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
+  `;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  });
+
+  reverseChanges();
+  a.appStart( `.storage.del` );
+
+  /* */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.undo depth:2 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo depth:2, depth = actions ( changes in 2 files )';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+    + undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
+    + undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
+  - Undone 2 action(s). Thrown 0 error(s).
+`;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo depth:2, depth = actions ( changes in 2 files ), check files';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+  `
+  + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+  1 : First abcabc2
+  2 : Second abc
+  1 : First abc
+  2 : Second abcabc2
+  3 : Third abc
+  2 : Second abc
+  3 : Third abcabc2
+  4 : Last one
+  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+  1 : First abcabc2
+  2 : Second abc
+  1 : First abc
+  2 : Second abcabc2
+  3 : Third abc
+  2 : Second abc
+  3 : Third abcabc2
+  4 : Fourth abc
+  3 : Third abc
+  4 : Fourth abcabc2
+  5 : Fifth abc
+  4 : Fourth abc
+  5 : Fifth abcabc2
+  6 : Last one
+  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
+  `;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  });
+
+  reverseChanges();
+  a.appStart( `.storage.del` );
+
+  /* */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` );
+  a.appStart( `.redo profile:${profile}` );
+  a.appStart( `.undo depth:10 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo depth:10, depth > actions';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
++ undo replace 5 in ${ a.abs( 'before/File2.txt' ) }
++ undo replace 3 in ${ a.abs( 'before/File1.txt' ) }
+- Undone 4 action(s). Thrown 0 error(s).
+`;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.replace filePath:before/** ins:abc sub:abc2 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.undo depth:10, depth > actions, check files';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+  `
+  . Found 2 file(s). Arranged 0 replacement(s) in 0 file(s).
+  `;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  });
+
+  test.close( 'undo depth' );
+
+  /* - */
+
+  test.open( 'redo depth' );
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.redo depth:1 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.redo depth:1, depth < actions';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
++ Done 1 action(s). Thrown 0 error(s).
+`;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.redo depth:1, depth < actions, check files';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+  `
+  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
+  1 : First lineabc
+  2 : Second line
+  1 : First line
+  2 : Second lineabc
+  3 : Third line
+  2 : Second line
+  3 : Third lineabc
+  4 : Fourth line
+  3 : Third line
+  4 : Fourth lineabc
+  5 : Fifth line
+  4 : Fourth line
+  5 : Fifth lineabc
+  6 : Last one
+  . Found 2 file(s). Arranged 5 replacement(s) in 1 file(s).
+  `;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  });
+
+  reverseChanges();
+  a.appStart( `.storage.del` );
+
+  /* */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.redo depth:2 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.redo depth:2, depth = actions';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
++ Done 2 action(s). Thrown 0 error(s).
+`;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.redo depth:2, depth = actions, check files';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+  `
+  . Found 2 file(s). Arranged 0 replacement(s) in 0 file(s).
+  `;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  });
+
+  reverseChanges();
+  a.appStart( `.storage.del` );
+
+  /* */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.redo depth:10 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.redo depth:10, depth > actions';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
++ replace 3 in ${ a.abs( 'before/File1.txt' ) }
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
++ replace 5 in ${ a.abs( 'before/File2.txt' ) }
++ Done 2 action(s). Thrown 0 error(s).
+`;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = '.redo depth:10, depth > actions, check files';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+  `
+  . Found 2 file(s). Arranged 0 replacement(s) in 0 file(s).
+  `;
+
+    test.equivalent( op.output, exp );
+
+    return null;
+  });
+
+  reverseChanges();
+  a.appStart( `.storage.del` );
+
+  test.close( 'redo depth' );
+
+  /* - */
+
+  reverseChanges()
+  .then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  } )
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+
+  //
+
+  function reverseChanges()
+  {
+    a.appStart( `.replace filePath:before/** ins:abc2 sub:line profile:${profile}` );
+    a.appStart( `.redo profile:${profile}` );
+    a.appStart( `.replace filePath:before/** ins:abc sub:line profile:${profile}` );
+    return a.appStart( `.redo profile:${profile}` );
+  }
+
+}
+
+replaceRedoUndoOptionDepth.experimental = true;
+
+//
+
+function replaceOptionSession( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let session1 = 'ses1';
+  let session2 = 'ses2';
+  let a = test.assetFor( 'basic' );
+
+  a.reflect();
+
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+
+  a.appStart( `.storage.del` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
+    test.case = '1 arrangement, 1 session'
+
+    var got = _global_.wTools.censor.storageRead();
+    var got1Str = JSON.stringify( op );
+    var got2Str = JSON.stringify( got );
+
+    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+
+    test.identical( _.strCount( got2Str, '.json' ), 1 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session2}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+    console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
+
+    test.case = '2 arrangement, 2 session'
+
+    var got = _global_.wTools.censor.storageRead();
+    var got1Str = JSON.stringify( op );
+    var got2Str = JSON.stringify( got );
+
+    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
+
+    test.is( got1Str.includes( `arrangement.${session2}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session2}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
+
+    test.identical( _.strCount( got2Str, '.json' ), 2 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session2}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session2}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
+  a.appStart( `.storage.log` )
+  .then( ( op ) =>
+  {
+
+    test.case = '5 arrangement, 2 session'
+
+    var got = _global_.wTools.censor.storageRead();
+    var got1Str = JSON.stringify( op );
+    var got2Str = JSON.stringify( got );
+
+    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
+
+    test.is( got1Str.includes( `arrangement.${session2}.json` ) );
+    test.is( got2Str.includes( `arrangement.${session2}.json` ) );
+    test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
+
+    test.identical( _.strCount( got2Str, '.json' ), 2 );
+
+    return null;
+  })
+  a.appStart( `.storage.del` );
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, file1Before );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, file2Before );
+
+    return null;
+  } )
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+
+}
+
+replaceOptionSession.experimental = true;
+
+//
+
 function replaceRedoUndoSingleCommand( test )
 {
   let context = this
@@ -5476,7 +6910,6 @@ function replaceRedoUndoSingleCommand( test )
      5 : Fifth lineabc
      6 : Last one
  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
-
     1 : First lineabc
     2 : Second line
     1 : First line
@@ -6602,6 +8035,19 @@ let Self =
     configGetBasic,
     configSetBasic,
     configDelBasic,
+    configLogBasic,
+
+    arrangementLog,
+    arrangementDel,
+
+    storageLog,
+    storageDel,
+
+    statusBasic,
+    statusOptionSession,
+
+    profileLog,
+    profileDel,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
@@ -6611,16 +8057,17 @@ let Self =
     replaceRedoDepth0OptionVerbosity,
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
+    replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : Working on it. Yevhen S.*/
+    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
     replaceRedoUndo,
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
-    // replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth */
+    replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Done. Yevhen S. */
+    replaceOptionSession, /* qqq : add test routine to cover command option session  | aaa : Working on it. Yevhen S.*/
     replaceRedoUndoSingleCommand,
-    /* qqq : add test routine of repalce of files which have several borken links */
-    /* qqq : add test routine to cover command option session */
 
     // /* qqq : implement test to check locking, tell how first */
 
