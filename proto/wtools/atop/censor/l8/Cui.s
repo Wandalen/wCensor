@@ -369,18 +369,18 @@ function commandConfigGet( e )
   _.sure
   (
     _.strsAreAll( e.propertiesMap.selector ),
-    'Expects key or array of keys to delete'
+    'Expects key or array of keys to read'
   );
 
   logger.log( _.censor.configGet( e.propertiesMap ) );
 
 }
 
-commandConfigGet.hint = 'Delete one or several variables of config persistently. Delete whole config if no keys are specified.';
-commandConfigGet.commandSubjectHint = 'Key or array of keys to delete. Could be selectors.';
+commandConfigGet.hint = 'Read one or several variables of config.';
+commandConfigGet.commandSubjectHint = 'Key or array of keys to read. Could be selectors.';
 commandConfigGet.commandProperties =
 {
-  selector : 'Key or array of keys to delete. Could be selectors.',
+  selector : 'Key or array of keys to read. Could be selectors.',
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
   profile : 'Name of profile to use. Default is "default"',
@@ -827,16 +827,16 @@ let Extension =
 
   // storage commands
 
-  commandStorageDel, /* qqq : cover */
-  commandStorageLog, /* qqq : cover */
-  commandProfileDel, /* qqq : cover */
-  commandProfileLog, /* qqq : cover */
-  commandConfigLog, /* qqq : cover */
+  commandStorageDel, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandStorageLog, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandProfileDel, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandProfileLog, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandConfigLog, /* qqq : cover | aaa : Done. Yevhen S.*/
   commandConfigGet,
   commandConfigSet,
   commandConfigDel,
-  commandArrangementDel, /* qqq : cover */
-  commandArrangementLog, /* qqq : cover */
+  commandArrangementDel, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandArrangementLog, /* qqq : cover | aaa : Done. Yevhen S.*/
 
   // operation commands
 
