@@ -8059,6 +8059,7 @@ let Self =
     replaceRedoSoftLinked,
     replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : Working on it. Yevhen S.*/
     replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
+    // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
     replaceRedoUndo,
