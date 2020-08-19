@@ -4529,16 +4529,24 @@ function replaceRedoBrokenSoftLink( test )
     a.reflect();
     a.fileProvider.softLink
     ({
-      dstPath : a.abs( 'before/softlink.txt' ),
-      srcPath : a.abs( 'before/File2.txt' ),
+      dstPath : a.abs( 'before/missed.txt' ),
+      srcPath : a.abs( 'before/x' ),
       makingDirectory : 1,
       allowingCycled : 1,
       allowingMissed : 1,
       sync : 1
     });
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/softlink.txt' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/softlink.txt' ), a.abs( 'before/File2.txt' ) ) );
-    a.fileProvider.fileDelete({ filePath : a.abs( 'before/File2.txt' ) });
+    a.fileProvider.softLink
+    ({
+      dstPath : a.abs( 'before/cycled.txt' ),
+      srcPath : a.abs( 'before/cycled.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+      sync : 1
+    });
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/missed.txt' ) ) );
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/cycled.txt' ) ) );
 
     var exp =
     [
@@ -4547,8 +4555,10 @@ function replaceRedoBrokenSoftLink( test )
       './after/File1.txt',
       './after/File2.txt',
       './before',
+      './before/cycled.txt',
       './before/File1.txt',
-      './before/softlink.txt',
+      './before/File2.txt',
+      './before/missed.txt'
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.equivalent( files, exp );
@@ -4557,14 +4567,38 @@ function replaceRedoBrokenSoftLink( test )
   });
 
   a.appStart( `.replace filePath:'before/**' ins:line sub:abc profile:${profile}` )
+  a.appStart( `.do profile:${profile}` )
   .then( ( op ) =>
   {
-    test.case = 'softlink that doesn\'t exist';
+    test.description = `.do`;
     test.identical( op.exitCode, 0 );
-    let exp ='. Found 0 file(s). Arranged 0 replacement(s) in 0 file(s).';
-    test.equivalent( op.output, exp );
+    test.identical( _.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/cycled.txt',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/missed.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, exp );
+
     return null;
-  } );
+  });
 
   /* */
 
@@ -4618,7 +4652,7 @@ function replaceRedoBrokenSoftLink( test )
   return a.ready;
 }
 
-replaceRedoBrokenSoftLink.experimental = true;
+// replaceRedoBrokenSoftLink.experimental = true;
 
 //
 
@@ -8059,7 +8093,7 @@ let Self =
     replaceRedoDepth0OptionVerbosity,
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
-    replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : Working on it. Yevhen S.*/
+    replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : done */
     replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
