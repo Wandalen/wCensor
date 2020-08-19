@@ -450,7 +450,7 @@ function configLogBasic( test )
     var exp =
 `
 {
-  "about" : {}, 
+  "about" : {},
   "path" : { "key1" : \`val1\`, "key2" : \`val2\` }
 }
 `;
@@ -607,7 +607,7 @@ function arrangementDel( test )
 4 : Fourth line
 5 : Fifth lineabc
 6 : Last one
-. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).    
+. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
 `
     test.equivalent( op.output, exp );
     return null;
@@ -843,7 +843,7 @@ function statusBasic( test )
     test.case = 'status not empty'
     var exp =
 `
-redo : 
+redo :
      + replace 3 in ${a.abs( 'before/File1.txt' )}
      1 : First lineabc
      2 : Second line
@@ -852,7 +852,7 @@ redo :
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one 
+     4 : Last one
      + replace 5 in ${a.abs( 'before/File2.txt' )}
      1 : First lineabc
      2 : Second line
@@ -915,7 +915,7 @@ function statusOptionSession( test )
     test.case = 'not empty'
     var exp =
 `
-redo : 
+redo :
      + replace 3 in ${a.abs( 'before/File1.txt' )}
      1 : First lineabc
      2 : Second line
@@ -924,7 +924,7 @@ redo :
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one 
+     4 : Last one
      + replace 5 in ${a.abs( 'before/File2.txt' )}
      1 : First lineabc
      2 : Second line
@@ -4527,19 +4527,17 @@ function replaceRedoBrokenSoftLink( test )
   {
     test.case = 'basic';
     a.reflect();
-    // console.log( a.fileProvider.softLink )
-    debugger;
     a.fileProvider.softLink
     ({
-      dstPath : a.abs( 'before/softFile.txt' ),
+      dstPath : a.abs( 'before/softlink.txt' ),
       srcPath : a.abs( 'before/File2.txt' ),
       makingDirectory : 1,
       allowingCycled : 1,
       allowingMissed : 1,
       sync : 1
     });
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/softFile.txt' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/softFile.txt' ), a.abs( 'before/File2.txt' ) ) );
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/softlink.txt' ) ) );
+    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/softlink.txt' ), a.abs( 'before/File2.txt' ) ) );
     a.fileProvider.fileDelete({ filePath : a.abs( 'before/File2.txt' ) });
 
     var exp =
@@ -4550,7 +4548,7 @@ function replaceRedoBrokenSoftLink( test )
       './after/File2.txt',
       './before',
       './before/File1.txt',
-      './before/softFile.txt',
+      './before/softlink.txt',
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.equivalent( files, exp );
@@ -4558,65 +4556,65 @@ function replaceRedoBrokenSoftLink( test )
     return null;
   });
 
-  a.appStart( `.replace filePath:before/softFile.txt ins:line sub:abc profile:${profile}` )
+  a.appStart( `.replace filePath:'before/**' ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = 'softlink that doesn\'t exist';
     test.identical( op.exitCode, 0 );
     let exp ='. Found 0 file(s). Arranged 0 replacement(s) in 0 file(s).';
     test.equivalent( op.output, exp );
-
     return null;
   } );
 
-  a.appStart( `.arrangement.del profile:${profile}` );
-
   /* */
 
-  a.ready.then( ( op ) =>
-  {
-    test.case = 'basic';
-    a.reflect();
-    // console.log( a.fileProvider.softLink )
-    a.fileProvider.softLink
-    ({
-      dstPath : a.abs( 'before/dir/Link.txt' ),
-      srcPath : a.abs( 'before/dir/Link.txt' ),
-      makingDirectory : 1,
-      allowingCycled : 1,
-      allowingMissed : 1
-    });
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir/Link.txt' ) ) )
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+  // a.ready.then( ( op ) =>
+  // {
+  //   test.case = 'basic';
+  //   a.reflect();
+  //   // console.log( a.fileProvider.softLink )
+  //   a.fileProvider.softLink
+  //   ({
+  //     dstPath : a.abs( 'before/dir/Link.txt' ),
+  //     srcPath : a.abs( 'before/dir/Link.txt' ),
+  //     makingDirectory : 1,
+  //     allowingCycled : 1,
+  //     allowingMissed : 1
+  //   });
+  //   test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir/Link.txt' ) ) )
+  //   test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+  //
+  //   var exp =
+  //   [
+  //     '.',
+  //     './after',
+  //     './after/File1.txt',
+  //     './after/File2.txt',
+  //     './before',
+  //     './before/File1.txt',
+  //     './before/File2.txt',
+  //     './before/softlink.txt',
+  //   ];
+  //   var files = a.findAll( a.abs( '.' ) );
+  //   test.equivalent( files, exp );
+  //
+  //   return null;
+  // });
+  //
+  // a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
+  // .then( ( op ) =>
+  // {
+  //   test.case = 'softlink to itself';
+  //   test.identical( op.exitCode, 0 );
+  //   let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+  //   test.equivalent( op.output, exp );
+  //
+  //   return null;
+  // } )
+  //
+  // /* */
 
-    var exp =
-    [
-      '.',
-      './after',
-      './after/File1.txt',
-      './after/File2.txt',
-      './before',
-      './before/File1.txt',
-      './before/File2.txt',
-      './before/softFile.txt',
-    ];
-    var files = a.findAll( a.abs( '.' ) );
-    test.equivalent( files, exp );
-
-    return null;
-  });
-
-  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
-  .then( ( op ) =>
-  {
-    test.case = 'softlink to itself';
-    test.identical( op.exitCode, 0 );
-    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
-    test.equivalent( op.output, exp );
-
-    return null;
-  } )
-
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -4699,8 +4697,11 @@ function replaceRedoTextLink( test )
     test.equivalent( op.output, exp );
 
     return null;
-  } )
+  })
 
+  /* */
+
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -4788,6 +4789,7 @@ function replaceBigFile( test )
 
   /* */
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -8013,7 +8015,7 @@ F1.js
 let Self =
 {
 
-  name : 'Tools.atop.Censor.Ext',
+  name : 'Tools.Censor.Ext',
   silencing : 1,
 
   onSuiteBegin,
