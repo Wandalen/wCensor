@@ -673,22 +673,11 @@ function storageLog( test )
 
   /* - */
 
-  a.appStart( `.storage.log` )
-  .then( ( op ) =>
-  {
-    test.case = 'empty storage';
-    test.le( op.output.length, 120 )
-
-    return null;
-  })
-
-  /* - */
-
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    test.case = '1 replace command, 1 file in storage';
+    test.case = '1 replace command, 2 file in storage';
     var gotStr = JSON.stringify( op );
 
     test.is( gotStr.includes( 'arrangement.default.json' ) );
@@ -738,18 +727,6 @@ function storageDel( test )
   a.reflect();
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
-
-  /* - */
-
-  a.appStart( `.storage.log` )
-  .then( ( op ) =>
-  {
-    test.case = 'empty storage';
-
-    test.le( op.output.length, 120 )
-
-    return null;
-  })
 
   /* - */
 
