@@ -717,6 +717,8 @@ function storageLog( test )
   return a.ready;
 }
 
+storageLog.experimental = true;
+
 //
 
 function storageDel( test )
