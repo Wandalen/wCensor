@@ -683,20 +683,18 @@ function storageLog( test )
 
   /* - */
 
-  a.appStart( `.storage.del` );
-  a.appStart( `.storage.log` )
+  a.appStart( '.storage.del' )
+  a.appStart( '.storage.log' )
   .then( ( op ) =>
   {
     test.case = 'empty storage';
-
-    test.equivalent( op.output, 'null' );
+    test.et( op.output, 'null' )
 
     return null;
   })
 
   /* - */
 
-  a.appStart( `.storage.del` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -709,11 +707,9 @@ function storageLog( test )
 
     return null;
   })
-  a.appStart( `.storage.del` );
 
   /* - */
 
-  a.appStart( `.storage.del` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
@@ -729,7 +725,6 @@ function storageLog( test )
 
     return null;
   })
-  a.appStart( `.storage.del` );
 
   /* - */
 
@@ -762,8 +757,8 @@ function storageDel( test )
 
   /* - */
 
-  a.appStart( `.storage.del` );
-  a.appStart( `.storage.log` )
+  a.appStart( '.storage.del' )
+  a.appStart( '.storage.log' )
   .then( ( op ) =>
   {
     test.case = 'empty storage';
@@ -775,7 +770,6 @@ function storageDel( test )
 
   /* - */
 
-  a.appStart( '.storage.del' );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -895,7 +889,6 @@ function statusOptionSession( test )
 
   /* - */
 
-  a.appStart( `.storage.del` )
 
   a.appStart( `.status profile:${profile} session:${session1}` )
   .then( ( op ) =>
@@ -6402,8 +6395,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` );
+  reverseChanges();;
 
   /* */
 
@@ -6469,8 +6461,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` );
+  reverseChanges();;
 
   /* */
 
@@ -6577,8 +6568,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` );
+  reverseChanges();;
 
   /* */
 
@@ -6640,7 +6630,6 @@ function replaceRedoUndoOptionDepth( test )
   });
 
   reverseChanges();
-  a.appStart( `.storage.del` );
 
   /* */
 
@@ -6701,8 +6690,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` );
+  reverseChanges();;
 
   test.close( 'redo depth' );
 
@@ -6751,7 +6739,6 @@ function replaceOptionSession( test )
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
-  a.appStart( `.storage.del` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -6769,8 +6756,7 @@ function replaceOptionSession( test )
     test.identical( _.strCount( got2Str, '.json' ), 1 );
 
     return null;
-  })
-  a.appStart( `.storage.del` );
+  });
 
   /* - */
 
@@ -6779,7 +6765,7 @@ function replaceOptionSession( test )
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
+    // console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
 
     test.case = '2 arrangement, 2 session'
 
@@ -6798,8 +6784,7 @@ function replaceOptionSession( test )
     test.identical( _.strCount( got2Str, '.json' ), 2 );
 
     return null;
-  })
-  a.appStart( `.storage.del` );
+  });
 
   /* - */
 
@@ -6829,8 +6814,7 @@ function replaceOptionSession( test )
     test.identical( _.strCount( got2Str, '.json' ), 2 );
 
     return null;
-  })
-  a.appStart( `.storage.del` );
+  });
 
   /* - */
 
@@ -8059,6 +8043,7 @@ let Self =
     replaceRedoSoftLinked,
     replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : Working on it. Yevhen S.*/
     replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
+    // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
     replaceRedoUndo,
