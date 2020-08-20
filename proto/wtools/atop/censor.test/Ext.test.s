@@ -545,20 +545,15 @@ function arrangementLog( test )
 
     test.equivalent( got1.redo[ 1 ].redoDescription2, expDesc2 );
 
-    return null;
-  });
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
-  })
+  });
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
@@ -649,20 +644,15 @@ function arrangementDel( test )
     console.log( op.output )
     test.equivalent( op.output, 'null' );
 
-    return null;
-  });
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
-  })
+  });
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
@@ -723,13 +713,6 @@ function storageLog( test )
     test.is( gotStr.includes( 'arrangement.default.json' ) );
     test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
 
-    return null;
-  })
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
@@ -737,6 +720,8 @@ function storageLog( test )
 
     return null;
   })
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
@@ -788,13 +773,6 @@ function storageDel( test )
 
     test.equivalent( op.output, 'null' );
 
-    return null;
-  })
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
@@ -802,6 +780,8 @@ function storageDel( test )
 
     return null;
   })
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
@@ -6686,6 +6666,7 @@ function replaceRedoUndoOptionDepth( test )
   reverseChanges()
   .then( ( op ) =>
   {
+    test.case = 'check files to be unchanged';
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
@@ -6800,18 +6781,13 @@ function replaceOptionSession( test )
 
     test.identical( _.strCount( got2Str, '.json' ), 2 );
 
-    return null;
-  });
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
-  } )
+  });
 
   /* - */
 
