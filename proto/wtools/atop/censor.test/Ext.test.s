@@ -665,6 +665,7 @@ function storageLog( test )
 
   let context = this;
   let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile2 = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -674,14 +675,14 @@ function storageLog( test )
   /* - */
 
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.storage.log` )
+  a.appStart( `.storage.log verbosity:1` )
   .then( ( op ) =>
   {
-    test.case = '1 replace command, 2 file in storage';
+    test.case = '1 replace command, 1 file in storage';
     var gotStr = JSON.stringify( op );
 
     test.is( gotStr.includes( 'arrangement.default.json' ) );
-    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 2 );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
 
     return null;
   })
@@ -689,13 +690,13 @@ function storageLog( test )
   /* - */
 
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile2}` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.storage.log` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile2}` );
+  a.appStart( `.storage.log verbosity:1` )
   .then( ( op ) =>
   {
-    test.case = '4 replace commands, 2 file in storage';
+    test.case = '4 replace commands, 2 profiles, 2 files in storage';
     var gotStr = JSON.stringify( op );
 
     test.is( gotStr.includes( 'arrangement.default.json' ) );
@@ -712,6 +713,7 @@ function storageLog( test )
   /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile2}` );
   return a.ready;
 }
 
