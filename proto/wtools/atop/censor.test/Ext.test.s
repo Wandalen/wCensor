@@ -673,12 +673,11 @@ function storageLog( test )
 
   /* - */
 
-  a.appStart( `.storage.del` ); /* qqq : no! | aaa : Need to make sure storage is empty Yevhen S. */
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
     test.case = 'empty storage';
-    test.et( op.output, 'null' )
+    test.le( op.output.length, 120 )
 
     return null;
   })
@@ -693,7 +692,7 @@ function storageLog( test )
     var gotStr = JSON.stringify( op );
 
     test.is( gotStr.includes( 'arrangement.default.json' ) );
-    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 2 );
 
     return null;
   })
@@ -707,11 +706,11 @@ function storageLog( test )
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    test.case = '4 replace commands, 1 file in storage';
+    test.case = '4 replace commands, 2 file in storage';
     var gotStr = JSON.stringify( op );
 
     test.is( gotStr.includes( 'arrangement.default.json' ) );
-    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 2 );
 
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
@@ -742,13 +741,12 @@ function storageDel( test )
 
   /* - */
 
-  a.appStart( `.storage.del` ); /* qqq : no! | aaa : Need to make sure storage is empty Yevhen S.*/
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
     test.case = 'empty storage';
 
-    test.equivalent( op.output, 'null' );
+    test.le( op.output.length, 120 )
 
     return null;
   })
@@ -4611,7 +4609,7 @@ function replaceRedoTextLink( test )
     });
     debugger;
     test.is( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
-    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     return null;
   });
@@ -4635,7 +4633,6 @@ function replaceRedoTextLink( test )
   {
     test.case = 'basic';
     a.reflect();
-    // console.log( a.fileProvider.softLink )
     a.fileProvider.textLink
     ({
       dstPath : a.abs( 'before/dir/Link.txt' ),
