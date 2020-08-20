@@ -970,6 +970,7 @@ function profileLog( test )
   /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile2}` );
   return a.ready;
 }
 
