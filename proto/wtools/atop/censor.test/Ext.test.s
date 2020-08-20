@@ -4520,7 +4520,7 @@ function replaceRedoBrokenSoftLink( test )
   let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
-  a.reflect();
+  a.reflect(); debugger;
 
   /* - */
 
@@ -4603,57 +4603,9 @@ function replaceRedoBrokenSoftLink( test )
 
   /* */
 
-  // a.ready.then( ( op ) =>
-  // {
-  //   test.case = 'basic';
-  //   a.reflect();
-  //   // console.log( a.fileProvider.softLink )
-  //   a.fileProvider.softLink
-  //   ({
-  //     dstPath : a.abs( 'before/dir/Link.txt' ),
-  //     srcPath : a.abs( 'before/dir/Link.txt' ),
-  //     makingDirectory : 1,
-  //     allowingCycled : 1,
-  //     allowingMissed : 1
-  //   });
-  //   test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir/Link.txt' ) ) )
-  //   test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
-  //
-  //   var exp =
-  //   [
-  //     '.',
-  //     './after',
-  //     './after/File1.txt',
-  //     './after/File2.txt',
-  //     './before',
-  //     './before/File1.txt',
-  //     './before/File2.txt',
-  //     './before/softlink.txt',
-  //   ];
-  //   var files = a.findAll( a.abs( '.' ) );
-  //   test.equivalent( files, exp );
-  //
-  //   return null;
-  // });
-  //
-  // a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
-  // .then( ( op ) =>
-  // {
-  //   test.case = 'softlink to itself';
-  //   test.identical( op.exitCode, 0 );
-  //   let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
-  //   test.equivalent( op.output, exp );
-  //
-  //   return null;
-  // } )
-  //
-  // /* */
-
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
-
-// replaceRedoBrokenSoftLink.experimental = true;
 
 //
 
@@ -4691,7 +4643,7 @@ function replaceRedoTextLink( test )
     return null;
   });
 
-  a.appStart( `.replace filePath:before/dir/textLink.txt ins:line sub:abc profile:${profile}` )
+  a.appStart( `.replace usingTextLink:1 filePath:before/dir/textLink.txt ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = 'textlink';
@@ -6789,7 +6741,7 @@ function replaceOptionSession( test )
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
   xxx
-  a.appStart( `.storage.del` ); /* qqq : no! */
+  a.appStart( `.storage.del` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -6808,7 +6760,7 @@ function replaceOptionSession( test )
 
     return null;
   })
-  a.appStart( `.storage.del` ); /* qqq : no! */
+  a.appStart( `.storage.del` );
 
   /* - */
 
@@ -6868,9 +6820,7 @@ function replaceOptionSession( test )
 
     return null;
   })
-  a.appStart( `.storage.del` ); /* qqq : no! */
-
-  /* - */
+  a.appStart( `.storage.del` );
 
   a.ready.then( ( op ) =>
   {
@@ -6881,6 +6831,8 @@ function replaceOptionSession( test )
 
     return null;
   } )
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
