@@ -4556,7 +4556,7 @@ function replaceRedoBrokenSoftLink( test )
   return a.ready;
 }
 
-// replaceRedoBrokenSoftLink.experimental = true;
+replaceRedoBrokenSoftLink.experimental = true;
 
 //
 
