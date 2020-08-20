@@ -683,7 +683,7 @@ function storageLog( test )
 
   /* - */
 
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
@@ -696,7 +696,7 @@ function storageLog( test )
 
   /* - */
 
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -709,11 +709,11 @@ function storageLog( test )
 
     return null;
   })
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* - */
 
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
@@ -729,7 +729,7 @@ function storageLog( test )
 
     return null;
   })
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* - */
 
@@ -762,7 +762,7 @@ function storageDel( test )
 
   /* - */
 
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
@@ -895,7 +895,8 @@ function statusOptionSession( test )
 
   /* - */
 
-  a.appStart( `.storage.del` )
+  xxx
+  a.appStart( `.storage.del` ) /* qqq : no */
 
   a.appStart( `.status profile:${profile} session:${session1}` )
   .then( ( op ) =>
@@ -6439,7 +6440,7 @@ function replaceRedoUndoOptionDepth( test )
   });
 
   reverseChanges();
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* */
 
@@ -6506,7 +6507,7 @@ function replaceRedoUndoOptionDepth( test )
   });
 
   reverseChanges();
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* */
 
@@ -6614,7 +6615,7 @@ function replaceRedoUndoOptionDepth( test )
   });
 
   reverseChanges();
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* */
 
@@ -6676,7 +6677,7 @@ function replaceRedoUndoOptionDepth( test )
   });
 
   reverseChanges();
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* */
 
@@ -6738,7 +6739,7 @@ function replaceRedoUndoOptionDepth( test )
   });
 
   reverseChanges();
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   test.close( 'redo depth' );
 
@@ -6787,7 +6788,8 @@ function replaceOptionSession( test )
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
-  a.appStart( `.storage.del` );
+  xxx
+  a.appStart( `.storage.del` ); /* qqq : no! */
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -6806,7 +6808,7 @@ function replaceOptionSession( test )
 
     return null;
   })
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* - */
 
@@ -6835,7 +6837,7 @@ function replaceOptionSession( test )
 
     return null;
   })
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* - */
 
@@ -6866,7 +6868,7 @@ function replaceOptionSession( test )
 
     return null;
   })
-  a.appStart( `.storage.del` );
+  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* - */
 
@@ -6882,7 +6884,6 @@ function replaceOptionSession( test )
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
-
 }
 
 replaceOptionSession.experimental = true;
