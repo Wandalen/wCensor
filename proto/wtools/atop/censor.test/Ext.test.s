@@ -450,7 +450,7 @@ function configLogBasic( test )
     var exp =
 `
 {
-  "about" : {}, 
+  "about" : {},
   "path" : { "key1" : \`val1\`, "key2" : \`val2\` }
 }
 `;
@@ -607,7 +607,7 @@ function arrangementDel( test )
 4 : Fourth line
 5 : Fifth lineabc
 6 : Last one
-. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).    
+. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
 `
     test.equivalent( op.output, exp );
     return null;
@@ -683,8 +683,8 @@ function storageLog( test )
 
   /* - */
 
-  a.appStart( '.storage.del' )
-  a.appStart( '.storage.log' )
+  a.appStart( `.storage.del` ); /* qqq : no! | aaa : Need to make sure storage is empty Yevhen S. */
+  a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
     test.case = 'empty storage';
@@ -757,8 +757,8 @@ function storageDel( test )
 
   /* - */
 
-  a.appStart( '.storage.del' )
-  a.appStart( '.storage.log' )
+  a.appStart( `.storage.del` ); /* qqq : no! | aaa : Need to make sure storage is empty Yevhen S.*/
+  a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
     test.case = 'empty storage';
@@ -837,7 +837,7 @@ function statusBasic( test )
     test.case = 'status not empty'
     var exp =
 `
-redo : 
+redo :
      + replace 3 in ${a.abs( 'before/File1.txt' )}
      1 : First lineabc
      2 : Second line
@@ -846,7 +846,7 @@ redo :
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one 
+     4 : Last one
      + replace 5 in ${a.abs( 'before/File2.txt' )}
      1 : First lineabc
      2 : Second line
@@ -889,7 +889,6 @@ function statusOptionSession( test )
 
   /* - */
 
-
   a.appStart( `.status profile:${profile} session:${session1}` )
   .then( ( op ) =>
   {
@@ -908,7 +907,7 @@ function statusOptionSession( test )
     test.case = 'not empty'
     var exp =
 `
-redo : 
+redo :
      + replace 3 in ${a.abs( 'before/File1.txt' )}
      1 : First lineabc
      2 : Second line
@@ -917,7 +916,7 @@ redo :
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one 
+     4 : Last one
      + replace 5 in ${a.abs( 'before/File2.txt' )}
      1 : First lineabc
      2 : Second line
@@ -4512,7 +4511,7 @@ function replaceRedoBrokenSoftLink( test )
   let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
-  a.reflect();
+  a.reflect(); debugger;
 
   /* - */
 
@@ -4520,20 +4519,26 @@ function replaceRedoBrokenSoftLink( test )
   {
     test.case = 'basic';
     a.reflect();
-    // console.log( a.fileProvider.softLink )
-    debugger;
     a.fileProvider.softLink
     ({
-      dstPath : a.abs( 'before/softFile.txt' ),
-      srcPath : a.abs( 'before/File2.txt' ),
+      dstPath : a.abs( 'before/missed.txt' ),
+      srcPath : a.abs( 'before/x' ),
       makingDirectory : 1,
       allowingCycled : 1,
       allowingMissed : 1,
       sync : 1
     });
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/softFile.txt' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/softFile.txt' ), a.abs( 'before/File2.txt' ) ) );
-    a.fileProvider.fileDelete({ filePath : a.abs( 'before/File2.txt' ) });
+    a.fileProvider.softLink
+    ({
+      dstPath : a.abs( 'before/cycled.txt' ),
+      srcPath : a.abs( 'before/cycled.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+      sync : 1
+    });
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/missed.txt' ) ) );
+    test.is( a.fileProvider.isSoftLink( a.abs( 'before/cycled.txt' ) ) );
 
     var exp =
     [
@@ -4542,8 +4547,10 @@ function replaceRedoBrokenSoftLink( test )
       './after/File1.txt',
       './after/File2.txt',
       './before',
+      './before/cycled.txt',
       './before/File1.txt',
-      './before/softFile.txt',
+      './before/File2.txt',
+      './before/missed.txt'
     ];
     var files = a.findAll( a.abs( '.' ) );
     test.equivalent( files, exp );
@@ -4551,69 +4558,45 @@ function replaceRedoBrokenSoftLink( test )
     return null;
   });
 
-  a.appStart( `.replace filePath:before/softFile.txt ins:line sub:abc profile:${profile}` )
+  a.appStart( `.replace filePath:'before/**' ins:line sub:abc profile:${profile}` )
+  a.appStart( `.do profile:${profile}` )
   .then( ( op ) =>
   {
-    test.case = 'softlink that doesn\'t exist';
+    test.description = `.do`;
     test.identical( op.exitCode, 0 );
-    let exp ='. Found 0 file(s). Arranged 0 replacement(s) in 0 file(s).';
-    test.equivalent( op.output, exp );
+    test.identical( _.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/cycled.txt',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/missed.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, exp );
 
     return null;
-  } );
-
-  a.appStart( `.arrangement.del profile:${profile}` );
+  });
 
   /* */
 
-  a.ready.then( ( op ) =>
-  {
-    test.case = 'basic';
-    a.reflect();
-    // console.log( a.fileProvider.softLink )
-    a.fileProvider.softLink
-    ({
-      dstPath : a.abs( 'before/dir/Link.txt' ),
-      srcPath : a.abs( 'before/dir/Link.txt' ),
-      makingDirectory : 1,
-      allowingCycled : 1,
-      allowingMissed : 1
-    });
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir/Link.txt' ) ) )
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
-
-    var exp =
-    [
-      '.',
-      './after',
-      './after/File1.txt',
-      './after/File2.txt',
-      './before',
-      './before/File1.txt',
-      './before/File2.txt',
-      './before/softFile.txt',
-    ];
-    var files = a.findAll( a.abs( '.' ) );
-    test.equivalent( files, exp );
-
-    return null;
-  });
-
-  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
-  .then( ( op ) =>
-  {
-    test.case = 'softlink to itself';
-    test.identical( op.exitCode, 0 );
-    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
-    test.equivalent( op.output, exp );
-
-    return null;
-  } )
-
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
-
-replaceRedoBrokenSoftLink.experimental = true;
 
 //
 
@@ -4651,7 +4634,7 @@ function replaceRedoTextLink( test )
     return null;
   });
 
-  a.appStart( `.replace filePath:before/dir/textLink.txt ins:line sub:abc profile:${profile}` )
+  a.appStart( `.replace usingTextLink:1 filePath:before/dir/textLink.txt ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = 'textlink';
@@ -4692,8 +4675,11 @@ function replaceRedoTextLink( test )
     test.equivalent( op.output, exp );
 
     return null;
-  } )
+  })
 
+  /* */
+
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -4781,6 +4767,7 @@ function replaceBigFile( test )
 
   /* */
 
+  a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
 
@@ -6816,8 +6803,6 @@ function replaceOptionSession( test )
     return null;
   });
 
-  /* - */
-
   a.ready.then( ( op ) =>
   {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
@@ -6828,9 +6813,10 @@ function replaceOptionSession( test )
     return null;
   } )
 
+  /* - */
+
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
-
 }
 
 replaceOptionSession.experimental = true;
@@ -7997,7 +7983,7 @@ F1.js
 let Self =
 {
 
-  name : 'Tools.atop.Censor.Ext',
+  name : 'Tools.Censor.Ext',
   silencing : 1,
 
   onSuiteBegin,
@@ -8041,7 +8027,7 @@ let Self =
     replaceRedoDepth0OptionVerbosity,
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
-    replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : Working on it. Yevhen S.*/
+    replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : done */
     replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,

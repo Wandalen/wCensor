@@ -11,4 +11,6 @@ _.censor.do();
 
 console.log( `File.txt:\n${_.fileProvider.fileRead( filePath )}\n` );
 
+_.censor.undo();
+
 /**/

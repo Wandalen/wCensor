@@ -44,6 +44,10 @@ function samples( test )
     filePath : path.join( sampleDir, '**/*.(s|ss)' ),
     withStem : 0,
     withDirs : 0,
+    filter :
+    {
+      maskTransientDirectory : { excludeAny : /asset/ }
+    },
     mode : 'distinct',
     mandatory : 0,
   });
@@ -115,7 +119,10 @@ function eslint( test )
   let sampleDir = path.join( rootPath, 'sample' );
   let ready = new _.Consequence().take( null );
 
-  if( _.process.insideTestContainer() && process.platform !== 'linux' )
+  // if( _.process.insideTestContainer() && process.platform !== 'linux' )
+  // return test.is( true );
+
+  if( process.platform !== 'linux' )
   return test.is( true );
 
   let start = _.process.starter
@@ -123,7 +130,7 @@ function eslint( test )
     execPath : eslint,
     mode : 'fork',
     currentPath : rootPath,
-    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png', '--ignore-pattern', '*.json', '--quiet' ],
+    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png', '--ignore-pattern', '*.json', '--ignore-pattern', '*.yml', '--ignore-pattern', '*.yaml', '--quiet' ],
     throwingExitCode : 0,
     outputCollecting : 1,
   })
