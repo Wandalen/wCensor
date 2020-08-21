@@ -1,49 +1,37 @@
 {
-  "name": "wcensor",
-  "version": "0.2.59",
-  "description": "Utility to edit files massively from console and with undo.",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
-  "license": "MIT",
-  "main": "proto/wtools/atop/censor/entry/Include.s",
-  "files": [
-    "proto/wtools/atop/censor",
-    "proto/wtools/Tools.s"
-  ],
-  "scripts": {
-    "test": "wtest .run 'proto/**' rapidity:-3",
-    "docgen": "wdocgen .build proto"
+  "name" : "wcensor",
+  "version" : "0.2.60",
+  "description" : "Utility to edit files massively from console and with undo.",
+  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
+  "license" : "MIT",
+  "main" : "proto/wtools/atop/censor/entry/Include.s",
+  "files" : [ "proto/wtools/atop/censor", "proto/wtools/Tools.s" ],
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen .build proto" },
+  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wCensor.git" },
+  "bin" :
+  {
+    "single-process-censor" : "proto/wtools/atop/censor/entry/Exec",
+    "debug-censor" : "proto/wtools/atop/censor/entry/ExecDebug",
+    "unrestricted-censor" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
+    "censor" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
+    "single-process-wcensor" : "proto/wtools/atop/censor/entry/Exec",
+    "debug-wcensor" : "proto/wtools/atop/censor/entry/ExecDebug",
+    "unrestricted-wcensor" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
+    "wcensor" : "proto/wtools/atop/censor/entry/ExecUnrestricted"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Wandalen/wCensor.git"
+  "bugs" :
+  {
+    "url" : "https://github.com/Wandalen/wCensor/issues"
   },
-  "bin": {
-    "single-process-censor": "proto/wtools/atop/censor/entry/Exec",
-    "debug-censor": "proto/wtools/atop/censor/entry/ExecDebug",
-    "unrestricted-censor": "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "censor": "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "single-process-wcensor": "proto/wtools/atop/censor/entry/Exec",
-    "debug-wcensor": "proto/wtools/atop/censor/entry/ExecDebug",
-    "unrestricted-wcensor": "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "wcensor": "proto/wtools/atop/censor/entry/ExecUnrestricted"
+  "dependencies" :
+  {
+    "wTools" : "alpha",
+    "wcensorbasic" : "alpha",
+    "wblueprint" : "alpha",
+    "wnpmtools" : "alpha",
+    "wcommandsaggregator" : "alpha",
+    "wprocess" : "alpha"
   },
-  "bugs": {
-    "url": "https://github.com/Wandalen/wCensor/issues"
-  },
-  "dependencies": {
-    "wTools": "alpha",
-    "wcensorbasic": "alpha",
-    "wblueprint": "alpha",
-    "wnpmtools": "alpha",
-    "wcommandsaggregator": "alpha",
-    "wprocess": "alpha"
-  },
-  "devDependencies": {
-    "eslint": "7.1.0",
-    "wcensor": "file:.",
-    "wTesting": "alpha"
-  },
-  "keywords": [
-    "wTools"
-  ]
+  "devDependencies" : { "eslint" : "7.1.0", "wcensor" : "file:.", "wTesting" : "alpha" },
+  "keywords" : [ "wTools" ]
 }
