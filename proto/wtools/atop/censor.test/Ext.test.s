@@ -545,20 +545,15 @@ function arrangementLog( test )
 
     test.equivalent( got1.redo[ 1 ].redoDescription2, expDesc2 );
 
-    return null;
-  });
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
-  })
+  });
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
@@ -649,20 +644,15 @@ function arrangementDel( test )
     console.log( op.output )
     test.equivalent( op.output, 'null' );
 
-    return null;
-  });
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
-  })
+  });
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
@@ -675,6 +665,7 @@ function storageLog( test )
 
   let context = this;
   let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile2 = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -683,22 +674,8 @@ function storageLog( test )
 
   /* - */
 
-  a.appStart( `.storage.del` ); /* qqq : no! */
-  a.appStart( `.storage.log` )
-  .then( ( op ) =>
-  {
-    test.case = 'empty storage';
-
-    test.equivalent( op.output, 'null' );
-
-    return null;
-  })
-
-  /* - */
-
-  a.appStart( `.storage.del` ); /* qqq : no! */
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.storage.log` )
+  a.appStart( `.storage.log verbosity:1` )
   .then( ( op ) =>
   {
     test.case = '1 replace command, 1 file in storage';
@@ -709,32 +686,22 @@ function storageLog( test )
 
     return null;
   })
-  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* - */
 
-  a.appStart( `.storage.del` ); /* qqq : no! */
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile2}` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
-  a.appStart( `.storage.log` )
+  a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile2}` );
+  a.appStart( `.storage.log verbosity:1` )
   .then( ( op ) =>
   {
-    test.case = '4 replace commands, 1 file in storage';
+    test.case = '4 replace commands, 2 profiles, 2 files in storage';
     var gotStr = JSON.stringify( op );
 
     test.is( gotStr.includes( 'arrangement.default.json' ) );
-    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
+    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 2 );
 
-    return null;
-  })
-  a.appStart( `.storage.del` ); /* qqq : no! */
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
@@ -743,9 +710,14 @@ function storageLog( test )
     return null;
   })
 
+  /* - */
+
   a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile2}` );
   return a.ready;
 }
+
+storageLog.experimental = true;
 
 //
 
@@ -762,20 +734,6 @@ function storageDel( test )
 
   /* - */
 
-  a.appStart( `.storage.del` ); /* qqq : no! */
-  a.appStart( `.storage.log` )
-  .then( ( op ) =>
-  {
-    test.case = 'empty storage';
-
-    test.equivalent( op.output, 'null' );
-
-    return null;
-  })
-
-  /* - */
-
-  a.appStart( '.storage.del' );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -794,13 +752,6 @@ function storageDel( test )
 
     test.equivalent( op.output, 'null' );
 
-    return null;
-  })
-
-  /* - */
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
@@ -808,6 +759,8 @@ function storageDel( test )
 
     return null;
   })
+
+  /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
@@ -894,9 +847,6 @@ function statusOptionSession( test )
   a.reflect();
 
   /* - */
-
-  xxx
-  a.appStart( `.storage.del` ) /* qqq : no */
 
   a.appStart( `.status profile:${profile} session:${session1}` )
   .then( ( op ) =>
@@ -1022,6 +972,7 @@ function profileLog( test )
   /* - */
 
   a.appStart( `.profile.del profile:${profile}` );
+  a.appStart( `.profile.del profile:${profile2}` );
   return a.ready;
 }
 
@@ -4607,6 +4558,8 @@ function replaceRedoBrokenSoftLink( test )
   return a.ready;
 }
 
+replaceRedoBrokenSoftLink.experimental = true;
+
 //
 
 function replaceRedoTextLink( test )
@@ -4638,7 +4591,7 @@ function replaceRedoTextLink( test )
     });
     debugger;
     test.is( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
-    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     return null;
   });
@@ -4662,7 +4615,6 @@ function replaceRedoTextLink( test )
   {
     test.case = 'basic';
     a.reflect();
-    // console.log( a.fileProvider.softLink )
     a.fileProvider.textLink
     ({
       dstPath : a.abs( 'before/dir/Link.txt' ),
@@ -6391,8 +6343,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` ); /* qqq : no! */
+  reverseChanges();;
 
   /* */
 
@@ -6458,8 +6409,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` ); /* qqq : no! */
+  reverseChanges();;
 
   /* */
 
@@ -6566,8 +6516,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` ); /* qqq : no! */
+  reverseChanges();;
 
   /* */
 
@@ -6629,7 +6578,6 @@ function replaceRedoUndoOptionDepth( test )
   });
 
   reverseChanges();
-  a.appStart( `.storage.del` ); /* qqq : no! */
 
   /* */
 
@@ -6690,8 +6638,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();
-  a.appStart( `.storage.del` ); /* qqq : no! */
+  reverseChanges();;
 
   test.close( 'redo depth' );
 
@@ -6700,6 +6647,7 @@ function replaceRedoUndoOptionDepth( test )
   reverseChanges()
   .then( ( op ) =>
   {
+    test.case = 'check files to be unchanged';
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
@@ -6740,8 +6688,6 @@ function replaceOptionSession( test )
   let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
   let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
 
-  xxx
-  a.appStart( `.storage.del` );
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile} session:${session1}` );
   a.appStart( `.storage.log` )
   .then( ( op ) =>
@@ -6759,8 +6705,7 @@ function replaceOptionSession( test )
     test.identical( _.strCount( got2Str, '.json' ), 1 );
 
     return null;
-  })
-  a.appStart( `.storage.del` );
+  });
 
   /* - */
 
@@ -6769,7 +6714,7 @@ function replaceOptionSession( test )
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
+    // console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
 
     test.case = '2 arrangement, 2 session'
 
@@ -6788,8 +6733,7 @@ function replaceOptionSession( test )
     test.identical( _.strCount( got2Str, '.json' ), 2 );
 
     return null;
-  })
-  a.appStart( `.storage.del` ); /* qqq : no! */
+  });
 
   /* - */
 
@@ -6818,19 +6762,13 @@ function replaceOptionSession( test )
 
     test.identical( _.strCount( got2Str, '.json' ), 2 );
 
-    return null;
-  })
-  a.appStart( `.storage.del` );
-
-  a.ready.then( ( op ) =>
-  {
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
     var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
     test.identical( got, file2Before );
 
     return null;
-  } )
+  });
 
   /* - */
 
