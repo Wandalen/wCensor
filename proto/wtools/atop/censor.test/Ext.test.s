@@ -7969,12 +7969,12 @@ let Self =
     arrangementDel,
 
     storageLog,
-    storageDel,
+    // storageDel,
 
     statusBasic,
     statusOptionSession,
 
-    profileLog,
+    // profileLog,
     profileDel,
 
     replaceBasic,
