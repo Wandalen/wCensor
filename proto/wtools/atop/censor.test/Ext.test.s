@@ -744,7 +744,9 @@ function storageDel( test )
     return null;
   });
 
+  if( _.process.insideTestContainer() )
   a.appStart( '.storage.del' );
+
   a.appStart( '.storage.log' )
   .then( ( op ) =>
   {
@@ -765,6 +767,8 @@ function storageDel( test )
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
+
+storageDel.experimental = true;
 
 //
 
@@ -7969,7 +7973,7 @@ let Self =
     arrangementDel,
 
     storageLog,
-    // storageDel,
+    storageDel,
 
     statusBasic,
     statusOptionSession,
