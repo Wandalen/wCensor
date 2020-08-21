@@ -7974,7 +7974,7 @@ let Self =
     statusBasic,
     statusOptionSession,
 
-    // profileLog,
+    profileLog,
     profileDel,
 
     replaceBasic,
