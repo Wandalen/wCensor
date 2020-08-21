@@ -954,8 +954,6 @@ function profileLog( test )
     return null;
   });
 
-  a.appStart( '.storage.del' );
-
   /* - */
 
   a.appStart( `.replace filePath:before/** ins:line sub:abc profile:${profile}` )
@@ -4579,7 +4577,7 @@ function replaceRedoTextLink( test )
   {
     test.case = 'basic';
     a.reflect();
-    // console.log( a.fileProvider.textLink )
+    console.log( a.fileProvider.textLink )
     debugger;
     a.fileProvider.textLink
     ({
@@ -4587,7 +4585,9 @@ function replaceRedoTextLink( test )
       srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
       allowingCycled : 1,
-      allowingMissed : 1
+      allowingMissed : 1,
+      resolvingSrcTextLink : 1,
+      resolvingDstTextLink : 1,
     });
     debugger;
     test.is( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
@@ -4611,32 +4611,33 @@ function replaceRedoTextLink( test )
 
   /* */
 
-  a.ready.then( ( op ) =>
-  {
-    test.case = 'basic';
-    a.reflect();
-    a.fileProvider.textLink
-    ({
-      dstPath : a.abs( 'before/dir/Link.txt' ),
-      srcPath : a.abs( 'before/File1.txt' ),
-      makingDirectory : 1,
-      allowingCycled : 1,
-      allowingMissed : 1
-    });
-    test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
-    return null;
-  });
+  // a.ready.then( ( op ) =>
+  // {
+  //   test.case = 'basic';
+  //   a.reflect();
+  //   var isMade = a.fileProvider.textLink
+  //   ({
+  //     dstPath : a.abs( 'before/dir/Link.txt' ),
+  //     srcPath : a.abs( 'before/File1.txt' ),
+  //     makingDirectory : 1,
+  //     allowingCycled : 1,
+  //     allowingMissed : 1
+  //   });
+  //   console.log( 'MADE: ', isMade )
+  //   test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
+  //   return null;
+  // });
 
-  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
-  .then( ( op ) =>
-  {
-    test.case = 'softlink to itself';
-    test.identical( op.exitCode, 0 );
-    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
-    test.equivalent( op.output, exp );
+  // a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
+  // .then( ( op ) =>
+  // {
+  //   test.case = 'softlink to itself';
+  //   test.identical( op.exitCode, 0 );
+  //   let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+  //   test.equivalent( op.output, exp );
 
-    return null;
-  })
+  //   return null;
+  // })
 
   /* */
 
