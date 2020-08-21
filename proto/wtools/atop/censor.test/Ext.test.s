@@ -4572,40 +4572,55 @@ function replaceRedoTextLink( test )
 
   a.reflect();
 
-  // let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
-  // let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
-  // let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
-  // let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
 
   a.ready.then( ( op ) =>
   {
     test.case = 'basic';
     a.reflect();
-    console.log( a.fileProvider.textLink )
-    debugger;
+    a.fileProvider.fieldPush( 'usingTextLink', 1 );
+
     a.fileProvider.textLink
     ({
-      dstPath : a.abs( 'before/dir/textLink.txt' ),
+      dstPath : a.abs( 'before/textLink.txt' ),
       srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
       allowingCycled : 1,
       allowingMissed : 1,
-      resolvingSrcTextLink : 1,
-      resolvingDstTextLink : 1,
+      // resolvingSrcTextLink : 1,
+      // resolvingDstTextLink : 1,
     });
     debugger;
-    test.is( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
-    test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.is( a.fileProvider.isTextLink( a.abs( 'before/textLink.txt' ) ) );
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+
+    var expFiles =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/textLink.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.et( files, expFiles );
 
     return null;
   });
 
-  a.appStart( `.replace usingTextLink:1 filePath:before/dir/textLink.txt ins:line sub:abc profile:${profile}` )
+  a.appStart( `.replace usingTextLink:1 filePath:before/textLink.txt ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
     test.case = 'textlink';
     test.identical( op.exitCode, 0 );
-    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    // console.log( 'OP: ', op )
+    let exp ='. Found 1 file(s). Arranged 3 replacement(s) in 1 file(s).';
     test.equivalent( op.output, exp );
 
     return null;
@@ -4639,6 +4654,14 @@ function replaceRedoTextLink( test )
   //   test.identical( op.exitCode, 0 );
   //   let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
   //   test.equivalent( op.output, exp );
+
+  //   var exp = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+  //   var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+  //   test.identical( got, exp );
+
+  //   var exp = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+  //   var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+  //   test.identical( got, exp );
 
   //   return null;
   // })
