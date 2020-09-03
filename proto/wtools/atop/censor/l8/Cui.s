@@ -676,6 +676,7 @@ commandDo.commandProperties =
   d : 'How many action to do. Zero for no limit. Default = 0.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
+  usingTextLink : 'Treat a file as a textlink. Default is 0'
 }
 
 //
@@ -709,6 +710,7 @@ commandRedo.commandProperties =
   d : 'How many action to do. Zero for no limit. Default = 0.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
+  usingTextLink : 'Treat a file as a textlink. Default is 0'
 }
 
 //
