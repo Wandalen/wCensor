@@ -4582,6 +4582,8 @@ function replaceRedoTextLink( test )
     test.case = 'basic';
     a.reflect();
     a.fileProvider.fieldPush( 'usingTextLink', 1 );
+    // a.fileProvider.fieldPush( 'resolvingDstTextLink', 1 );
+    // a.fileProvider.fieldPush( 'resolvingSrcTextLink', 1 )
 
     a.fileProvider.textLink
     ({
@@ -6720,8 +6722,7 @@ function replaceOptionSession( test )
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
-    test.case = '1 arrangement, 1 session'
+    test.case = '1 arrangement, 2 session'
 
     var got = _global_.wTools.censor.storageRead();
     var got1Str = JSON.stringify( op );
@@ -6730,8 +6731,7 @@ function replaceOptionSession( test )
     test.is( got1Str.includes( `arrangement.${session1}.json` ) );
     test.is( got2Str.includes( `arrangement.${session1}.json` ) );
 
-    test.identical( _.strCount( got2Str, '.json' ), 1 );
-
+    test.identical( _.strCount( got2Str, '.json' ), 2 );
     return null;
   });
 
@@ -6744,7 +6744,7 @@ function replaceOptionSession( test )
   {
     // console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
 
-    test.case = '2 arrangement, 2 session'
+    test.case = '2 arrangement, 3 session'
 
     var got = _global_.wTools.censor.storageRead();
     var got1Str = JSON.stringify( op );
@@ -6758,7 +6758,7 @@ function replaceOptionSession( test )
     test.is( got2Str.includes( `arrangement.${session2}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
-    test.identical( _.strCount( got2Str, '.json' ), 2 );
+    test.identical( _.strCount( got2Str, '.json' ), 3 );
 
     return null;
   });
@@ -6774,7 +6774,7 @@ function replaceOptionSession( test )
   .then( ( op ) =>
   {
 
-    test.case = '5 arrangement, 2 session'
+    test.case = '5 arrangement, 3 session'
 
     var got = _global_.wTools.censor.storageRead();
     var got1Str = JSON.stringify( op );
@@ -6788,7 +6788,7 @@ function replaceOptionSession( test )
     test.is( got2Str.includes( `arrangement.${session2}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
-    test.identical( _.strCount( got2Str, '.json' ), 2 );
+    test.identical( _.strCount( got2Str, '.json' ), 3 );
 
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
@@ -8013,7 +8013,7 @@ let Self =
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
     replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : done */
-    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
+    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink */
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
@@ -8021,7 +8021,7 @@ let Self =
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
     replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Done. Yevhen S. */
-    replaceOptionSession, /* qqq : add test routine to cover command option session  | aaa : Working on it. Yevhen S.*/
+    replaceOptionSession, /* qqq : add test routine to cover command option session | aaa : Done. Yevhen S.  */
     replaceRedoUndoSingleCommand,
 
     // /* qqq : implement test to check locking, tell how first */
