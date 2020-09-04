@@ -4582,8 +4582,6 @@ function replaceRedoTextLink( test )
     test.case = 'basic';
     a.reflect();
     a.fileProvider.fieldPush( 'usingTextLink', 1 );
-    // a.fileProvider.fieldPush( 'resolvingDstTextLink', 1 );
-    // a.fileProvider.fieldPush( 'resolvingSrcTextLink', 1 )
 
     a.fileProvider.textLink
     ({
@@ -4592,8 +4590,6 @@ function replaceRedoTextLink( test )
       makingDirectory : 1,
       allowingCycled : 1,
       allowingMissed : 1,
-      // resolvingSrcTextLink : 1,
-      // resolvingDstTextLink : 1,
     });
     debugger;
     test.is( a.fileProvider.isTextLink( a.abs( 'before/textLink.txt' ) ) );
@@ -4615,7 +4611,7 @@ function replaceRedoTextLink( test )
 
     return null;
   });
-
+  debugger;
   a.appStart( `.replace usingTextLink:1 filePath:before/textLink.txt ins:line sub:abc profile:${profile}` )
   .then( ( op ) =>
   {
