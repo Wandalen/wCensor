@@ -4572,11 +4572,6 @@ function replaceRedoTextLink( test )
 
   a.reflect();
 
-  let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
-  let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
-  let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
-  let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
-
   a.ready.then( ( op ) =>
   {
     test.case = 'basic';
@@ -4591,9 +4586,9 @@ function replaceRedoTextLink( test )
       allowingCycled : 1,
       allowingMissed : 1,
     });
-    debugger;
+
     test.is( a.fileProvider.isTextLink( a.abs( 'before/textLink.txt' ) ) );
-    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textLink.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     var expFiles =
     [
@@ -4611,14 +4606,25 @@ function replaceRedoTextLink( test )
 
     return null;
   });
-  debugger;
-  a.appStart( `.replace usingTextLink:1 filePath:before/textLink.txt ins:line sub:abc profile:${profile}` )
+
+  a.appStart( `.replace filePath:before/textLink.txt ins:line sub:abc usingTextLink:1 profile:${profile}` )
   .then( ( op ) =>
   {
-    test.case = 'textlink';
+    test.case = 'textlink to File1.txt';
     test.identical( op.exitCode, 0 );
-    // console.log( 'OP: ', op )
-    let exp ='. Found 1 file(s). Arranged 3 replacement(s) in 1 file(s).';
+    var exp =
+`
++ replace 3 in ${ a.abs( 'before/textLink.txt' ) }
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
+. Found 1 file(s). Arranged 3 replacement(s) in 1 file(s).
+`;
     test.equivalent( op.output, exp );
 
     return null;
@@ -4628,43 +4634,71 @@ function replaceRedoTextLink( test )
 
   /* */
 
-  // a.ready.then( ( op ) =>
-  // {
-  //   test.case = 'basic';
-  //   a.reflect();
-  //   var isMade = a.fileProvider.textLink
-  //   ({
-  //     dstPath : a.abs( 'before/dir/Link.txt' ),
-  //     srcPath : a.abs( 'before/File1.txt' ),
-  //     makingDirectory : 1,
-  //     allowingCycled : 1,
-  //     allowingMissed : 1
-  //   });
-  //   console.log( 'MADE: ', isMade )
-  //   test.is( a.fileProvider.areTextLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
-  //   return null;
-  // });
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+    a.fileProvider.fieldPush( 'usingTextLink', 1 );
 
-  // a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
-  // .then( ( op ) =>
-  // {
-  //   test.case = 'softlink to itself';
-  //   test.identical( op.exitCode, 0 );
-  //   let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
-  //   test.equivalent( op.output, exp );
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/textLink2.txt' ),
+      srcPath : a.abs( 'before/File2.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+    });
 
-  //   var exp = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
-  //   var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
-  //   test.identical( got, exp );
+    test.is( a.fileProvider.isTextLink( a.abs( 'before/textLink2.txt' ) ) );
+    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textLink2.txt' ), a.abs( 'before/File2.txt' ) ) );
 
-  //   var exp = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
-  //   var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
-  //   test.identical( got, exp );
+    var expFiles =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/textLink2.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.et( files, expFiles );
 
-  //   return null;
-  // })
+    return null;
+  });
 
-  /* */
+  a.appStart( `.replace filePath:before/textLink2.txt ins:line sub:abc usingTextLink:1 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.case = 'textlink to File2.txt';
+    test.identical( op.exitCode, 0 );
+    var exp =
+`
++ replace 5 in ${ a.abs( 'before/textLink2.txt' ) }
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
+. Found 1 file(s). Arranged 5 replacement(s) in 1 file(s).
+`;
+    test.equivalent( op.output, exp );
+
+    return null;
+  } );
+
+  a.appStart( `.arrangement.del profile:${profile}` );
 
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
