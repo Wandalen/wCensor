@@ -512,36 +512,36 @@ function arrangementLog( test )
     test.equivalent( got1.redo[ 0 ].name, `action::replace 3 in ${a.abs( 'before/File1.txt' )}` )
     var expDesc1 =
 `
-+ replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#\n`
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
++ replace 3 in ❮foreground : dark cyan❯${a.abs( 'before/File1.txt' )}❮foreground : default❯\n`
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Last one❮inputRaw:0❯'
 
     test.equivalent( got1.redo[ 0 ].redoDescription2, expDesc1 )
 
     test.equivalent( got1.redo[ 1 ].name, `action::replace 5 in ${a.abs( 'before/File2.txt' )}` )
     var expDesc2 =
 `
-+ replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#\n`
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#6#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
++ replace 5 in ❮foreground : dark cyan❯${a.abs( 'before/File2.txt' )}❮foreground : default❯\n`
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Fourth line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Fourth ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯5❮foreground : default❯ : ❮inputRaw:1❯Fifth line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Fourth line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯5❮foreground : default❯ : ❮inputRaw:1❯Fifth ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯6❮foreground : default❯ : ❮inputRaw:1❯Last one❮inputRaw:0❯'
 
     test.equivalent( got1.redo[ 1 ].redoDescription2, expDesc2 );
 
