@@ -119,14 +119,14 @@ function _commandsMake()
 
 //
 
-function _command_pre( o )
+function _command_head( o )
 {
   let cui = this;
 
   if( arguments.length === 2 )
   o = { routine : arguments[ 0 ], args : arguments[ 1 ] }
 
-  _.routineOptions( _command_pre, o );
+  _.routineOptions( _command_head, o );
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.assert( o.args.length === 1 );
 
@@ -183,7 +183,7 @@ function _command_pre( o )
 
 }
 
-_command_pre.defaults =
+_command_head.defaults =
 {
   routine : null,
   args : null,
@@ -212,7 +212,7 @@ function commandVersion( e )
 {
   let cui = this;
 
-  cui._command_pre( commandVersion, arguments );
+  cui._command_head( commandVersion, arguments );
 
   return _.npm.versionLog
   ({
@@ -233,7 +233,7 @@ function commandImply( e )
 
   cui.implied = null;
 
-  cui._command_pre( commandImply, arguments );
+  cui._command_head( commandImply, arguments );
 
   cui.implied = e.propertiesMap;
 
@@ -251,7 +251,7 @@ function commandStorageDel( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandStorageDel, arguments );
+  cui._command_head( commandStorageDel, arguments );
 
   return _.censor.storageDel( e.propertiesMap );
 }
@@ -271,7 +271,7 @@ function commandStorageLog( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandStorageLog, arguments );
+  cui._command_head( commandStorageLog, arguments );
 
   return _.censor.storageLog( e.propertiesMap );
 }
@@ -291,7 +291,7 @@ function commandProfileDel( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandProfileDel, arguments );
+  cui._command_head( commandProfileDel, arguments );
 
   return _.censor.profileDel( e.propertiesMap );
 }
@@ -312,7 +312,7 @@ function commandProfileLog( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandProfileLog, arguments );
+  cui._command_head( commandProfileLog, arguments );
 
   return _.censor.profileLog( e.propertiesMap );
 }
@@ -333,7 +333,7 @@ function commandConfigLog( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandConfigLog, arguments );
+  cui._command_head( commandConfigLog, arguments );
 
   return _.censor.configLog( e.propertiesMap );
 }
@@ -354,7 +354,7 @@ function commandConfigGet( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre({ routine : commandConfigGet, args : arguments });
+  cui._command_head({ routine : commandConfigGet, args : arguments });
 
   if( !e.propertiesMap.selector )
   e.propertiesMap.selector = [];
@@ -393,7 +393,7 @@ function commandConfigSet( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre({ routine : commandConfigSet, args : arguments, propertiesMapAsProperty : 'set' });
+  cui._command_head({ routine : commandConfigSet, args : arguments, propertiesMapAsProperty : 'set' });
 
   _.sure
   (
@@ -421,7 +421,7 @@ function commandConfigDel( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre({ routine : commandConfigDel, args : arguments });
+  cui._command_head({ routine : commandConfigDel, args : arguments });
 
   if( !e.propertiesMap.selector )
   e.propertiesMap.selector = [];
@@ -459,7 +459,7 @@ commandConfigDel.commandProperties =
 //   let cui = this;
 //   let ca = e.ca;
 //
-//   cui._command_pre( commandConfigDel, arguments );
+//   cui._command_head( commandConfigDel, arguments );
 //
 //   return _.censor.configDel( e.propertiesMap );
 // }
@@ -480,7 +480,7 @@ function commandArrangementDel( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandArrangementDel, arguments );
+  cui._command_head( commandArrangementDel, arguments );
 
   return _.censor.arrangementDel( e.propertiesMap );
 }
@@ -502,7 +502,7 @@ function commandArrangementLog( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandArrangementLog, arguments );
+  cui._command_head( commandArrangementLog, arguments );
 
   return _.censor.arrangementLog( e.propertiesMap );
 }
@@ -527,7 +527,7 @@ function commandReplace( e )
   let ca = e.ca;
   let op = e.propertiesMap;
 
-  cui._command_pre( commandReplace, arguments );
+  cui._command_head( commandReplace, arguments );
 
   op.logger = 1;
   op.resetting = 1;
@@ -566,7 +566,7 @@ function commandHlink( e )
   let ca = e.ca;
   let op = e.propertiesMap;
 
-  cui._command_pre( commandHlink, arguments );
+  cui._command_head( commandHlink, arguments );
   op.logger = 1;
 
   if( op.verbosity === undefined )
@@ -605,7 +605,7 @@ function commandEntryAdd( e )
   let ca = e.ca;
   let op = e.propertiesMap;
 
-  cui._command_pre( commandEntryAdd, arguments );
+  cui._command_head( commandEntryAdd, arguments );
   op.logger = 1;
 
   if( op.verbosity === undefined )
@@ -653,7 +653,7 @@ function commandDo( e )
   let ca = e.ca;
   let op = e.propertiesMap;
 
-  cui._command_pre( commandDo, arguments );
+  cui._command_head( commandDo, arguments );
 
   op.logger = 1;
 
@@ -686,7 +686,7 @@ function commandRedo( e )
   let ca = e.ca;
   let op = e.propertiesMap;
 
-  cui._command_pre( commandRedo, arguments );
+  cui._command_head( commandRedo, arguments );
 
   op.logger = 1;
 
@@ -719,7 +719,7 @@ function commandUndo( e )
   let ca = e.ca;
   let op = e.propertiesMap;
 
-  cui._command_pre( commandUndo, arguments );
+  cui._command_head( commandUndo, arguments );
 
   op.logger = 1;
 
@@ -754,7 +754,7 @@ function commandStatus( e )
   let cui = this;
   let ca = e.ca;
 
-  cui._command_pre( commandStatus, arguments );
+  cui._command_head( commandStatus, arguments );
 
   let status = _.censor.status( e.propertiesMap );
 
@@ -818,7 +818,7 @@ let Extension =
   // meta commands
 
   _commandsMake,
-  _command_pre,
+  _command_head,
 
   // general commands
 
