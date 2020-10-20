@@ -104,7 +104,7 @@ function exec()
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
-  let appArgs = _.process.args();
+  let appArgs = _.process.input();
   let commands =
   {
 
@@ -259,7 +259,7 @@ function commandConfigDefinePath( e )
 
   _.mapSupplement( self.storage, defaults );
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self.storage,
     only : 1,
@@ -298,7 +298,7 @@ function commandFind( e )
   _.mapExtend( self, _.mapOnly( self.storage, self ) );
   _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self,
     only : 0,
@@ -310,7 +310,7 @@ function commandFind( e )
     },
   });
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : o2,
     only : 1,
@@ -357,7 +357,7 @@ function _execReplace( e )
 
   /* xxxyyy */
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self,
     only : 0,
@@ -369,7 +369,7 @@ function _execReplace( e )
     },
   });
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : o2,
     only : 1,
@@ -442,7 +442,7 @@ function commandUndo( e )
   _.mapExtend( self, _.mapOnly( self.storage, self ) );
   _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self,
     only : 0,
@@ -454,7 +454,7 @@ function commandUndo( e )
     },
   });
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : o2,
     only : 1,
@@ -494,7 +494,7 @@ function commandFindSimilar( e )
   _.mapExtend( self, _.mapOnly( self.storage, self ) );
   _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self,
     only : 0,
@@ -506,7 +506,7 @@ function commandFindSimilar( e )
     },
   });
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : o2,
     only : 1,
@@ -549,7 +549,7 @@ function commandTokenize( e )
   _.mapExtend( self, _.mapOnly( self.storage, self ) );
   _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self,
     only : 0,
@@ -561,7 +561,7 @@ function commandTokenize( e )
     },
   });
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : o2,
     only : 1,
@@ -591,9 +591,9 @@ function appArgsRead( appArgs )
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  appArgs = appArgs || _.process.args();
+  appArgs = appArgs || _.process.input();
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self,
     propertiesMappArgs : propertiesMappArgs.map,
@@ -607,7 +607,7 @@ function appArgsRead( appArgs )
     },
   });
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : self.logger,
     propertiesMappArgs : propertiesMappArgs.map,
@@ -827,7 +827,7 @@ function matchEach( o )
   _.assert( arguments.length === 1 );
   _.assert( _.numberIs( o.replacementsLimit ) );
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : o,
     only : 0,
@@ -987,7 +987,7 @@ function findSimilar( o )
   //   similarityLimit : 0.95,
   // }
   //
-  // _.process.argsReadTo
+  // _.process.inputReadTo
   // ({
   //   dst : findOptions,
   //   only : 1,
@@ -1036,7 +1036,7 @@ function find( o )
   o = _.routineOptions( find, o );
   _.assert( self.formed );
 
-  // _.process.argsReadTo
+  // _.process.inputReadTo
   // ({
   //   dst : o,
   //   only : 1,

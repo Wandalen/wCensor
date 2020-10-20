@@ -49,7 +49,7 @@ function exec()
 
   _.assert( arguments.length === 0 );
 
-  let appArgs = _.process.args();
+  let appArgs = _.process.input();
   let ca = cui._commandsMake();
 
   return _.Consequence
@@ -75,7 +75,7 @@ function exec()
 function _commandsMake()
 {
   let cui = this;
-  let appArgs = _.process.args();
+  let appArgs = _.process.input();
 
   _.assert( _.instanceIs( cui ) );
   _.assert( arguments.length === 0 );

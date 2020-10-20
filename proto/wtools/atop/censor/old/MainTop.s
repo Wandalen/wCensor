@@ -45,7 +45,7 @@ function exec()
 
   let logger = censor.logger;
   let fileProvider = censor.fileProvider;
-  let appArgs = _.process.args({ keyValDelimeter : 0 });
+  let appArgs = _.process.input({ keyValDelimeter : 0 });
   let ca = censor._commandsMake();
 
   return ca.appArgsPerform({ appArgs });
@@ -60,7 +60,7 @@ function _commandsMake()
   let censor = this;
   let logger = censor.logger;
   let fileProvider = censor.fileProvider;
-  let appArgs = _.process.args();
+  let appArgs = _.process.input();
 
   _.assert( _.instanceIs( censor ) );
   _.assert( arguments.length === 0, 'Expects no arguments' );
@@ -126,7 +126,7 @@ function commandImply( e )
 
   let request = censor.Resolver.strRequestParse( e.commandArgument );
 
-  _.process.argsReadTo
+  _.process.inputReadTo
   ({
     dst : censor,
     propertiesMap : request.map,
