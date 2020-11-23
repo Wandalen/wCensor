@@ -13,7 +13,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _testerGlobal_.wTools;
+let _ = _globals_.testing.wTools;
 let fileProvider = _.fileProvider;
 let path = fileProvider.path;
 
@@ -56,7 +56,7 @@ function samples( test )
 
   for( let i = 0 ; i < found.length ; i++ )
   {
-    if( _.longHas( found[ i ].exts, 'browser' ) )
+    if( _.longHasAny( found[ i ].exts, [ 'browser', 'manual', 'experiment' ] ) )
     continue;
 
     let startTime;
@@ -120,17 +120,31 @@ function eslint( test )
   let ready = new _.Consequence().take( null );
 
   // if( _.process.insideTestContainer() && process.platform !== 'linux' )
-  // return test.is( true );
+  // return test.true( true );
 
   if( process.platform !== 'linux' )
-  return test.is( true );
+  return test.true( true );
 
   let start = _.process.starter
   ({
     execPath : eslint,
     mode : 'fork',
     currentPath : rootPath,
-    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png', '--ignore-pattern', '*.json', '--ignore-pattern', '*.yml', '--ignore-pattern', '*.yaml', '--quiet' ],
+    args :
+    [
+      '-c', '.eslintrc.yml',
+      '--ext', '.js,.s,.ss',
+      '--ignore-pattern', '*.html',
+      '--ignore-pattern', '*.txt',
+      '--ignore-pattern', '*.png',
+      '--ignore-pattern', '*.json',
+      '--ignore-pattern', '*.yml',
+      '--ignore-pattern', '*.yaml',
+      '--ignore-pattern', '*.md',
+      '--ignore-pattern', '*.xml',
+      '--ignore-pattern', '*.css',
+      '--quiet'
+    ],
     throwingExitCode : 0,
     outputCollecting : 1,
   })
@@ -187,7 +201,7 @@ let Self =
   tests :
   {
     samples,
-    // eslint,
+    eslint,
   },
 
 }

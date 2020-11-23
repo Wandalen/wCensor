@@ -10,7 +10,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );;
 }
 
-let _ = _testerGlobal_.wTools;
+let _ = _globals_.testing.wTools;
 
 // --
 // context
@@ -681,7 +681,7 @@ function storageLog( test )
     test.case = '1 replace command, 1 file in storage';
     var gotStr = JSON.stringify( op );
 
-    test.is( gotStr.includes( 'arrangement.default.json' ) );
+    test.true( gotStr.includes( 'arrangement.default.json' ) );
     test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
 
     return null;
@@ -699,7 +699,7 @@ function storageLog( test )
     test.case = '4 replace commands, 2 profiles, 2 files in storage';
     var gotStr = JSON.stringify( op );
 
-    test.is( gotStr.includes( 'arrangement.default.json' ) );
+    test.true( gotStr.includes( 'arrangement.default.json' ) );
     test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 2 );
 
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
@@ -3990,7 +3990,7 @@ function replaceRedoHardLinked( test )
       srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -4085,7 +4085,7 @@ function replaceRedoHardLinked( test )
       srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areHardLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -4185,7 +4185,7 @@ function replaceRedoSoftLinked( test )
       srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -4280,7 +4280,7 @@ function replaceRedoSoftLinked( test )
       srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
     });
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
     return null;
   })
 
@@ -4369,15 +4369,15 @@ function replaceRedoSoftLinked( test )
       makingDirectory : 1,
     });
 
-    test.is( !a.fileProvider.isSoftLink( a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.txt' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.txt' ) ) );
+    test.true( !a.fileProvider.isSoftLink( a.abs( 'before/dir1' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.txt' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/dir2' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.txt' ) ) );
 
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2' ), a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/dir1/Link.txt' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir2' ), a.abs( 'before/dir1' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/dir1/Link.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     return null;
   })
@@ -4446,15 +4446,15 @@ function replaceRedoSoftLinked( test )
     var got = a.fileProvider.fileRead( a.abs( 'before/dir2/Link.txt' ) );
     test.identical( got, file1After );
 
-    test.is( !a.fileProvider.isSoftLink( a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.txt' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.txt' ) ) );
+    test.true( !a.fileProvider.isSoftLink( a.abs( 'before/dir1' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/dir1/Link.txt' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/dir2' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/dir2/Link.txt' ) ) );
 
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2' ), a.abs( 'before/dir1' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/dir1/Link.txt' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
-    test.is( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir2' ), a.abs( 'before/dir1' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/dir1/Link.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir2/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 'before/dir1/Link.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     return null;
   })
@@ -4499,8 +4499,8 @@ function replaceRedoBrokenSoftLink( test )
       allowingMissed : 1,
       sync : 1
     });
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/missed.txt' ) ) );
-    test.is( a.fileProvider.isSoftLink( a.abs( 'before/cycled.txt' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/missed.txt' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 'before/cycled.txt' ) ) );
 
     var exp =
     [
@@ -4586,23 +4586,9 @@ function replaceRedoTextLink( test )
       allowingCycled : 1,
       allowingMissed : 1,
     });
-
-    test.is( a.fileProvider.isTextLink( a.abs( 'before/textLink.txt' ) ) );
-    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textLink.txt' ), a.abs( 'before/File1.txt' ) ) );
-
-    var expFiles =
-    [
-      '.',
-      './after',
-      './after/File1.txt',
-      './after/File2.txt',
-      './before',
-      './before/File1.txt',
-      './before/File2.txt',
-      './before/textLink.txt'
-    ];
-    var files = a.findAll( a.abs( '.' ) );
-    test.et( files, expFiles );
+    debugger;
+    test.true( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
+    test.true( a.fileProvider.areTextLinked( a.abs( 'before/dir/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
 
     return null;
   });
@@ -4648,24 +4634,7 @@ function replaceRedoTextLink( test )
       allowingCycled : 1,
       allowingMissed : 1,
     });
-
-    test.is( a.fileProvider.isTextLink( a.abs( 'before/textLink2.txt' ) ) );
-    test.is( a.fileProvider.areTextLinked( a.abs( 'before/textLink2.txt' ), a.abs( 'before/File2.txt' ) ) );
-
-    var expFiles =
-    [
-      '.',
-      './after',
-      './after/File1.txt',
-      './after/File2.txt',
-      './before',
-      './before/File1.txt',
-      './before/File2.txt',
-      './before/textLink2.txt'
-    ];
-    var files = a.findAll( a.abs( '.' ) );
-    test.et( files, expFiles );
-
+    test.true( a.fileProvider.areTextLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
     return null;
   });
 
@@ -4738,7 +4707,7 @@ function replaceBigFile( test )
     test.identical( files, exp );
     var got = a.fileProvider.fileRead( a.abs( 'File.txt' ) );
     test.identical( got.length, originalData.length );
-    test.is( got === originalData );
+    test.true( got === originalData );
 
     return null;
   });
@@ -4764,7 +4733,7 @@ function replaceBigFile( test )
     test.identical( files, exp );
     var got = a.fileProvider.fileRead( a.abs( 'File.txt' ) );
     test.identical( got.length, originalData.length );
-    test.is( got === originalData );
+    test.true( got === originalData );
 
     return null;
   });
@@ -4781,7 +4750,7 @@ function replaceBigFile( test )
     test.identical( files, exp );
     var got = a.fileProvider.fileRead( a.abs( 'File.txt' ) );
     test.identical( got.length, expectedData.length );
-    test.is( got === expectedData );
+    test.true( got === expectedData );
 
     return null;
   });
@@ -6758,8 +6727,8 @@ function replaceOptionSession( test )
     var got1Str = JSON.stringify( op );
     var got2Str = JSON.stringify( got );
 
-    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
-    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+    test.true( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.true( got2Str.includes( `arrangement.${session1}.json` ) );
 
     test.identical( _.strCount( got2Str, '.json' ), 2 );
     return null;
@@ -6780,12 +6749,12 @@ function replaceOptionSession( test )
     var got1Str = JSON.stringify( op );
     var got2Str = JSON.stringify( got );
 
-    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
-    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+    test.true( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.true( got2Str.includes( `arrangement.${session1}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
 
-    test.is( got1Str.includes( `arrangement.${session2}.json` ) );
-    test.is( got2Str.includes( `arrangement.${session2}.json` ) );
+    test.true( got1Str.includes( `arrangement.${session2}.json` ) );
+    test.true( got2Str.includes( `arrangement.${session2}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
     test.identical( _.strCount( got2Str, '.json' ), 3 );
@@ -6810,12 +6779,12 @@ function replaceOptionSession( test )
     var got1Str = JSON.stringify( op );
     var got2Str = JSON.stringify( got );
 
-    test.is( got1Str.includes( `arrangement.${session1}.json` ) );
-    test.is( got2Str.includes( `arrangement.${session1}.json` ) );
+    test.true( got1Str.includes( `arrangement.${session1}.json` ) );
+    test.true( got2Str.includes( `arrangement.${session1}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
 
-    test.is( got1Str.includes( `arrangement.${session2}.json` ) );
-    test.is( got2Str.includes( `arrangement.${session2}.json` ) );
+    test.true( got1Str.includes( `arrangement.${session2}.json` ) );
+    test.true( got2Str.includes( `arrangement.${session2}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
     test.identical( _.strCount( got2Str, '.json' ), 3 );
@@ -7038,9 +7007,9 @@ function hlinkBasic( test )
     test.case = 'basic';
     a.reflect();
 
-    test.is( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'F2.txt' ) ) );
-    test.is( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'dir/F3.txt' ) ) );
-    test.is( !a.fileProvider.areHardLinked( a.abs( 'F2.txt' ), a.abs( 'dir/F3.txt' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'F2.txt' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'dir/F3.txt' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'F2.txt' ), a.abs( 'dir/F3.txt' ) ) );
 
     return null;
   })
@@ -7058,9 +7027,9 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 `
     test.equivalent( op.output, exp );
 
-    test.is( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'F2.txt' ) ) );
-    test.is( a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'dir/F3.txt' ) ) );
-    test.is( !a.fileProvider.areHardLinked( a.abs( 'F2.txt' ), a.abs( 'dir/F3.txt' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'F2.txt' ) ) );
+    test.true( a.fileProvider.areHardLinked( a.abs( 'F1.txt' ), a.abs( 'dir/F3.txt' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'F2.txt' ), a.abs( 'dir/F3.txt' ) ) );
 
     return null;
   })
