@@ -134,6 +134,7 @@ function eslint( test )
     [
       '-c', '.eslintrc.yml',
       '--ext', '.js,.s,.ss',
+      '--ignore-pattern', '*.ts',
       '--ignore-pattern', '*.html',
       '--ignore-pattern', '*.txt',
       '--ignore-pattern', '*.png',
@@ -143,6 +144,8 @@ function eslint( test )
       '--ignore-pattern', '*.md',
       '--ignore-pattern', '*.xml',
       '--ignore-pattern', '*.css',
+      '--ignore-pattern', '_asset',
+      '--ignore-pattern', 'out',
       '--quiet'
     ],
     throwingExitCode : 0,
