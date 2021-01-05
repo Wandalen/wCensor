@@ -8012,7 +8012,7 @@ let Self =
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
     replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : done */
-    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink */
+    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Done. Yevhen S. */
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
