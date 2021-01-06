@@ -468,6 +468,33 @@ function configLogBasic( test )
 
 //
 
+function version( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.version profile:${profile}` )
+  .then( ( op ) =>
+  {
+    var exp = 'null';
+    test.case = 'version'
+    test.identical( op.exitCode, 0 );
+    test.true( _.strHas( op.output, 'Current version :' ) );
+    test.true( _.strHas( op.output, 'Latest version of wcensor!alpha :' ) );
+    return null;
+  });
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
 function arrangementLog( test )
 {
   let context = this;
@@ -7990,6 +8017,8 @@ let Self =
     configSetBasic,
     configDelBasic,
     configLogBasic,
+
+    version,
 
     arrangementLog,
     arrangementDel,

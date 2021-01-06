@@ -825,7 +825,7 @@ let Extension =
   // general commands
 
   commandHelp,
-  commandVersion, /* qqq : cover */
+  commandVersion, /* qqq : cover | aaa : Done. Yevhen S. */
   commandImply,
 
   // storage commands
