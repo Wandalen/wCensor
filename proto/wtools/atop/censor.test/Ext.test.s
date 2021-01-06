@@ -4704,6 +4704,106 @@ replaceRedoTextLink.experimental = true;
 
 //
 
+function replaceRedoBrokenTextLink( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'tlink' );
+
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+
+    a.fileProvider.fieldPush( 'usingTextLink', 1 );
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/missed.txt' ),
+      srcPath : a.abs( 'before/x' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+      sync : 1,
+    });
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/cycled.txt' ),
+      srcPath : a.abs( 'before/cycled.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+      sync : 1,
+    });
+    debugger
+    test.true( a.fileProvider.isTextLink( a.abs( 'before/missed.txt' ) ) );
+    test.true( a.fileProvider.isTextLink( a.abs( 'before/cycled.txt' ) ) );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/cycled.txt',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/missed.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.equivalent( files, exp );
+
+    return null;
+  });
+
+  a.appStart( `.replace filePath:'before/**' ins:line sub:abc profile:${profile}` )
+  a.appStart( `.do profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = `.do`;
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/cycled.txt',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/missed.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, exp );
+
+    return null;
+  });
+
+  /* */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+replaceRedoBrokenTextLink.experimental = true;
+
+//
+
 function replaceBigFile( test )
 {
   let context = this
@@ -8042,6 +8142,7 @@ let Self =
     replaceRedoSoftLinked,
     replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : done */
     replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Done. Yevhen S. */
+    replaceRedoBrokenTextLink, /* qqq : add test routine of tlink of files which have several borken links | aaa : Done. Yevhen S. */
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
@@ -8058,7 +8159,6 @@ let Self =
     hlinkOptionBasePath,
     hlinkOptionIncludingPath,
     hlinkOptionExcludingPath,
-    /* qqq : add test routine of hlink of files which have several borken links */
 
     // entryAddBasic, /* xxx : extend and enable */
 
