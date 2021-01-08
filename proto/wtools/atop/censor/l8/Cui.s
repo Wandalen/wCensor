@@ -592,6 +592,7 @@ commandHlink.commandProperties =
   basePath : 'Base path to look for files. Default = current path.',
   includingPath : 'Glob or path to filter in.',
   excludingPath : 'Glob or path to filter out.',
+  excludingHyphened : 'Glob or path that starts with "-" to filter in/out',
   withConfigPath : 'To add path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',

@@ -8032,6 +8032,93 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 
 //
 
+function hlinkOptionExcludingHyphened( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'hlinkExclusive' );
+  let file1 = a.abs( 'dir/-F1.txt' );
+  let file2 = a.abs( 'dir/-F2.txt' );
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'excludingHyphened : 1';
+    a.reflect();
+
+    test.true( !a.fileProvider.isHardLink( file1 ) );
+    test.true( !a.fileProvider.isHardLink( file2 ) );
+    test.true( !a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  a.appStart( `.hlink profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = '.hlink';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+Linked 0 file(s) at ${ a.abs( '.' ) }
+`
+    test.equivalent( op.output, exp );
+
+    test.true( !a.fileProvider.isHardLink( file1 ) );
+    test.true( !a.fileProvider.isHardLink( file2 ) );
+    test.true( !a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'excludingHyphened : 0';
+    a.reflect();
+
+    test.true( !a.fileProvider.isHardLink( file1 ) );
+    test.true( !a.fileProvider.isHardLink( file2 ) );
+    test.true( !a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  a.appStart( `.hlink excludingHyphened : 0 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = '.hlink';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+ + hardLink : ${ a.abs( '.' ) }/dir/ : ./-F2.txt <- ./-F1.txt
+Linked 2 file(s) at ${ a.abs( '.' ) }
+`
+
+    test.equivalent( op.output, exp );
+
+    test.true( a.fileProvider.isHardLink( file1 ) );
+    test.true( a.fileProvider.isHardLink( file2 ) );
+    test.true( a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+
+//
+
 function entryAddBasic( test )
 {
   let context = this
@@ -8159,6 +8246,7 @@ let Self =
     hlinkOptionBasePath,
     hlinkOptionIncludingPath,
     hlinkOptionExcludingPath,
+    hlinkOptionExcludingHyphened,
 
     // entryAddBasic, /* xxx : extend and enable */
 
