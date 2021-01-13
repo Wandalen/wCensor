@@ -468,6 +468,33 @@ function configLogBasic( test )
 
 //
 
+function version( test )
+{
+  let context = this;
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+
+  a.reflect();
+
+  /* - */
+
+  a.appStart( `.version profile:${profile}` )
+  .then( ( op ) =>
+  {
+    var exp = 'null';
+    test.case = 'version'
+    test.identical( op.exitCode, 0 );
+    test.true( _.strHas( op.output, 'Current version :' ) );
+    test.true( _.strHas( op.output, 'Latest version of wcensor!alpha :' ) );
+    return null;
+  });
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
 function arrangementLog( test )
 {
   let context = this;
@@ -512,36 +539,36 @@ function arrangementLog( test )
     test.equivalent( got1.redo[ 0 ].name, `action::replace 3 in ${a.abs( 'before/File1.txt' )}` )
     var expDesc1 =
 `
-+ replace 3 in #foreground : dark cyan#${a.abs( 'before/File1.txt' )}#foreground : default#\n`
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
++ replace 3 in ❮foreground : dark cyan❯${a.abs( 'before/File1.txt' )}❮foreground : default❯\n`
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Last one❮inputRaw:0❯'
 
     test.equivalent( got1.redo[ 0 ].redoDescription2, expDesc1 )
 
     test.equivalent( got1.redo[ 1 ].name, `action::replace 5 in ${a.abs( 'before/File2.txt' )}` )
     var expDesc2 =
 `
-+ replace 5 in #foreground : dark cyan#${a.abs( 'before/File2.txt' )}#foreground : default#\n`
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#1#foreground : default# : #inputRaw:1#First line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#2#foreground : default# : #inputRaw:1#Second line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#3#foreground : default# : #inputRaw:1#Third line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#4#foreground : default# : #inputRaw:1#Fourth line#inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#5#foreground : default# : #inputRaw:1#Fifth #inputRaw:0##foreground : red#line#foreground : default##foreground : green#abc#foreground : default##inputRaw:1##inputRaw:0#\n'
-+ '#foreground : bright black##foreground : default##foreground : bright black#6#foreground : default# : #inputRaw:1#Last one#inputRaw:0#'
++ replace 5 in ❮foreground : dark cyan❯${a.abs( 'before/File2.txt' )}❮foreground : default❯\n`
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯1❮foreground : default❯ : ❮inputRaw:1❯First line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯2❮foreground : default❯ : ❮inputRaw:1❯Second line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Fourth line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯3❮foreground : default❯ : ❮inputRaw:1❯Third line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Fourth ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯5❮foreground : default❯ : ❮inputRaw:1❯Fifth line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯4❮foreground : default❯ : ❮inputRaw:1❯Fourth line❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯5❮foreground : default❯ : ❮inputRaw:1❯Fifth ❮inputRaw:0❯❮foreground : red❯line❮foreground : default❯❮foreground : green❯abc❮foreground : default❯❮inputRaw:1❯❮inputRaw:0❯\n'
++ '❮foreground : bright black❯❮foreground : default❯❮foreground : bright black❯6❮foreground : default❯ : ❮inputRaw:1❯Last one❮inputRaw:0❯'
 
     test.equivalent( got1.redo[ 1 ].redoDescription2, expDesc2 );
 
@@ -744,7 +771,9 @@ function storageDel( test )
     return null;
   });
 
+  if( _.process.insideTestContainer() )
   a.appStart( '.storage.del' );
+
   a.appStart( '.storage.log' )
   .then( ( op ) =>
   {
@@ -765,6 +794,8 @@ function storageDel( test )
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
+
+storageDel.experimental = true;
 
 //
 
@@ -953,8 +984,6 @@ function profileLog( test )
 
     return null;
   });
-
-  a.appStart( '.storage.del' );
 
   /* - */
 
@@ -4570,24 +4599,19 @@ function replaceRedoTextLink( test )
 
   a.reflect();
 
-  // let file1Before = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
-  // let file2Before = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
-  // let file1After = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
-  // let file2After = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
-
   a.ready.then( ( op ) =>
   {
     test.case = 'basic';
     a.reflect();
-    // console.log( a.fileProvider.textLink )
-    debugger;
+    a.fileProvider.fieldPush( 'usingTextLink', 1 );
+
     a.fileProvider.textLink
     ({
-      dstPath : a.abs( 'before/dir/textLink.txt' ),
+      dstPath : a.abs( 'before/textLink.txt' ),
       srcPath : a.abs( 'before/File1.txt' ),
       makingDirectory : 1,
       allowingCycled : 1,
-      allowingMissed : 1
+      allowingMissed : 1,
     });
     debugger;
     test.true( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
@@ -4596,12 +4620,24 @@ function replaceRedoTextLink( test )
     return null;
   });
 
-  a.appStart( `.replace usingTextLink:1 filePath:before/dir/textLink.txt ins:line sub:abc profile:${profile}` )
+  a.appStart( `.replace filePath:before/textLink.txt ins:line sub:abc usingTextLink:1 profile:${profile}` )
   .then( ( op ) =>
   {
-    test.case = 'textlink';
+    test.case = 'textlink to File1.txt';
     test.identical( op.exitCode, 0 );
-    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    var exp =
+`
++ replace 3 in ${ a.abs( 'before/textLink.txt' ) }
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Last one
+. Found 1 file(s). Arranged 3 replacement(s) in 1 file(s).
+`;
     test.equivalent( op.output, exp );
 
     return null;
@@ -4615,28 +4651,148 @@ function replaceRedoTextLink( test )
   {
     test.case = 'basic';
     a.reflect();
+    a.fileProvider.fieldPush( 'usingTextLink', 1 );
+
     a.fileProvider.textLink
     ({
-      dstPath : a.abs( 'before/dir/Link.txt' ),
-      srcPath : a.abs( 'before/File1.txt' ),
+      dstPath : a.abs( 'before/textLink2.txt' ),
+      srcPath : a.abs( 'before/File2.txt' ),
       makingDirectory : 1,
       allowingCycled : 1,
-      allowingMissed : 1
+      allowingMissed : 1,
     });
     test.true( a.fileProvider.areTextLinked( a.abs( 'before/dir/Link.txt' ), a.abs( 'before/dir/Link.txt' ) ) );
     return null;
   });
 
-  a.appStart( `.replace filePath:before/dir/** ins:line sub:abc profile:${profile}` )
+  a.appStart( `.replace filePath:before/textLink2.txt ins:line sub:abc usingTextLink:1 profile:${profile}` )
   .then( ( op ) =>
   {
-    test.case = 'softlink to itself';
+    test.case = 'textlink to File2.txt';
     test.identical( op.exitCode, 0 );
-    let exp ='. Found 1 file(s). Arranged 0 replacement(s) in 0 file(s).';
+    var exp =
+`
++ replace 5 in ${ a.abs( 'before/textLink2.txt' ) }
+1 : First lineabc
+2 : Second line
+1 : First line
+2 : Second lineabc
+3 : Third line
+2 : Second line
+3 : Third lineabc
+4 : Fourth line
+3 : Third line
+4 : Fourth lineabc
+5 : Fifth line
+4 : Fourth line
+5 : Fifth lineabc
+6 : Last one
+. Found 1 file(s). Arranged 5 replacement(s) in 1 file(s).
+`;
     test.equivalent( op.output, exp );
 
     return null;
-  })
+  } );
+
+  a.appStart( `.arrangement.del profile:${profile}` );
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+replaceRedoTextLink.experimental = true;
+
+//
+
+function replaceRedoBrokenTextLink( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'tlink' );
+
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+
+    a.fileProvider.fieldPush( 'usingTextLink', 1 );
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/missed.txt' ),
+      srcPath : a.abs( 'before/x' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+      sync : 1,
+    });
+    a.fileProvider.textLink
+    ({
+      dstPath : a.abs( 'before/cycled.txt' ),
+      srcPath : a.abs( 'before/cycled.txt' ),
+      makingDirectory : 1,
+      allowingCycled : 1,
+      allowingMissed : 1,
+      sync : 1,
+    });
+    debugger
+    test.true( a.fileProvider.isTextLink( a.abs( 'before/missed.txt' ) ) );
+    test.true( a.fileProvider.isTextLink( a.abs( 'before/cycled.txt' ) ) );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/cycled.txt',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/missed.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.equivalent( files, exp );
+
+    return null;
+  });
+
+  a.appStart( `.replace filePath:'before/**' ins:line sub:abc profile:${profile}` )
+  a.appStart( `.do profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = `.do`;
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
+
+    var exp =
+    [
+      '.',
+      './after',
+      './after/File1.txt',
+      './after/File2.txt',
+      './before',
+      './before/cycled.txt',
+      './before/File1.txt',
+      './before/File2.txt',
+      './before/missed.txt'
+    ];
+    var files = a.findAll( a.abs( '.' ) );
+    test.identical( files, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File1.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.identical( got, exp );
+
+    var exp = a.fileProvider.fileRead( a.abs( 'after/File2.txt' ) );
+    var got = a.fileProvider.fileRead( a.abs( 'before/File2.txt' ) );
+    test.identical( got, exp );
+
+    return null;
+  });
 
   /* */
 
@@ -4644,7 +4800,7 @@ function replaceRedoTextLink( test )
   return a.ready;
 }
 
-replaceRedoTextLink.experimental = true;
+replaceRedoBrokenTextLink.experimental = true;
 
 //
 
@@ -6692,8 +6848,7 @@ function replaceOptionSession( test )
   a.appStart( `.storage.log` )
   .then( ( op ) =>
   {
-    // PATH TO IMITATE - "/Users/jackiejo/.censor/test-996310/arrangement.ses1.json"
-    test.case = '1 arrangement, 1 session'
+    test.case = '1 arrangement, 2 session'
 
     var got = _global_.wTools.censor.storageRead();
     var got1Str = JSON.stringify( op );
@@ -6702,8 +6857,7 @@ function replaceOptionSession( test )
     test.true( got1Str.includes( `arrangement.${session1}.json` ) );
     test.true( got2Str.includes( `arrangement.${session1}.json` ) );
 
-    test.identical( _.strCount( got2Str, '.json' ), 1 );
-
+    test.identical( _.strCount( got2Str, '.json' ), 2 );
     return null;
   });
 
@@ -6716,7 +6870,7 @@ function replaceOptionSession( test )
   {
     // console.log( 'STORAGE: ', _global_.wTools.censor.storageRead() );
 
-    test.case = '2 arrangement, 2 session'
+    test.case = '2 arrangement, 3 session'
 
     var got = _global_.wTools.censor.storageRead();
     var got1Str = JSON.stringify( op );
@@ -6730,7 +6884,7 @@ function replaceOptionSession( test )
     test.true( got2Str.includes( `arrangement.${session2}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
-    test.identical( _.strCount( got2Str, '.json' ), 2 );
+    test.identical( _.strCount( got2Str, '.json' ), 3 );
 
     return null;
   });
@@ -6746,7 +6900,7 @@ function replaceOptionSession( test )
   .then( ( op ) =>
   {
 
-    test.case = '5 arrangement, 2 session'
+    test.case = '5 arrangement, 3 session'
 
     var got = _global_.wTools.censor.storageRead();
     var got1Str = JSON.stringify( op );
@@ -6760,7 +6914,7 @@ function replaceOptionSession( test )
     test.true( got2Str.includes( `arrangement.${session2}.json` ) );
     test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
-    test.identical( _.strCount( got2Str, '.json' ), 2 );
+    test.identical( _.strCount( got2Str, '.json' ), 3 );
 
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
@@ -7029,14 +7183,14 @@ function hlinkOptionBasePath( test )
     test.case = 'basic';
     a.reflect();
 
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7079,14 +7233,14 @@ Linked 8 file(s) at ${ a.abs( '.' ) }
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'F.txt' ), a.abs( 'F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 8 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 8 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 8 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 8 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 8 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 8 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 8 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 8 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 8n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 8n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 8n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 8n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 8n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 8n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 8n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 8n );
 
     var exp =
     [
@@ -7133,14 +7287,14 @@ Linked 2 file(s) at ${ a.abs( 'dir1' ) }
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7187,14 +7341,14 @@ Linked 2 file(s) at ${ a.abs( 'dir1' ) }/**
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7242,14 +7396,14 @@ Linked 2 file(s) at ${ a.abs( 'dir1' ) }
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7297,14 +7451,14 @@ Linked 2 file(s) at ${ a.abs( 'dir1/' ) }**
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7354,14 +7508,14 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1 , ./dir3 ] )
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4n );
 
     var exp =
     [
@@ -7412,14 +7566,14 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4n );
 
     var exp =
     [
@@ -7470,14 +7624,14 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir1/F.txt2' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 4n );
 
     var exp =
     [
@@ -7540,14 +7694,14 @@ Linked 2 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir3/F.txt' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7595,14 +7749,14 @@ Linked 0 file(s) at ${ a.abs( '.' ) }
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir3/F.txt' ) ), false );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7652,14 +7806,14 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir3/F.txt' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7721,14 +7875,14 @@ Linked 2 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir3/F.txt' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 2 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 2n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7782,14 +7936,14 @@ Linked 7 file(s) at ${ a.abs( '.' ) }
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir3/F.txt' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 7 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 7 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 7 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 7 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 7 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 7 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 7 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 7n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 7n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 7n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 7n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 7n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 7n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 7n );
 
     var exp =
     [
@@ -7839,14 +7993,14 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
     test.equivalent( op.output, exp );
 
     test.identical( a.fileProvider.areHardLinked( a.abs( 'dir1/F.txt' ), a.abs( 'dir3/F.txt' ) ), true );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4 );
-    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1 );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir1/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir2/F.txt2' ) ).nlink, 1n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt' ) ).nlink, 4n );
+    test.equivalent( a.fileProvider.statRead( a.abs( 'dir3/F.txt2' ) ).nlink, 1n );
 
     var exp =
     [
@@ -7875,6 +8029,93 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
+
+//
+
+function hlinkOptionExcludingHyphened( test )
+{
+  let context = this
+  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'hlinkExclusive' );
+  let file1 = a.abs( 'dir/-F1.txt' );
+  let file2 = a.abs( 'dir/-F2.txt' );
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'excludingHyphened : 1';
+    a.reflect();
+
+    test.true( !a.fileProvider.isHardLink( file1 ) );
+    test.true( !a.fileProvider.isHardLink( file2 ) );
+    test.true( !a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  a.appStart( `.hlink profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = '.hlink';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+Linked 0 file(s) at ${ a.abs( '.' ) }
+`
+    test.equivalent( op.output, exp );
+
+    test.true( !a.fileProvider.isHardLink( file1 ) );
+    test.true( !a.fileProvider.isHardLink( file2 ) );
+    test.true( !a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  /* */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'excludingHyphened : 0';
+    a.reflect();
+
+    test.true( !a.fileProvider.isHardLink( file1 ) );
+    test.true( !a.fileProvider.isHardLink( file2 ) );
+    test.true( !a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  a.appStart( `.hlink excludingHyphened : 0 profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = '.hlink';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+ + hardLink : ${ a.abs( '.' ) }/dir/ : ./-F2.txt <- ./-F1.txt
+Linked 2 file(s) at ${ a.abs( '.' ) }
+`
+
+    test.equivalent( op.output, exp );
+
+    test.true( a.fileProvider.isHardLink( file1 ) );
+    test.true( a.fileProvider.isHardLink( file2 ) );
+    test.true( a.fileProvider.areHardLinked( file1, file2 ) );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
 
 //
 
@@ -7964,16 +8205,18 @@ let Self =
     configDelBasic,
     configLogBasic,
 
+    version,
+
     arrangementLog,
     arrangementDel,
 
     storageLog,
-    // storageDel,
+    storageDel,
 
     statusBasic,
     statusOptionSession,
 
-    // profileLog,
+    profileLog,
     profileDel,
 
     replaceBasic,
@@ -7985,7 +8228,8 @@ let Self =
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
     replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : done */
-    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Working on it. Yevhen S. */
+    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Done. Yevhen S. */
+    replaceRedoBrokenTextLink, /* qqq : add test routine of tlink of files which have several borken links | aaa : Done. Yevhen S. */
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
@@ -7993,7 +8237,7 @@ let Self =
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
     replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Done. Yevhen S. */
-    replaceOptionSession, /* qqq : add test routine to cover command option session  | aaa : Working on it. Yevhen S.*/
+    replaceOptionSession, /* qqq : add test routine to cover command option session | aaa : Done. Yevhen S.  */
     replaceRedoUndoSingleCommand,
 
     // /* qqq : implement test to check locking, tell how first */
@@ -8002,7 +8246,7 @@ let Self =
     hlinkOptionBasePath,
     hlinkOptionIncludingPath,
     hlinkOptionExcludingPath,
-    /* qqq : add test routine of hlink of files which have several borken links */
+    hlinkOptionExcludingHyphened,
 
     // entryAddBasic, /* xxx : extend and enable */
 

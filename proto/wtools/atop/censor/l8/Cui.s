@@ -592,6 +592,7 @@ commandHlink.commandProperties =
   basePath : 'Base path to look for files. Default = current path.',
   includingPath : 'Glob or path to filter in.',
   excludingPath : 'Glob or path to filter out.',
+  excludingHyphened : 'Glob or path that starts with "-" to filter in/out',
   withConfigPath : 'To add path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
@@ -676,6 +677,7 @@ commandDo.commandProperties =
   d : 'How many action to do. Zero for no limit. Default = 0.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
+  usingTextLink : 'Treat a file as a textlink. Default is 0'
 }
 
 //
@@ -709,6 +711,7 @@ commandRedo.commandProperties =
   d : 'How many action to do. Zero for no limit. Default = 0.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
+  usingTextLink : 'Treat a file as a textlink. Default is 0'
 }
 
 //
@@ -823,7 +826,7 @@ let Extension =
   // general commands
 
   commandHelp,
-  commandVersion, /* qqq : cover */
+  commandVersion, /* qqq : cover | aaa : Done. Yevhen S. */
   commandImply,
 
   // storage commands
