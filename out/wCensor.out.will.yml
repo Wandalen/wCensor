@@ -217,6 +217,17 @@ module:
           - ../proto/wtools/atop/censor.test/_asset/hlinkAdvanced/dir3
           - ../proto/wtools/atop/censor.test/_asset/hlinkAdvanced/dir3/F.txt
           - ../proto/wtools/atop/censor.test/_asset/hlinkAdvanced/dir3/F.txt2
+          - ../proto/wtools/atop/censor.test/_asset/hlinkExclusive
+          - ../proto/wtools/atop/censor.test/_asset/hlinkExclusive/dir
+          - ../proto/wtools/atop/censor.test/_asset/hlinkExclusive/dir/-F1.txt
+          - ../proto/wtools/atop/censor.test/_asset/hlinkExclusive/dir/-F2.txt
+          - ../proto/wtools/atop/censor.test/_asset/tlink
+          - ../proto/wtools/atop/censor.test/_asset/tlink/after
+          - ../proto/wtools/atop/censor.test/_asset/tlink/after/File1.txt
+          - ../proto/wtools/atop/censor.test/_asset/tlink/after/File2.txt
+          - ../proto/wtools/atop/censor.test/_asset/tlink/before
+          - ../proto/wtools/atop/censor.test/_asset/tlink/before/File1.txt
+          - ../proto/wtools/atop/censor.test/_asset/tlink/before/File2.txt
     submodule:
       wTools:
         path: npm:///wTools
