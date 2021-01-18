@@ -678,6 +678,24 @@ function similarGroupsLog( found )
 
   found.similarGroupsArray.forEach( ( group, g ) =>
   {
+    groupPathEachLog( group )
+    logger.log();
+  });
+
+  logger.rend({ verbosity : -1 });
+
+  function cyan( e )
+  {
+    return logger.colorFormat( e, { fg : 'cyan' } );
+  }
+
+  function yellow( e )
+  {
+    return logger.colorFormat( e, { fg : 'yellow' } );
+  }
+
+  function groupPathEachLog( group )
+  {
     group.paths.forEach( ( path, p ) =>
     {
       let line = logger.colorFormat( path, 'path' );
@@ -721,20 +739,6 @@ function similarGroupsLog( found )
       // line += ' s> ' + similaritiesStr + ' l> ' + linkedStr;
       logger.log( line );
     });
-
-    logger.log();
-  });
-
-  logger.rend({ verbosity : -1 });
-
-  function cyan( e )
-  {
-    return logger.colorFormat( e, { fg : 'cyan' } );
-  }
-
-  function yellow( e )
-  {
-    return logger.colorFormat( e, { fg : 'yellow' } );
   }
 
 }
