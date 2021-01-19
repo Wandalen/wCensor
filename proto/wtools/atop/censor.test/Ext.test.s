@@ -107,7 +107,6 @@ function runDebugCensor( test )
       if( op.exitCode === 0 )
       {
         test.description = 'utility debugnode exists';
-        debugger;
         test.identical( _.strCount( op.output, 'debugnode/node_modules/electron/dist/electron --no-sandbox' ), 1 );
         test.identical( _.strCount( op.output, 'debugnode/proto/wtools/atop/nodeWithDebug/browser/electron/ElectronProcess.ss' ), 1 );
         test.identical( _.strCount( op.output, '.help - Get help.' ), 1 );
@@ -117,7 +116,6 @@ function runDebugCensor( test )
       {
         test.description = 'utility debugnode not exists';
         test.identical( _.strCount( op.output, 'spawn debugnode ENOENT' ), 1 );
-        test.identical( _.strCount( op.output, 'errno : \'ENOENT\'' ), 1 );
         test.identical( _.strCount( op.output, 'code : \'ENOENT\'' ), 1 );
         test.identical( _.strCount( op.output, 'syscall : \'spawn debugnode\'' ), 1 );
         test.identical( _.strCount( op.output, 'path : \'debugnode\'' ), 1 );
