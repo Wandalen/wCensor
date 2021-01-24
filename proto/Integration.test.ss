@@ -269,7 +269,8 @@ function production( test )
       a.fileProvider.dirMake( a.abs( '.' ) );
       samplePath = a.abs( sampleDir, samplePath[ 0 ] ) ;
       sampleName = a.path.fullName( samplePath );
-      a.fileProvider.filesReflect({ reflectMap : { [ samplePath ] : a.abs( sampleName ) } });
+      // a.fileProvider.filesReflect({ reflectMap : { [ samplePath ] : a.abs( sampleName ) } });
+      a.fileProvider.filesReflect({ reflectMap : { [ sampleDir ] : a.abs( '.' ) } });
 
       let packagePath = a.abs( __dirname, '../package.json' );
       let config = a.fileProvider.fileRead({ filePath : packagePath, encoding : 'json' });
