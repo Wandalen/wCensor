@@ -222,7 +222,6 @@ function production( test )
 {
   let context = this;
   let a = test.assetFor( 'production' );
-
   let con = _.take( null );
   let ready = _.take( null );
   let start = _.process.starter
