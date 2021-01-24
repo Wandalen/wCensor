@@ -26,7 +26,7 @@ function onSuiteBegin( test )
   let context = this;
   context.provider = fileProvider;
   let path = context.provider.path;
-  context.suiteTempPath = context.provider.path.tempOpen( path.join( __dirname, '../..'  ), 'productionSuitability' );
+  context.suiteTempPath = context.provider.path.tempOpen( path.join( __dirname, '../..'  ), 'production' );
 }
 
 //
@@ -35,7 +35,7 @@ function onSuiteEnd( test )
 {
   let context = this;
   let path = context.provider.path;
-  _.assert( _.strHas( context.suiteTempPath, 'productionSuitability' ), context.suiteTempPath );
+  _.assert( _.strHas( context.suiteTempPath, 'production' ), context.suiteTempPath );
   path.tempClose( context.suiteTempPath );
 }
 
@@ -46,7 +46,7 @@ function onSuiteEnd( test )
 function samples( test )
 {
   let context = this;
-  let ready = new _.Consequence().take( null );
+  let ready = _.take( null );
 
   let sampleDir = path.join( __dirname, '../sample' );
 
@@ -139,7 +139,7 @@ function eslint( test )
   let eslint = process.platform === 'win32' ? 'node_modules/eslint/bin/eslint' : 'node_modules/.bin/eslint';
   eslint = path.join( rootPath, eslint );
   let sampleDir = path.join( rootPath, 'sample' );
-  let ready = new _.Consequence().take( null );
+  let ready = _.take( null );
 
   // if( _.process.insideTestContainer() && process.platform !== 'linux' )
   // return test.true( true );
@@ -218,13 +218,13 @@ eslint.rapidity = -2;
 
 //
 
-function productionSuitability( test )
+function production( test )
 {
   let context = this;
-  let a = test.assetFor( 'productionSuitability' );
+  let a = test.assetFor( 'production' );
 
-  let con = new _.Consequence().take( null );
-  let ready = new _.Consequence().take( null );
+  let con = _.take( null );
+  let ready = _.take( null );
   let start = _.process.starter
   ({
     mode : 'shell',
@@ -240,7 +240,7 @@ function productionSuitability( test )
 
   con.then( () =>
   {
-    let sampleDir = a.abs( __dirname, '../sample' );
+    let sampleDir = a.abs( __dirname, '../sample/trivial' );
     let samplePath = a.find
     ({
       filePath : sampleDir,
@@ -281,6 +281,8 @@ function productionSuitability( test )
     return ext;
   });
 
+  /* */
+
   con.then( ( ext ) =>
   {
     if( ext === 'js' )
@@ -300,7 +302,7 @@ function productionSuitability( test )
       start( `node ${ sampleName }` )
       .then( ( op ) =>
       {
-        test.case = 'succefull running sample';
+        test.case = 'succefull running of sample';
         test.identical( op.exitCode, 0 );
         test.ge( op.output.length, 3 );
         return null;
@@ -308,6 +310,8 @@ function productionSuitability( test )
     }
     return ready;
   });
+
+  /* */
 
   return con;
 }
@@ -336,7 +340,7 @@ let Self =
   {
     samples,
     eslint,
-    productionSuitability,
+    production,
   },
 
 }
