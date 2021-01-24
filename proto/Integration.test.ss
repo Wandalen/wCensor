@@ -222,98 +222,63 @@ function production( test )
 {
   let context = this;
   let a = test.assetFor( 'production' );
-  let con = _.take( null );
-  let ready = _.take( null );
-  let start = _.process.starter
+  let runList = [];
+
+  /* */
+
+  let sampleDir = a.abs( __dirname, '../sample/trivial' );
+  let samplePath = a.find
   ({
-    mode : 'shell',
-    currentPath : a.abs( '.' ),
-    throwingExitCode : 0,
-    outputCollecting : 1,
-    ready,
+    filePath : sampleDir,
+    filter : { filePath : { 'Sample.(s|js|ss)' : 1 } }
   });
+
+  if( !samplePath.length )
+  throw _.err( `Sample with name "Sample.(s|ss|js)" does not exist in directory ${ sampleDir }` );
 
   /* */
 
-  let sampleName = '';
-
-  con.then( () =>
-  {
-    let sampleDir = a.abs( __dirname, '../sample/trivial' );
-    let samplePath = a.find
-    ({
-      filePath : sampleDir,
-      filter : { filePath : { 'Sample.(s|js|ss)' : 1 } }
-    });
-
-    if( !samplePath.length )
-    throw _.err( `Sample with name "Sample.(s|ss|js)" does not exist in directory ${ sampleDir }` );
-
-    /* */
-
-    let ext = 'js';
-    samplePath = samplePath.filter( ( e ) =>
-    {
-      let current = a.path.ext( e );
-      if( current === 's' || current === 'ss' )
-      {
-        ext = current;
-        return true;
-      }
-      return false;
-    });
-
-    if( samplePath.length )
-    {
-      a.fileProvider.dirMake( a.abs( '.' ) );
-      samplePath = a.abs( sampleDir, samplePath[ 0 ] ) ;
-      sampleName = a.path.fullName( samplePath );
-      // a.fileProvider.filesReflect({ reflectMap : { [ samplePath ] : a.abs( sampleName ) } });
-      a.fileProvider.filesReflect({ reflectMap : { [ sampleDir ] : a.abs( '.' ) } });
-
-      let packagePath = a.abs( __dirname, '../package.json' );
-      let config = a.fileProvider.fileRead({ filePath : packagePath, encoding : 'json' });
-      let version = _.npm.versionRemoteRetrive( `npm:///${ config.name }!alpha` ) === '' ? 'latest' : 'alpha';
-      let data = { dependencies : { [ config.name ] : version } };
-      a.fileProvider.fileWrite({ filePath : a.abs( 'package.json' ), data, encoding : 'json' });
-    }
-
-    return ext;
-  });
+  a.fileProvider.filesReflect({ reflectMap : { [ sampleDir ] : a.abs( 'sample/trivial' ) } });
+  let mdlPath = a.abs( __dirname, '../package.json' );
+  let mdl = a.fileProvider.fileRead({ filePath : mdlPath, encoding : 'json' });
+  let version = _.npm.versionRemoteRetrive( `npm:///${ mdl.name }!alpha` ) === '' ? 'latest' : 'alpha';
+  let data = { dependencies : { [ mdl.name ] : version } };
+  a.fileProvider.fileWrite({ filePath : a.abs( 'package.json' ), data, encoding : 'json' });
 
   /* */
 
-  con.then( ( ext ) =>
+  a.shell( `npm i --production` )
+  .then( ( op ) =>
   {
-    if( ext === 'js' )
+    test.case = 'install module';
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+
+  run( 'Sample.s' );
+  run( 'Sample.ss' );
+
+  /* */
+
+  return a.ready;
+
+  function run( name )
+  {
+    let filePath = `sample/trivial/${ name }`;
+    if( !a.fileProvider.fileExists( a.abs( filePath ) ) )
+    return null;
+    runList.push( filePath );
+    a.shell( `node ${ filePath }` )
+    .then( ( op ) =>
     {
-      test.true( true );
+      test.case = `running of sample ${filePath}`;
+      test.identical( op.exitCode, 0 );
+      test.ge( op.output.length, 3 );
       return null;
-    }
-    else
-    {
-      start( `npm i --production` )
-      .then( ( op ) =>
-      {
-        test.case = 'install module';
-        test.identical( op.exitCode, 0 );
-        return null;
-      });
-      start( `node ${ sampleName }` )
-      .then( ( op ) =>
-      {
-        test.case = 'succefull running of sample';
-        test.identical( op.exitCode, 0 );
-        test.ge( op.output.length, 3 );
-        return null;
-      });
-    }
-    return ready;
-  });
+    });
 
-  /* */
+  }
 
-  return con;
 }
 
 // --
