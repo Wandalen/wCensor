@@ -356,10 +356,15 @@ function commandConfigGet( e )
 
   cui._command_head({ routine : commandConfigGet, args : arguments });
 
-  if( !e.propertiesMap.selector )
-  e.propertiesMap.selector = [];
-  else
+  if( e.propertiesMap.selector )
   e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
+  else
+  e.propertiesMap.selector = [];
+
+  // if( !e.propertiesMap.selector )
+  // e.propertiesMap.selector = [];
+  // else
+  // e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
 
   if( e.subject )
   {
@@ -423,10 +428,15 @@ function commandConfigDel( e )
 
   cui._command_head({ routine : commandConfigDel, args : arguments });
 
-  if( !e.propertiesMap.selector )
-  e.propertiesMap.selector = [];
-  else
+  if( e.propertiesMap.selector )
   e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
+  else
+  e.propertiesMap.selector = [];
+
+  // if( !e.propertiesMap.selector )
+  // e.propertiesMap.selector = [];
+  // else
+  // e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
 
   if( e.subject )
   {
