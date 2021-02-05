@@ -1275,7 +1275,11 @@ function replace( o )
     match.sub = match.sub || o.sub;
     self.matchExecSub( match );
 
-    if( match.sub !== null )
+    if( match.sub === null )
+    {
+      logger.log( ' x no substitution', match.file.absolute );
+    }
+    else
     {
       _.assert( _.strIs( match.sub ) );
       if( self.changing )
@@ -1286,10 +1290,22 @@ function replace( o )
       match.nearest[ 1 ] = match.sub;
       self.matchLog( match, ' + replacement at ' );
     }
-    else
-    {
-      logger.log( ' x no substitution', match.file.absolute );
-    }
+
+    // if( match.sub !== null )
+    // {
+    //   _.assert( _.strIs( match.sub ) );
+    //   if( self.changing )
+    //   {
+    //     self.fileProvider.fileWrite( match.file.absolute, match.before + match.sub + match.after );
+    //     nreplacements += 1;
+    //   }
+    //   match.nearest[ 1 ] = match.sub;
+    //   self.matchLog( match, ' + replacement at ' );
+    // }
+    // else
+    // {
+    //   logger.log( ' x no substitution', match.file.absolute );
+    // }
 
   }
 
