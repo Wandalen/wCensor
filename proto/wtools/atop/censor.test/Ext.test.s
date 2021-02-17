@@ -491,7 +491,7 @@ function configLogBasic( test )
     var exp = 'null';
     test.case = 'not empty config'
     test.identical( op.exitCode, 0 );
-    test.et( op.output, exp );
+    test.eq( op.output, exp );
     return null;
   });
 
@@ -511,7 +511,7 @@ function configLogBasic( test )
 `;
     test.case = 'not empty config'
     test.identical( op.exitCode, 0 );
-    test.et( op.output, exp );
+    test.eq( op.output, exp );
     return null;
   });
 
@@ -821,7 +821,7 @@ function storageDel( test )
   .then( ( op ) =>
   {
     var exp = 'null';
-    test.ne( op.output, exp );
+    test.neq( op.output, exp );
 
     return null;
   });
@@ -909,7 +909,7 @@ redo :
      6 : Last one
 
 `
-    test.et( op.output, exp );
+    test.eq( op.output, exp );
 
     return null;
   } )
@@ -978,7 +978,7 @@ redo :
      5 : Fifth lineabc
      6 : Last one
 `
-    test.et( op.output, exp );
+    test.eq( op.output, exp );
 
     return null;
   } )
@@ -991,7 +991,7 @@ redo :
   {
     test.case = 'not empty, wrong session'
     var exp = ``;
-    test.et( op.output, exp );
+    test.eq( op.output, exp );
 
     return null;
   });
@@ -1035,7 +1035,7 @@ function profileLog( test )
   {
     test.case = 'profile with info';
 
-    test.ne( op.output, 'null' );
+    test.neq( op.output, 'null' );
 
     return null;
   });
@@ -1048,7 +1048,7 @@ function profileLog( test )
   {
     test.case = 'profile with info, wrong profile';
 
-    test.et( op.output, 'null' );
+    test.eq( op.output, 'null' );
 
     return null;
   });
@@ -1078,7 +1078,7 @@ function profileDel( test )
   {
     test.case = 'profile with info';
 
-    test.ne( op.output, 'null' );
+    test.neq( op.output, 'null' );
 
     return null;
   });
@@ -1088,7 +1088,7 @@ function profileDel( test )
   {
     test.case = 'deleted profile';
 
-    test.et( op.output, 'null' );
+    test.eq( op.output, 'null' );
 
     return null;
   });
@@ -4881,7 +4881,7 @@ function replaceBigFile( test )
   .then( ( op ) =>
   {
     test.description = `.replace filePath:** ins:ins1 sub:s`;
-    test.ni( op.exitCode, 0 );
+    test.nil( op.exitCode, 0 );
     test.identical( _.strCount( op.output, `File ${a.abs( 'File.txt' )} is too big` ), 1 );
 
     var exp = [ '.', './File.txt' ];
