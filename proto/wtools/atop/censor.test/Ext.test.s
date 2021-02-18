@@ -2605,7 +2605,7 @@ undo : 0
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one,
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -2712,7 +2712,7 @@ undo : 0
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one,
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -2945,7 +2945,7 @@ undo : 0
 `
  ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.txt' ) },
+      ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
 1 : First line
@@ -3392,7 +3392,7 @@ undo : 0
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one,
+4 : Last one
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -4087,7 +4087,7 @@ function replaceRedoHardLinked( test )
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     + replace 3 in ${ a.abs( 'before/File1.txt' ) },
      + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 `
     test.equivalent( op.output, exp );
@@ -4282,7 +4282,7 @@ function replaceRedoSoftLinked( test )
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     + replace 3 in ${ a.abs( 'before/File1.txt' ) },
      + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 `
     test.equivalent( op.output, exp );
@@ -5076,7 +5076,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -5280,7 +5280,7 @@ undo : 2
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1 -- 1 error(s)
 `
     test.equivalent( op.output, exp );
@@ -5321,7 +5321,7 @@ undo : 1 -- 1 error(s)
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1 -- 1 error(s)
 `
     test.equivalent( op.output, exp );
@@ -5433,7 +5433,7 @@ undo : 2
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1 -- 1 error(s)
 `
     test.equivalent( op.output, exp );
@@ -5474,7 +5474,7 @@ undo : 1 -- 1 error(s)
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1 -- 1 error(s)
 `
     test.equivalent( op.output, exp );
@@ -5652,7 +5652,7 @@ undo : 2 -- 2 error(s)
 
     var exp =
 `
-+ undo replace 5 in ${ a.abs( './before/File2.txt' ) },
++ undo replace 5 in ${ a.abs( './before/File2.txt' ) }
 + undo replace 3 in ${ a.abs( './before/File1.txt' ) }
 - Undone 2 action(s). Thrown 0 error(s).
 `
@@ -7029,7 +7029,7 @@ function replaceRedoUndoSingleCommand( test )
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one,
+     4 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
      1 : First lineabc
      2 : Second line
@@ -7044,7 +7044,7 @@ function replaceRedoUndoSingleCommand( test )
      5 : Fifth line
      4 : Fourth line
      5 : Fifth lineabc
-     6 : Last one,
+     6 : Last one
  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
     1 : First lineabc
     2 : Second line
@@ -7053,7 +7053,7 @@ function replaceRedoUndoSingleCommand( test )
     3 : Third line
     2 : Second line
     3 : Third lineabc
-    4 : Last one,
+    4 : Last one
    + replace 3 in ${ a.abs( 'before/File1.txt' ) }
     1 : First lineabc
     2 : Second line
@@ -7109,7 +7109,7 @@ function replaceRedoUndoSingleCommand( test )
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one,
+     4 : Last one
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
      1 : First lineabc
      2 : Second line
@@ -7124,7 +7124,7 @@ function replaceRedoUndoSingleCommand( test )
      5 : Fifth line
      4 : Fourth line
      5 : Fifth lineabc
-     6 : Last one,
+     6 : Last one
  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
     1 : First lineabc
     2 : Second line
@@ -7133,7 +7133,7 @@ function replaceRedoUndoSingleCommand( test )
     3 : Third line
     2 : Second line
     3 : Third lineabc
-    4 : Last one,
+    4 : Last one
    + replace 3 in ${ a.abs( 'before/File1.txt' ) }
     1 : First lineabc
     2 : Second line
