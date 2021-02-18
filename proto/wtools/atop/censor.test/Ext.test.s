@@ -891,7 +891,7 @@ redo :
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one
+     4 : Last one,
      + replace 5 in ${a.abs( 'before/File2.txt' )}
      1 : First lineabc
      2 : Second line
@@ -1224,7 +1224,7 @@ function replaceStatusOptionVerbosity( test )
 
     var exp =
 `
-  redo : 2
+  redo : 2,
   undo : 0
 `
     test.equivalent( op.output, exp );
@@ -1251,7 +1251,7 @@ function replaceStatusOptionVerbosity( test )
     var exp =
 `
   redo :
-     + replace 3 in ${ a.abs( 'before/File1.txt' ) }
+     + replace 3 in ${ a.abs( 'before/File1.txt' ) },
      + replace 5 in ${ a.abs( 'before/File2.txt' ) }
 `
     test.equivalent( op.output, exp );
@@ -1286,7 +1286,7 @@ redo :
   3 : Third line
   2 : Second line
   3 : Third lineabc
-  4 : Last one
+  4 : Last one,
   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First lineabc
   2 : Second line
@@ -1335,7 +1335,7 @@ redo :
   3 : Third line
   2 : Second line
   3 : Third lineabc
-  4 : Last one
+  4 : Last one,
   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First lineabc
   2 : Second line
@@ -1421,7 +1421,7 @@ function replaceRedoOptionVerbosity( test )
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -1457,7 +1457,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -1493,7 +1493,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -1558,7 +1558,7 @@ undo : 2
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -1595,7 +1595,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -1632,7 +1632,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -1697,7 +1697,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -1743,7 +1743,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -1795,7 +1795,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -1860,7 +1860,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -1906,7 +1906,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -1958,7 +1958,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2023,7 +2023,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2069,7 +2069,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -2121,7 +2121,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2191,7 +2191,7 @@ function replaceRedoOptionDepth( test )
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2234,7 +2234,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -2286,7 +2286,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2332,7 +2332,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2375,7 +2375,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1
+redo : 1,
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -2427,7 +2427,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2476,7 +2476,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2534,7 +2534,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2583,7 +2583,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2605,7 +2605,7 @@ undo : 0
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one
+4 : Last one,
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -2641,7 +2641,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2690,7 +2690,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2712,7 +2712,7 @@ undo : 0
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one
+4 : Last one,
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -2748,7 +2748,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2797,7 +2797,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2855,7 +2855,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -2925,7 +2925,7 @@ function replaceChangeRedo( test )
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -2945,7 +2945,7 @@ undo : 0
 `
  ! failed to redo action::replace 3 in ${ a.abs( 'before/File1.txt' ) }
     Files are outdated:
-      ${ a.abs( 'before/File1.txt' ) }
+      ${ a.abs( 'before/File1.txt' ) },
 1 : First lineabc
 2 : Second line
 1 : First line
@@ -2983,7 +2983,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1 -- 1 error(s)
+redo : 1 -- 1 error(s),
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -3024,7 +3024,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1 -- 1 error(s)
+redo : 1 -- 1 error(s),
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -3073,7 +3073,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -3100,7 +3100,7 @@ undo : 2
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3152,7 +3152,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1 -- 1 error(s)
+redo : 1 -- 1 error(s),
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -3193,7 +3193,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 1 -- 1 error(s)
+redo : 1 -- 1 error(s),
 undo : 1
 `
     test.equivalent( op.output, exp );
@@ -3248,7 +3248,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -3275,7 +3275,7 @@ undo : 2
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3322,7 +3322,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2 -- 2 error(s)
+redo : 2 -- 2 error(s),
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3366,7 +3366,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2 -- 2 error(s)
+redo : 2 -- 2 error(s),
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3392,7 +3392,7 @@ undo : 0
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one
+4 : Last one,
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -3431,7 +3431,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -3494,7 +3494,7 @@ function replaceRedoDepth0OptionVerbosity( test )
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3530,7 +3530,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -3594,7 +3594,7 @@ undo : 2
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3631,7 +3631,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -3696,7 +3696,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3757,7 +3757,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -3822,7 +3822,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -3883,7 +3883,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -3948,7 +3948,7 @@ Nothing to redo.
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -4009,7 +4009,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -4996,7 +4996,7 @@ function replaceRedoUndo( test )
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -5036,7 +5036,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -5114,7 +5114,7 @@ undo : 1
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -5131,7 +5131,7 @@ undo : 0
 
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -5157,7 +5157,7 @@ undo : 2
 
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -5236,7 +5236,7 @@ function replaceRedoChangeUndo( test )
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -5362,7 +5362,7 @@ undo : 1 -- 1 error(s)
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -5389,7 +5389,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -5515,7 +5515,7 @@ undo : 1 -- 1 error(s)
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -5542,7 +5542,7 @@ undo : 0
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2
 `
     test.equivalent( op.output, exp );
@@ -5589,7 +5589,7 @@ undo : 2
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2 -- 2 error(s)
 `
     test.equivalent( op.output, exp );
@@ -5633,7 +5633,7 @@ undo : 2 -- 2 error(s)
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 0
+redo : 0,
 undo : 2 -- 2 error(s)
 `
     test.equivalent( op.output, exp );
@@ -5652,7 +5652,7 @@ undo : 2 -- 2 error(s)
 
     var exp =
 `
-+ undo replace 5 in ${ a.abs( './before/File2.txt' ) }
++ undo replace 5 in ${ a.abs( './before/File2.txt' ) },
 + undo replace 3 in ${ a.abs( './before/File1.txt' ) }
 - Undone 2 action(s). Thrown 0 error(s).
 `
@@ -5676,7 +5676,7 @@ undo : 2 -- 2 error(s)
     test.identical( op.exitCode, 0 );
     var exp =
 `
-redo : 2
+redo : 2,
 undo : 0
 `
     test.equivalent( op.output, exp );
@@ -6465,7 +6465,7 @@ function replaceRedoUndoOptionDepth( test )
       3 : Third line
       2 : Second line
       3 : Third lineabc
-      4 : Last one
+      4 : Last one,
   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
       1 : First lineabc
       2 : Second line
@@ -6530,7 +6530,7 @@ function replaceRedoUndoOptionDepth( test )
   3 : Third abc2
   2 : Second abc2
   3 : Third abcabc22
-  4 : Last one
+  4 : Last one,
   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First abcabc2
   2 : Second abc
@@ -6596,7 +6596,7 @@ function replaceRedoUndoOptionDepth( test )
   3 : Third abc
   2 : Second abc
   3 : Third abcabc2
-  4 : Last one
+  4 : Last one,
   + replace 5 in ${ a.abs( 'before/File2.txt' ) }
   1 : First abcabc2
   2 : Second abc
@@ -6747,7 +6747,7 @@ function replaceRedoUndoOptionDepth( test )
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one
+4 : Last one,
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -6808,7 +6808,7 @@ function replaceRedoUndoOptionDepth( test )
 3 : Third line
 2 : Second line
 3 : Third lineabc
-4 : Last one
+4 : Last one,
 + replace 3 in ${ a.abs( 'before/File1.txt' ) }
 1 : First lineabc
 2 : Second line
@@ -7029,7 +7029,7 @@ function replaceRedoUndoSingleCommand( test )
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one
+     4 : Last one,
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
      1 : First lineabc
      2 : Second line
@@ -7044,7 +7044,7 @@ function replaceRedoUndoSingleCommand( test )
      5 : Fifth line
      4 : Fourth line
      5 : Fifth lineabc
-     6 : Last one
+     6 : Last one,
  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
     1 : First lineabc
     2 : Second line
@@ -7053,7 +7053,7 @@ function replaceRedoUndoSingleCommand( test )
     3 : Third line
     2 : Second line
     3 : Third lineabc
-    4 : Last one
+    4 : Last one,
    + replace 3 in ${ a.abs( 'before/File1.txt' ) }
     1 : First lineabc
     2 : Second line
@@ -7109,7 +7109,7 @@ function replaceRedoUndoSingleCommand( test )
      3 : Third line
      2 : Second line
      3 : Third lineabc
-     4 : Last one
+     4 : Last one,
  + replace 5 in ${ a.abs( 'before/File2.txt' ) }
      1 : First lineabc
      2 : Second line
@@ -7124,7 +7124,7 @@ function replaceRedoUndoSingleCommand( test )
      5 : Fifth line
      4 : Fourth line
      5 : Fifth lineabc
-     6 : Last one
+     6 : Last one,
  . Found 2 file(s). Arranged 8 replacement(s) in 2 file(s).
     1 : First lineabc
     2 : Second line
@@ -7133,7 +7133,7 @@ function replaceRedoUndoSingleCommand( test )
     3 : Third line
     2 : Second line
     3 : Third lineabc
-    4 : Last one
+    4 : Last one,
    + replace 3 in ${ a.abs( 'before/File1.txt' ) }
     1 : First lineabc
     2 : Second line

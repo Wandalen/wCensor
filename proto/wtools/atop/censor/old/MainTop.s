@@ -68,8 +68,8 @@ function _commandsMake()
   let commands =
   {
 
-    'help' :                    { e : _.routineJoin( censor, censor.commandHelp ),                        h : 'Get help.' },
-    'imply' :                   { e : _.routineJoin( censor, censor.commandImply ),                       h : 'Change state or imply value of a variable.' },
+    'help' :                    { e : _.routineJoin( censor, censor.commandHelp ), h : 'Get help.' },
+    'imply' :                   { e : _.routineJoin( censor, censor.commandImply ), h : 'Change state or imply value of a variable.' },
 
   }
 
