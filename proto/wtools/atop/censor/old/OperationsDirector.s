@@ -272,7 +272,7 @@ function commandConfigDefinePath( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-filePath-}' + '\nfilePath : ' + _.toStrShort( self.storage.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-filePath-}' + '\nfilePath : ' + _.entity.exportStringShort( self.storage.filePath ) );
 
   self.storage.filePath = fileProvider.path.resolve( self.storage.filePath );
 
@@ -326,7 +326,7 @@ function commandFind( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.toStrShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -381,7 +381,7 @@ function _execReplace( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.toStrShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   // o2.filePath = self.filePath;
@@ -465,7 +465,7 @@ function commandUndo( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.toStrShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -520,7 +520,7 @@ function commandFindSimilar( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.toStrShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -572,7 +572,7 @@ function commandTokenize( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.toStrShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -719,7 +719,7 @@ function similarGroupsLog( found )
 
       let similarities = _.select( found.similarMaps[ path ], '*/similarity' );
       similarities = _.mapVals( _.mapSelect( similarities, group.paths ) );
-      let similaritiesStr = similarities.map( ( e ) => logger.colorFormat( _.toStr( e ), { fg : 'cyan' } ) ).join( ', ' );
+      let similaritiesStr = similarities.map( ( e ) => logger.colorFormat( _.entity.exportString( e ), { fg : 'cyan' } ) ).join( ', ' );
 
       debugger;
       let combined = similarities.map( ( s, key ) =>
@@ -1084,7 +1084,7 @@ function find( o )
 
   /* */
 
-  let ins = _.toStr( o.ins );
+  let ins = _.entity.exportString( o.ins );
   ins = logger.colorFormat( ins, { fg : 'bright yellow' } );
   let at = o.filePath
   at = logger.colorFormat( at, 'path' );
@@ -1230,7 +1230,7 @@ function replace( o )
 
   logger.rbegin({ verbosity : -1 });
 
-  let sub = _.toStr( o.sub );
+  let sub = _.entity.exportString( o.sub );
   sub = logger.colorFormat( sub, { fg : 'cyan' } );
   self.topicBegin( 'Replacing with', sub );
 
@@ -1358,7 +1358,7 @@ function _storageFileWrite( o )
     let title = _.strQuote( _.strCapitalize( _.strToTitle( self.storageFileName ) ) );
     logger.log( ' + saving config ' + title + ' at ' + _.strQuote( o.storageFilePath ) );
     logger.log( 'Storage' );
-    logger.log( _.toStr( o.storage, { levels : 3 } ) );
+    logger.log( _.entity.exportString( o.storage, { levels : 3 } ) );
   }
 
   fileProvider.fileWriteJson
