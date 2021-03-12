@@ -148,7 +148,7 @@ function _command_head( o )
     _.mapExtend( e.propertiesMap, cui.implied );
   }
 
-  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.toStrShort( e.propertiesMap ) );
+  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShort( e.propertiesMap ) );
   if( o.routine.commandProperties )
   _.sureMapHasOnly( e.propertiesMap, o.routine.commandProperties, `Command does not expect options:` );
 
@@ -771,7 +771,7 @@ function commandStatus( e )
 
   let status = _.censor.status( e.propertiesMap );
 
-  logger.log( _.toStrNice( status ) );
+  logger.log( _.entity.exportStringNice( status ) );
 
 }
 

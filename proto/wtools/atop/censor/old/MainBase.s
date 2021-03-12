@@ -226,7 +226,7 @@ function operationLink()
   // self.maskAll = _.files.regexpMakeSafe( self.maskAll );
 
   if( self.verbosity )
-  logger.log( ' * Linking', _.toStr( self.basePath ) );
+  logger.log( ' * Linking', _.entity.exportString( self.basePath ) );
 
   fileProvider.archive.basePath = self.basePath;
   fileProvider.archive.fileMapAutosaving = 1;

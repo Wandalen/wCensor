@@ -64,7 +64,7 @@ function production( test )
   a.ready.delay( 60000 );
 
   console.log( `Event : ${trigger}` );
-  console.log( `Env :\n${_.toStr( _.mapBut( process.env, { WTOOLS_BOT_TOKEN : null } ) )}` );
+  console.log( `Env :\n${_.entity.exportString( environmentsGet() )}` );
 
   /* */
 
@@ -81,7 +81,6 @@ function production( test )
   /* */
 
   a.fileProvider.filesReflect({ reflectMap : { [ sampleDir ] : a.abs( 'sample/trivial' ) } });
-
 
   let remotePath = null;
   if( _.git.insideRepository( a.abs( __dirname, '..' ) ) )
@@ -100,17 +99,7 @@ function production( test )
   if( isFork )
   version = _.git.path.nativize( remotePath );
   else
-  version = _.npm.versionRemoteRetrive( `npm:///${ mdl.name }!alpha` ) === '' ? 'latest' : 'alpha'; /* aaa for Dmytro : ? */
-  /*
-    Dmytro : it is correct code, the first branch nativizes Git repository path ( forks should use Git path )
-    The second branch checks if the npmjs has some defined version of package ( origin should use version on npmjs )
-
-    The routine versionRemoteRetrive returns version of module if it exists, otherwise, the routine returns empty string
-    _.npm.versionRemoteRetrive({ remotePath : 'npm:///wTools!alpha' })
-    // returns : '0.8.858'
-    _.npm.versionRemoteRetrive({ remotePath : 'npm:///wTools!delta' })
-    // returns : ''
-  */
+  version = _.npm.versionRemoteRetrive( `npm:///${ mdl.name }!alpha` ) === '' ? 'latest' : 'alpha';
 
   if( !version )
   throw _.err( 'Cannot obtain version to install' );
@@ -128,6 +117,11 @@ function production( test )
   {
     test.case = 'install module';
     test.identical( op.exitCode, 0 );
+
+    test.case = 'no test files';
+    let moduleDir = _.path.join( a.routinePath, 'node_modules', mdl.name );
+    let testFiles = a.fileProvider.filesFind({ filePath : _.path.join( moduleDir, '**.test*' ), outputFormat : 'relative' });
+    test.identical( testFiles, [] );
     return null;
   });
 
@@ -138,27 +132,20 @@ function production( test )
 
   return a.ready;
 
-  // /* */
-  //
-  // function publishIs() /* aaa for Dmytro : lets discuss */ /* Dmytro : the manual checking of triggers is replaced by routine `workflowTriggerGet` */
-  // {
-  //   if( process.env.GITHUB_WORKFLOW === 'publish' )
-  //   return true;
-  //
-  //   if( process.env.CIRCLECI )
-  //   {
-  //     let lastCommitLog = a.shell
-  //     ({
-  //       currentPath : a.abs( __dirname, '..' ),
-  //       execPath : 'git log --format=%B -n 1',
-  //       sync : 1
-  //     });
-  //     let commitMsg = lastCommitLog.output;
-  //     return _.strBegins( commitMsg, 'version' );
-  //   }
-  //
-  //   return false;
-  // }
+  /* */
+
+  function environmentsGet()
+  {
+    /* object process.env is not an auxiliary element ( new implemented check ) */
+    return _.filter_( _.mapExtend( null, process.env ), ( element, key ) => /* xxx */
+    {
+      if( _.strBegins( key, 'PRIVATE_' ) )
+      return;
+      if( key === 'NODE_PRE_GYP_GITHUB_TOKEN' )
+      return;
+      return key;
+    });
+  }
 
   /* */
 
