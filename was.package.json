@@ -10,14 +10,10 @@
   "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wCensor.git" },
   "bin" :
   {
-    "single-process-censor" : "proto/wtools/atop/censor/entry/Exec",
-    "debug-censor" : "proto/wtools/atop/censor/entry/ExecDebug",
-    "unrestricted-censor" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "censor" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "single-process-wcensor" : "proto/wtools/atop/censor/entry/Exec",
-    "debug-wcensor" : "proto/wtools/atop/censor/entry/ExecDebug",
-    "unrestricted-wcensor" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "wcensor" : "proto/wtools/atop/censor/entry/ExecUnrestricted"
+    "censor.singleproc" : "proto/wtools/atop/censor/entry/Exec",
+    "censor.debug" : "proto/wtools/atop/censor/entry/ExecDebug",
+    "censor.unrestricted" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
+    "censor" : "proto/wtools/atop/censor/entry/ExecUnrestricted"
   },
   "bugs" :
   {
