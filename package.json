@@ -1,6 +1,6 @@
 {
   "name": "wcensor",
-  "version": "0.2.113",
+  "version": "0.2.116",
   "description": "Utility to edit files massively from console and with undo.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "license": "MIT",
@@ -18,14 +18,10 @@
     "url": "https://github.com/Wandalen/wCensor.git"
   },
   "bin": {
-    "single-process-censor": "proto/wtools/atop/censor/entry/Exec",
-    "debug-censor": "proto/wtools/atop/censor/entry/ExecDebug",
-    "unrestricted-censor": "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "censor": "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "single-process-wcensor": "proto/wtools/atop/censor/entry/Exec",
-    "debug-wcensor": "proto/wtools/atop/censor/entry/ExecDebug",
-    "unrestricted-wcensor": "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "wcensor": "proto/wtools/atop/censor/entry/ExecUnrestricted"
+    "censor.singleproc": "proto/wtools/atop/censor/entry/Exec",
+    "censor.debug": "proto/wtools/atop/censor/entry/ExecDebug",
+    "censor.unrestricted": "proto/wtools/atop/censor/entry/ExecUnrestricted",
+    "censor": "proto/wtools/atop/censor/entry/ExecUnrestricted"
   },
   "bugs": {
     "url": "https://github.com/Wandalen/wCensor/issues"
