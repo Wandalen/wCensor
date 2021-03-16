@@ -188,7 +188,6 @@ function commandConfigDefine( e )
 
   self.sessionOpenOrCreate();
 
-  debugger;
   self.storage = _.mapExtend( self.storage, e.propertiesMap );
 
   self.sessionSave();
@@ -209,7 +208,6 @@ function commandConfigAppend( e )
 
   self.sessionOpenOrCreate();
 
-  debugger;
   self.storage = _.mapExtendAppendingArraysRecursive( self.storage, e.propertiesMap );
 
   self.sessionSave();
@@ -705,7 +703,6 @@ function similarGroupsLog( found )
       let linkGroup = found.linkedFilesMap[ path ];
       if( linkGroup !== undefined )
       {
-        debugger;
         linkGroup = found.linkGroupsArray[ linkGroup ];
         linked = group.paths.map( ( path2, p2 ) =>
         {
@@ -721,7 +718,6 @@ function similarGroupsLog( found )
       similarities = _.mapVals( _.mapSelect( similarities, group.paths ) );
       let similaritiesStr = similarities.map( ( e ) => logger.colorFormat( _.entity.exportString( e ), { fg : 'cyan' } ) ).join( ', ' );
 
-      debugger;
       let combined = similarities.map( ( s, key ) =>
       {
         if( linked && linked[ key ] )
@@ -852,7 +848,6 @@ function matchEach( o )
       let stat = self.fileProvider.statResolvedRead( match.file.absolute );
       if( stat.size !== match.file.stat.size || stat.mtimeMs !== match.file.stat.mtimeMs )
       {
-        debugger;
         throw _.err( 'Files are outdated, please rerun Find', '\nOutdated file :', match.file.absolute );
       }
     });
@@ -875,7 +870,6 @@ function matchEach( o )
 
       return true;
     });
-    debugger;
 
   }
   catch( err )

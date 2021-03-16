@@ -69,7 +69,6 @@ function help( test )
 
   /* */
 
-  debugger;
 
   return a.ready;
 }
@@ -202,6 +201,8 @@ function configSetBasic( test )
   let context = this;
   let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
+
+  console.log( _.censor )
 
   a.reflect();
 
@@ -4381,7 +4382,6 @@ function replaceRedoSoftLinked( test )
 `
     test.equivalent( op.output, exp );
 
-    debugger;
     return null;
   })
 
@@ -4390,7 +4390,6 @@ function replaceRedoSoftLinked( test )
   {
     test.description = '.redo';
     test.identical( op.exitCode, 0 );
-    debugger;
 
     var exp =
 `
@@ -4479,7 +4478,6 @@ function replaceRedoSoftLinked( test )
 `
     test.equivalent( op.output, exp );
 
-    debugger;
     return null;
   })
 
@@ -4488,7 +4486,6 @@ function replaceRedoSoftLinked( test )
   {
     test.description = '.redo';
     test.identical( op.exitCode, 0 );
-    debugger;
 
     var exp =
 `
@@ -4555,7 +4552,7 @@ function replaceRedoBrokenSoftLink( test )
   let profile = `test-${ _.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
-  a.reflect(); debugger;
+  a.reflect();
 
   /* - */
 
@@ -4668,7 +4665,6 @@ function replaceRedoTextLink( test )
       allowingCycled : 1,
       allowingMissed : 1,
     });
-    debugger;
     test.true( a.fileProvider.isTextLink( a.abs( 'before/dir/textLink.txt' ) ) );
     test.true( a.fileProvider.areTextLinked( a.abs( 'before/dir/textlink.txt' ), a.abs( 'before/File1.txt' ) ) );
 
@@ -4793,7 +4789,6 @@ function replaceRedoBrokenTextLink( test )
       allowingMissed : 1,
       sync : 1,
     });
-    debugger
     test.true( a.fileProvider.isTextLink( a.abs( 'before/missed.txt' ) ) );
     test.true( a.fileProvider.isTextLink( a.abs( 'before/cycled.txt' ) ) );
 
