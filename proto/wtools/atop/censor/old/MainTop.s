@@ -12,9 +12,9 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 let Parent = _.Censor;
-let Self = wCensorCli;
+const Self = wCensorCli;
 function wCensorCli( o )
 {
   return _.workpiece.construct( Self, this, arguments );

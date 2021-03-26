@@ -3,8 +3,8 @@
 
 'use strict';
 
-let _ = _global_.wTools;
-let Self = _.censor = _.censor || Object.create( null );
+const _ = _global_.wTools;
+const Self = _.censor = _.censor || Object.create( null );
 
 let _vopts = { vectorizingContainerAdapter : 1, unwrapingContainerAdapter : 0 };
 let vectorize = _.routineDefaults( null, _.vectorize, _vopts );

@@ -5,9 +5,9 @@
 
 //
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 let Parent = null;
-let Self = wCensorCui;
+const Self = wCensorCui;
 function wCensorCui( o )
 {
   return _.workpiece.construct( Self, this, arguments );
@@ -82,8 +82,8 @@ function _commandsMake()
 
   let commands =
   {
-    'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
-    'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
+    'help' :                    { e : _.routineJoin( cui, cui.commandHelp ) },
+    'version' :                 { e : _.routineJoin( cui, cui.commandVersion ) },
     'imply' :                   { e : _.routineJoin( cui, cui.commandImply )                },
     'storage.del' :             { e : _.routineJoin( cui, cui.commandStorageDel )           },
     'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
@@ -143,14 +143,14 @@ function _command_head( o )
   if( cui.implied )
   {
     if( o.routine.commandProperties )
-    _.mapExtend( e.propertiesMap, _.mapOnly( cui.implied, o.routine.commandProperties ) );
+    _.mapExtend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.commandProperties ) );
     else
     _.mapExtend( e.propertiesMap, cui.implied );
   }
 
   _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShort( e.propertiesMap ) );
   if( o.routine.commandProperties )
-  _.sureMapHasOnly( e.propertiesMap, o.routine.commandProperties, `Command does not expect options:` );
+  _.map.sureHasOnly( e.propertiesMap, o.routine.commandProperties, `Command does not expect options:` );
 
   if( _.boolLikeFalse( o.routine.commandSubjectHint ) )
   if( e.subject.trim() !== '' )
