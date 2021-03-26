@@ -8227,7 +8227,7 @@ F1.js
 // declare
 // --
 
-let Self =
+const Proto =
 {
 
   name : 'Tools.Censor.Ext',
@@ -8306,7 +8306,7 @@ let Self =
 
 //
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self.name );
 

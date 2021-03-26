@@ -20,9 +20,9 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 let Parent = null;
-let Self = wFilesOperationsDirector;
+const Self = wFilesOperationsDirector;
 function wFilesOperationsDirector( o )
 {
   return _.workpiece.construct( Self, this, arguments );
@@ -293,8 +293,8 @@ function commandFind( e )
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 1 );
   _.mapSupplement( o2, self.find.defaults );
-  _.mapExtend( self, _.mapOnly( self.storage, self ) );
-  _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
+  _.mapExtend( self, _.mapOnly_( null, self.storage, self ) );
+  _.mapExtend( o2, _.mapOnly_( null, self.storage, o2 ) );
 
   _.process.inputReadTo
   ({
@@ -350,8 +350,8 @@ function _execReplace( e )
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 1 );
   _.mapSupplement( o2, self.replace.defaults );
-  _.mapExtend( self, _.mapOnly( self.storage, self ) );
-  _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
+  _.mapExtend( self, _.mapOnly_( null, self.storage, self ) );
+  _.mapExtend( o2, _.mapOnly_( null, self.storage, o2 ) );
 
   /* xxxyyy */
 
@@ -437,8 +437,8 @@ function commandUndo( e )
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 1 );
   _.mapSupplement( o2, self.replace.defaults );
-  _.mapExtend( self, _.mapOnly( self.storage, self ) );
-  _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
+  _.mapExtend( self, _.mapOnly_( null, self.storage, self ) );
+  _.mapExtend( o2, _.mapOnly_( null, self.storage, o2 ) );
 
   _.process.inputReadTo
   ({
@@ -489,8 +489,8 @@ function commandFindSimilar( e )
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 1 );
   _.mapSupplement( o2, self.findSimilar.defaults );
-  _.mapExtend( self, _.mapOnly( self.storage, self ) );
-  _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
+  _.mapExtend( self, _.mapOnly_( null, self.storage, self ) );
+  _.mapExtend( o2, _.mapOnly_( null, self.storage, o2 ) );
 
   _.process.inputReadTo
   ({
@@ -544,8 +544,8 @@ function commandTokenize( e )
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 1 );
   _.mapSupplement( o2, self.tokenize.defaults );
-  _.mapExtend( self, _.mapOnly( self.storage, self ) );
-  _.mapExtend( o2, _.mapOnly( self.storage, o2 ) );
+  _.mapExtend( self, _.mapOnly_( null, self.storage, self ) );
+  _.mapExtend( o2, _.mapOnly_( null, self.storage, o2 ) );
 
   _.process.inputReadTo
   ({
@@ -715,7 +715,7 @@ function similarGroupsLog( found )
       }
 
       let similarities = _.select( found.similarMaps[ path ], '*/similarity' );
-      similarities = _.mapVals( _.mapSelect( similarities, group.paths ) );
+      similarities = _.mapVals( _.mapVaslWithKeys( similarities, group.paths ) );
       let similaritiesStr = similarities.map( ( e ) => logger.colorFormat( _.entity.exportString( e ), { fg : 'cyan' } ) ).join( ', ' );
 
       let combined = similarities.map( ( s, key ) =>
@@ -1149,7 +1149,7 @@ function tokenize( o )
 
   self.topicBegin( 'Tokenizing ' + at, '' );
 
-  let o2 = _.mapOnly( o, self.fileProvider.filesFindRecursive.defaults );
+  let o2 = _.mapOnly_( null, o, self.fileProvider.filesFindRecursive.defaults );
   self.found = self.fileProvider.filesFindRecursive( o2 );
 
   self.found.forEach( ( file ) =>
