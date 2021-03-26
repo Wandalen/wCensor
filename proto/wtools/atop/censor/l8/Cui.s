@@ -6,7 +6,7 @@
 //
 
 const _ = _global_.wTools;
-let Parent = null;
+const Parent = null;
 const Self = wCensorCui;
 function wCensorCui( o )
 {
@@ -148,7 +148,7 @@ function _command_head( o )
     _.mapExtend( e.propertiesMap, cui.implied );
   }
 
-  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShort( e.propertiesMap ) );
+  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShallow( e.propertiesMap ) );
   if( o.routine.commandProperties )
   _.map.sureHasOnly( e.propertiesMap, o.routine.commandProperties, `Command does not expect options:` );
 

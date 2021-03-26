@@ -21,7 +21,7 @@ if( typeof module !== 'undefined' )
 //
 
 const _ = _global_.wTools;
-let Parent = null;
+const Parent = null;
 const Self = wFilesOperationsDirector;
 function wFilesOperationsDirector( o )
 {
@@ -272,7 +272,7 @@ function commandConfigDefinePath( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-filePath-}' + '\nfilePath : ' + _.entity.exportStringShort( self.storage.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-filePath-}' + '\nfilePath : ' + _.entity.exportStringShallow( self.storage.filePath ) );
 
   self.storage.filePath = fileProvider.path.resolve( self.storage.filePath );
 
@@ -326,7 +326,7 @@ function commandFind( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -381,7 +381,7 @@ function _execReplace( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   // o2.filePath = self.filePath;
@@ -465,7 +465,7 @@ function commandUndo( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -520,7 +520,7 @@ function commandFindSimilar( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -572,7 +572,7 @@ function commandTokenize( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;

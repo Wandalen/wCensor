@@ -13,7 +13,7 @@ if( typeof module !== 'undefined' )
 //
 
 const _ = _global_.wTools;
-let Parent = _.Censor;
+const Parent = _.Censor;
 const Self = wCensorCli;
 function wCensorCli( o )
 {
