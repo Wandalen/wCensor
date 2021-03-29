@@ -60,7 +60,7 @@ function init( o )
 function form()
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let currentPath = fileProvider.path.current();
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
@@ -99,7 +99,7 @@ function exec()
 {
   let self = this;
   let logger = self.logger;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
 
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 0, 'Expects no arguments' );
@@ -159,7 +159,7 @@ function commandHelp( e )
 function commandConfigClear( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -180,7 +180,7 @@ function commandConfigClear( e )
 function commandConfigDefine( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -201,7 +201,7 @@ function commandConfigDefine( e )
 function commandConfigAppend( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -222,7 +222,7 @@ function commandConfigAppend( e )
 function commandConfigDelete( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -243,7 +243,7 @@ function commandConfigDelete( e )
 function commandConfigDefinePath( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -286,7 +286,7 @@ function commandConfigDefinePath( e )
 function commandFind( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -343,7 +343,7 @@ function commandFind( e )
 function _execReplace( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -398,7 +398,7 @@ function _execReplace( e )
 function commandIfReplace( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -414,7 +414,7 @@ function commandIfReplace( e )
 function commandReplace( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -430,7 +430,7 @@ function commandReplace( e )
 function commandUndo( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -482,7 +482,7 @@ function commandUndo( e )
 function commandFindSimilar( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -537,7 +537,7 @@ function commandFindSimilar( e )
 function commandTokenize( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -1346,7 +1346,7 @@ function undo()
 function _storageFileWrite( o )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger = self.logger;
 
   _.routineOptions( _storageFileWrite, o );

@@ -44,7 +44,7 @@ function exec()
   _.assert( arguments.length === 0, 'Expects no arguments' );
 
   let logger = censor.logger;
-  let fileProvider = censor.fileProvider;
+  const fileProvider = censor.fileProvider;
   let appArgs = _.process.input({ keyValDelimeter : 0 });
   let ca = censor._commandsMake();
 
@@ -59,7 +59,7 @@ function _commandsMake()
 {
   let censor = this;
   let logger = censor.logger;
-  let fileProvider = censor.fileProvider;
+  const fileProvider = censor.fileProvider;
   let appArgs = _.process.input();
 
   _.assert( _.instanceIs( censor ) );
