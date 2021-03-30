@@ -1,13 +1,14 @@
 {
   "name": "wcensor",
-  "version": "0.2.120",
+  "version": "0.2.121",
   "description": "Utility to edit files massively from console and with undo.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "license": "MIT",
   "main": "proto/wtools/atop/censor/entry/Include.s",
   "files": [
     "proto/wtools/atop/censor",
-    "proto/wtools/Tools.s"
+    "proto/wtools/Tools.s",
+    "proto/node_modules"
   ],
   "scripts": {
     "test": "wtest .run 'proto/**' rapidity:-3",
@@ -36,8 +37,7 @@
   },
   "devDependencies": {
     "eslint": "7.1.0",
-    "wTesting": "delta",
-    "wcensor": "file:."
+    "wTesting": "delta"
   },
   "keywords": [
     "wTools"
