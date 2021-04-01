@@ -77,58 +77,58 @@ function help( test )
 
 //
 
-function runDebugCensor( test )
-{
-  let context = this;
-  let a = test.assetFor( false );
-  let con = __.take( null );
-  a.reflect();
-
-  /* */
-
-  con.then( () =>
-  {
-    test.case = 'debug-censor .help';
-
-    var debugCensorPath = a.abs( a.path.dir( context.appJsPath ), 'ExecDebug' );
-    var o =
-    {
-      execPath : debugCensorPath + ' .help',
-      currentPath : a.routinePath,
-      outputCollecting : 1,
-      throwingExitCode : 0,
-      outputGraying : 1,
-      ready : a.ready,
-      mode : 'fork',
-    };
-    __.process.start( o );
-
-    return a.ready.then( ( op ) =>
-    {
-      if( op.exitCode === 0 )
-      {
-        test.description = 'utility debugnode exists';
-        test.identical( __.strCount( op.output, 'debugnode/node_modules/electron/dist/electron --no-sandbox' ), 1 );
-        test.identical( __.strCount( op.output, 'debugnode/proto/wtools/atop/nodeWithDebug/browser/electron/ElectronProcess.ss' ), 1 );
-        test.identical( __.strCount( op.output, '.help - Get help.' ), 1 );
-        test.identical( __.strCount( op.output, '.version - Get information about version.' ), 1 );
-      }
-      else
-      {
-        test.description = 'utility debugnode not exists';
-        test.identical( __.strCount( op.output, 'spawn debugnode ENOENT' ), 1 );
-        test.identical( __.strCount( op.output, 'code : \'ENOENT\'' ), 1 );
-        test.identical( __.strCount( op.output, 'syscall : \'spawn debugnode\'' ), 1 );
-        test.identical( __.strCount( op.output, 'path : \'debugnode\'' ), 1 );
-        test.identical( __.strCount( op.output, 'spawnargs' ), 1 );
-        test.identical( __.strCount( op.output, 'Error starting the process' ), 1 );
-      }
-      return null;
-    });
-  });
-
-  return con;
-}
+// function runDebugCensor( test )
+// {
+//   let context = this;
+//   let a = test.assetFor( false );
+//   let con = __.take( null );
+//   a.reflect();
+//
+//   /* */
+//
+//   con.then( () =>
+//   {
+//     test.case = 'debug-censor .help';
+//
+//     var debugCensorPath = a.abs( a.path.dir( context.appJsPath ), 'ExecDebug' );
+//     var o =
+//     {
+//       execPath : debugCensorPath + ' .help',
+//       currentPath : a.routinePath,
+//       outputCollecting : 1,
+//       throwingExitCode : 0,
+//       outputGraying : 1,
+//       ready : a.ready,
+//       mode : 'fork',
+//     };
+//     __.process.start( o );
+//
+//     return a.ready.then( ( op ) =>
+//     {
+//       if( op.exitCode === 0 )
+//       {
+//         test.description = 'utility debugnode exists';
+//         test.identical( __.strCount( op.output, 'debugnode/node_modules/electron/dist/electron --no-sandbox' ), 1 );
+//         test.identical( __.strCount( op.output, 'debugnode/proto/wtools/atop/nodeWithDebug/browser/electron/ElectronProcess.ss' ), 1 );
+//         test.identical( __.strCount( op.output, '.help - Get help.' ), 1 );
+//         test.identical( __.strCount( op.output, '.version - Get information about version.' ), 1 );
+//       }
+//       else
+//       {
+//         test.description = 'utility debugnode not exists';
+//         test.identical( __.strCount( op.output, 'spawn debugnode ENOENT' ), 1 );
+//         test.identical( __.strCount( op.output, 'code : \'ENOENT\'' ), 1 );
+//         test.identical( __.strCount( op.output, 'syscall : \'spawn debugnode\'' ), 1 );
+//         test.identical( __.strCount( op.output, 'path : \'debugnode\'' ), 1 );
+//         test.identical( __.strCount( op.output, 'spawnargs' ), 1 );
+//         test.identical( __.strCount( op.output, 'Error starting the process' ), 1 );
+//       }
+//       return null;
+//     });
+//   });
+//
+//   return con;
+// }
 
 //
 
@@ -8255,7 +8255,7 @@ const Proto =
   {
 
     help,
-    runDebugCensor,
+    // runDebugCensor,
 
     configGetBasic,
     configSetBasic,

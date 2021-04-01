@@ -577,10 +577,14 @@ function commandHlink( e )
   let op = e.propertiesMap;
 
   cui._command_head( commandHlink, arguments );
-  op.logger = 1;
+  op.logger = new _.Logger({ outputTo : logger });
 
   if( op.verbosity === undefined )
   op.verbosity = 3;
+
+  if( op.verbosity )
+  op.logger.verbosity = op.verbosity;
+  delete op.verbosity;
 
   if( e.subject )
   op.basePath = _.arrayAppendArrays( _.arrayAs( e.subject ), op.basePath ? _.arrayAs( op.basePath ) : [] );
@@ -603,7 +607,7 @@ commandHlink.commandProperties =
   includingPath : 'Glob or path to filter in.',
   excludingPath : 'Glob or path to filter out.',
   excludingHyphened : 'Glob or path that starts with "-" to filter in/out',
-  withConfigPath : 'To add path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
+  withShared : 'To add path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
 }
