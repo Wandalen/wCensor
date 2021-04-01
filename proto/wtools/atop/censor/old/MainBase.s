@@ -20,7 +20,7 @@ if( typeof module !== 'undefined' )
 //
 
 const _ = _global_.wTools;
-let Parent = null;
+const Parent = null;
 const Self = wCensor;
 function wCensor( o )
 {
@@ -131,7 +131,7 @@ function formAssociates()
   censor.fileProvider.logger = logger2;
   for( var f in censor.fileProvider.providersWithProtocolMap )
   {
-    let fileProvider = censor.fileProvider.providersWithProtocolMap[ f ];
+    const fileProvider = censor.fileProvider.providersWithProtocolMap[ f ];
     fileProvider.logger = logger2;
   }
 
@@ -165,8 +165,8 @@ function _verbosityChange()
 function vcsProviderFor( o )
 {
   let censor = this;
-  let fileProvider = censor.fileProvider;
-  let path = fileProvider.path;
+  const fileProvider = censor.fileProvider;
+  const path = fileProvider.path;
 
   if( !_.mapIs( o ) )
   o = { filePath : o }
@@ -202,8 +202,8 @@ vcsProviderFor.defaults =
 function operationLink()
 {
   let self = this;
-  let fileProvider = self.fileProvider;
-  let path = fileProvider.path;
+  const fileProvider = self.fileProvider;
+  const path = fileProvider.path;
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
   _.assert( !!self.libraryPath, 'Please define {-libraryPath-} first' );

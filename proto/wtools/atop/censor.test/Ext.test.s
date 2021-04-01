@@ -10,7 +10,8 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );;
 }
 
-let _ = _globals_.testing.wTools;
+const _ = _global_.wTools;
+const __ = _globals_.testing.wTools;
 
 // --
 // context
@@ -19,9 +20,9 @@ let _ = _globals_.testing.wTools;
 function onSuiteBegin()
 {
   let context = this;
-  context.suiteTempPath = _.path.tempOpen( _.path.join( __dirname, '../..' ), 'censor' );
-  context.assetsOriginalPath = _.path.join( __dirname, '_asset' );
-  context.appJsPath = _.path.nativize( _.module.resolve( 'wCensor' ) );
+  context.suiteTempPath = __.path.tempOpen( __.path.join( __dirname, '../..' ), 'censor' );
+  context.assetsOriginalPath = __.path.join( __dirname, '_asset' );
+  context.appJsPath = __.path.nativize( __.module.resolve( 'wCensor' ) );
 }
 
 //
@@ -29,8 +30,8 @@ function onSuiteBegin()
 function onSuiteEnd()
 {
   let context = this;
-  _.assert( _.strHas( context.suiteTempPath, '/censor' ) )
-  _.path.tempClose( context.suiteTempPath );
+  __.assert( __.strHas( context.suiteTempPath, '/censor' ) )
+  __.path.tempClose( context.suiteTempPath );
 }
 
 // --
@@ -50,8 +51,8 @@ function help( test )
   {
     test.case = '.';
     test.notIdentical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'Ambiguity. Did you mean?' ), 1 );
-    test.identical( _.strCount( op.output, '.help - Get help.' ), 1 );
+    test.identical( __.strCount( op.output, 'Ambiguity. Did you mean?' ), 1 );
+    test.identical( __.strCount( op.output, '.help - Get help.' ), 1 );
     return null;
   });
 
@@ -62,8 +63,8 @@ function help( test )
   {
     test.case = '';
     test.notIdentical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'Illformed command ""' ), 1 );
-    test.identical( _.strCount( op.output, '.help - Get help.' ), 1 );
+    test.identical( __.strCount( op.output, 'Illformed command ""' ), 1 );
+    test.identical( __.strCount( op.output, '.help - Get help.' ), 1 );
     return null;
   });
 
@@ -74,65 +75,65 @@ function help( test )
 
 //
 
-function runDebugCensor( test )
-{
-  let context = this;
-  let a = test.assetFor( false );
-  let con = _.take( null );
-  a.reflect();
-
-  /* */
-
-  con.then( () =>
-  {
-    test.case = 'debug-censor .help';
-
-    var debugCensorPath = a.abs( a.path.dir( context.appJsPath ), 'ExecDebug' );
-    var o =
-    {
-      execPath : debugCensorPath + ' .help',
-      currentPath : a.routinePath,
-      outputCollecting : 1,
-      throwingExitCode : 0,
-      outputGraying : 1,
-      ready : a.ready,
-      mode : 'fork',
-    };
-    _.process.start( o );
-
-    return a.ready.then( ( op ) =>
-    {
-      if( op.exitCode === 0 )
-      {
-        test.description = 'utility debugnode exists';
-        test.identical( _.strCount( op.output, 'debugnode/node_modules/electron/dist/electron --no-sandbox' ), 1 );
-        test.identical( _.strCount( op.output, 'debugnode/proto/wtools/atop/nodeWithDebug/browser/electron/ElectronProcess.ss' ), 1 );
-        test.identical( _.strCount( op.output, '.help - Get help.' ), 1 );
-        test.identical( _.strCount( op.output, '.version - Get information about version.' ), 1 );
-      }
-      else
-      {
-        test.description = 'utility debugnode not exists';
-        test.identical( _.strCount( op.output, 'spawn debugnode ENOENT' ), 1 );
-        test.identical( _.strCount( op.output, 'code : \'ENOENT\'' ), 1 );
-        test.identical( _.strCount( op.output, 'syscall : \'spawn debugnode\'' ), 1 );
-        test.identical( _.strCount( op.output, 'path : \'debugnode\'' ), 1 );
-        test.identical( _.strCount( op.output, 'spawnargs' ), 1 );
-        test.identical( _.strCount( op.output, 'Error starting the process' ), 1 );
-      }
-      return null;
-    });
-  });
-
-  return con;
-}
+// function runDebugCensor( test )
+// {
+//   let context = this;
+//   let a = test.assetFor( false );
+//   let con = __.take( null );
+//   a.reflect();
+//
+//   /* */
+//
+//   con.then( () =>
+//   {
+//     test.case = 'debug-censor .help';
+//
+//     var debugCensorPath = a.abs( a.path.dir( context.appJsPath ), 'ExecDebug' );
+//     var o =
+//     {
+//       execPath : debugCensorPath + ' .help',
+//       currentPath : a.routinePath,
+//       outputCollecting : 1,
+//       throwingExitCode : 0,
+//       outputGraying : 1,
+//       ready : a.ready,
+//       mode : 'fork',
+//     };
+//     __.process.start( o );
+//
+//     return a.ready.then( ( op ) =>
+//     {
+//       if( op.exitCode === 0 )
+//       {
+//         test.description = 'utility debugnode exists';
+//         test.identical( __.strCount( op.output, 'debugnode/node_modules/electron/dist/electron --no-sandbox' ), 1 );
+//         test.identical( __.strCount( op.output, 'debugnode/proto/wtools/atop/nodeWithDebug/browser/electron/ElectronProcess.ss' ), 1 );
+//         test.identical( __.strCount( op.output, '.help - Get help.' ), 1 );
+//         test.identical( __.strCount( op.output, '.version - Get information about version.' ), 1 );
+//       }
+//       else
+//       {
+//         test.description = 'utility debugnode not exists';
+//         test.identical( __.strCount( op.output, 'spawn debugnode ENOENT' ), 1 );
+//         test.identical( __.strCount( op.output, 'code : \'ENOENT\'' ), 1 );
+//         test.identical( __.strCount( op.output, 'syscall : \'spawn debugnode\'' ), 1 );
+//         test.identical( __.strCount( op.output, 'path : \'debugnode\'' ), 1 );
+//         test.identical( __.strCount( op.output, 'spawnargs' ), 1 );
+//         test.identical( __.strCount( op.output, 'Error starting the process' ), 1 );
+//       }
+//       return null;
+//     });
+//   });
+//
+//   return con;
+// }
 
 //
 
 function configGetBasic( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -198,7 +199,7 @@ function configGetBasic( test )
 function configSetBasic( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -233,7 +234,7 @@ function configSetBasic( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '{ "about" : {}, "path" : {}, "ab" : `cd` }' ), 1 );
+    test.identical( __.strCount( op.output, '{ "about" : {}, "path" : {}, "ab" : `cd` }' ), 1 );
 
     var exp = { 'about' : {}, 'path' : {}, 'ab' : 'cd' };
     var got = _global_.wTools.censor.configOpen({ profileDir : profile, locking : 0 });
@@ -315,7 +316,7 @@ function configSetBasic( test )
 function configDelBasic( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -476,7 +477,7 @@ function configDelBasic( test )
 function configLogBasic( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -524,7 +525,7 @@ function configLogBasic( test )
 function version( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -537,8 +538,8 @@ function version( test )
     var exp = 'null';
     test.case = 'version'
     test.identical( op.exitCode, 0 );
-    test.true( _.strHas( op.output, 'Current version :' ) );
-    test.true( _.strHas( op.output, 'Latest version of wcensor!alpha :' ) );
+    test.true( __.strHas( op.output, 'Current version :' ) );
+    test.true( __.strHas( op.output, 'Latest version of wcensor!alpha :' ) );
     return null;
   });
 
@@ -551,7 +552,7 @@ function version( test )
 function arrangementLog( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -644,7 +645,7 @@ function arrangementLog( test )
 function arrangementDel( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -744,8 +745,8 @@ function storageLog( test )
 {
 
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
-  let profile2 = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile2 = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -762,7 +763,7 @@ function storageLog( test )
     var gotStr = JSON.stringify( op );
 
     test.true( gotStr.includes( 'arrangement.default.json' ) );
-    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 1 );
+    test.identical( __.strCount( gotStr, 'arrangement.default.json' ), 1 );
 
     return null;
   })
@@ -780,7 +781,7 @@ function storageLog( test )
     var gotStr = JSON.stringify( op );
 
     test.true( gotStr.includes( 'arrangement.default.json' ) );
-    test.identical( _.strCount( gotStr, 'arrangement.default.json' ), 2 );
+    test.identical( __.strCount( gotStr, 'arrangement.default.json' ), 2 );
 
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
@@ -805,7 +806,7 @@ function storageDel( test )
 {
 
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -824,7 +825,7 @@ function storageDel( test )
     return null;
   });
 
-  if( _.process.insideTestContainer() )
+  if( __.process.insideTestContainer() )
   a.appStart( '.storage.del' );
 
   a.appStart( '.storage.log' )
@@ -855,7 +856,7 @@ storageDel.experimental = true;
 function statusBasic( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -923,7 +924,7 @@ redo :
 function statusOptionSession( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
   let session1 = 'ses1';
   let session2 = 'ses2';
@@ -1007,7 +1008,7 @@ statusOptionSession.experimental = true;
 function profileLog( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let profile2 = 'another_profile';
   let a = test.assetFor( 'basic' );
 
@@ -1063,7 +1064,7 @@ function profileLog( test )
 function profileDel( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1102,7 +1103,7 @@ function profileDel( test )
 function replaceBasic( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1122,7 +1123,7 @@ function replaceBasic( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp =
 `
@@ -1177,7 +1178,7 @@ function replaceBasic( test )
 function replaceStatusOptionVerbosity( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1199,7 +1200,7 @@ function replaceStatusOptionVerbosity( test )
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -1374,7 +1375,7 @@ redo :
 function replaceRedoOptionVerbosity( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1399,7 +1400,7 @@ function replaceRedoOptionVerbosity( test )
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -1536,7 +1537,7 @@ undo : 2
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -1675,7 +1676,7 @@ Nothing to redo.
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -1838,7 +1839,7 @@ Nothing to redo.
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -2001,7 +2002,7 @@ Nothing to redo.
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -2160,7 +2161,7 @@ Nothing to redo.
 function replaceRedoOptionDepth( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -2894,7 +2895,7 @@ Nothing to redo.
 function replaceChangeRedo( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3448,7 +3449,7 @@ undo : 2
 function replaceRedoDepth0OptionVerbosity( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3472,7 +3473,7 @@ function replaceRedoDepth0OptionVerbosity( test )
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -3572,7 +3573,7 @@ undo : 2
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -3674,7 +3675,7 @@ Nothing to redo.
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -3800,7 +3801,7 @@ Nothing to redo.
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -3926,7 +3927,7 @@ Nothing to redo.
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -4048,7 +4049,7 @@ Nothing to redo.
 function replaceRedoHardLinked( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4243,7 +4244,7 @@ function replaceRedoHardLinked( test )
 function replaceRedoSoftLinked( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4546,7 +4547,7 @@ function replaceRedoSoftLinked( test )
 function replaceRedoBrokenSoftLink( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4602,7 +4603,7 @@ function replaceRedoBrokenSoftLink( test )
   {
     test.description = `.do`;
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
+    test.identical( __.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
 
     var exp =
     [
@@ -4643,7 +4644,7 @@ replaceRedoBrokenSoftLink.experimental = true;
 function replaceRedoTextLink( test )
 {
   let context = this;
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4756,7 +4757,7 @@ replaceRedoTextLink.experimental = true;
 function replaceRedoBrokenTextLink( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'tlink' );
 
   a.reflect();
@@ -4815,7 +4816,7 @@ function replaceRedoBrokenTextLink( test )
   {
     test.description = `.do`;
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
+    test.identical( __.strCount( op.output, '+ Done 2 action(s). Thrown 0 error(s).' ), 1 );
 
     var exp =
     [
@@ -4856,11 +4857,11 @@ replaceRedoBrokenTextLink.experimental = true;
 function replaceBigFile( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( false );
   let times = 1e6;
-  let originalData = _.dup( '1234567890\n', times ) + 'ins1';
-  let expectedData = _.dup( '1234567890\n', times ) + 's';
+  let originalData = __.dup( '1234567890\n', times ) + 'ins1';
+  let expectedData = __.dup( '1234567890\n', times ) + 's';
 
   /* */
 
@@ -4876,7 +4877,7 @@ function replaceBigFile( test )
   {
     test.description = `.replace filePath:** ins:ins1 sub:s`;
     test.nil( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, `File ${a.abs( 'File.txt' )} is too big` ), 1 );
+    test.identical( __.strCount( op.output, `File ${a.abs( 'File.txt' )} is too big` ), 1 );
 
     var exp = [ '.', './File.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -4902,7 +4903,7 @@ function replaceBigFile( test )
   {
     test.description = `.replace filePath:** ins:ins1 sub:s`;
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 1 file(s). Arranged 1 replacement(s) in 1 file(s).' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 1 file(s). Arranged 1 replacement(s) in 1 file(s).' ), 1 );
 
     var exp = [ '.', './File.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -4919,7 +4920,7 @@ function replaceBigFile( test )
   {
     test.description = `.do`;
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '+ Done 1 action(s). Thrown 0 error(s).' ), 1 );
+    test.identical( __.strCount( op.output, '+ Done 1 action(s). Thrown 0 error(s).' ), 1 );
 
     var exp = [ '.', './File.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -4946,7 +4947,7 @@ replaceBigFile.rapidity = -1;
 function replaceRedoUndo( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4970,7 +4971,7 @@ function replaceRedoUndo( test )
   {
     test.description = '.replace filePath:before/** ins:line sub:abc';
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
+    test.identical( __.strCount( op.output, '. Found 2 file(s). Arranged 8 replacement(s) in 2 file(s)' ), 1 );
 
     var exp = [ '.', './after', './after/File1.txt', './after/File2.txt', './before', './before/File1.txt', './before/File2.txt' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -5201,7 +5202,7 @@ Nothing to undo.
 function replaceRedoChangeUndo( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -5689,7 +5690,7 @@ undo : 0
 function replaceRedoUndoOptionVerbosity( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -6409,7 +6410,7 @@ Nothing to undo.
 function replaceRedoUndoOptionDepth( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -6883,7 +6884,7 @@ replaceRedoUndoOptionDepth.experimental = true;
 function replaceOptionSession( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let session1 = 'ses1';
   let session2 = 'ses2';
   let a = test.assetFor( 'basic' );
@@ -6906,7 +6907,7 @@ function replaceOptionSession( test )
     test.true( got1Str.includes( `arrangement.${session1}.json` ) );
     test.true( got2Str.includes( `arrangement.${session1}.json` ) );
 
-    test.identical( _.strCount( got2Str, '.json' ), 2 );
+    test.identical( __.strCount( got2Str, '.json' ), 2 );
     return null;
   });
 
@@ -6927,13 +6928,13 @@ function replaceOptionSession( test )
 
     test.true( got1Str.includes( `arrangement.${session1}.json` ) );
     test.true( got2Str.includes( `arrangement.${session1}.json` ) );
-    test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
+    test.identical( __.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
 
     test.true( got1Str.includes( `arrangement.${session2}.json` ) );
     test.true( got2Str.includes( `arrangement.${session2}.json` ) );
-    test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
+    test.identical( __.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
-    test.identical( _.strCount( got2Str, '.json' ), 3 );
+    test.identical( __.strCount( got2Str, '.json' ), 3 );
 
     return null;
   });
@@ -6957,13 +6958,13 @@ function replaceOptionSession( test )
 
     test.true( got1Str.includes( `arrangement.${session1}.json` ) );
     test.true( got2Str.includes( `arrangement.${session1}.json` ) );
-    test.identical( _.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
+    test.identical( __.strCount( got2Str, `arrangement.${session1}.json` ), 1 );
 
     test.true( got1Str.includes( `arrangement.${session2}.json` ) );
     test.true( got2Str.includes( `arrangement.${session2}.json` ) );
-    test.identical( _.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
+    test.identical( __.strCount( got2Str, `arrangement.${session2}.json` ), 1 );
 
-    test.identical( _.strCount( got2Str, '.json' ), 3 );
+    test.identical( __.strCount( got2Str, '.json' ), 3 );
 
     var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
     test.identical( got, file1Before );
@@ -6986,7 +6987,7 @@ replaceOptionSession.experimental = true;
 function replaceRedoUndoSingleCommand( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -7172,7 +7173,7 @@ function replaceRedoUndoSingleCommand( test )
 function hlinkBasic( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlink' );
 
   /* - */
@@ -7221,7 +7222,7 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 function hlinkOptionBasePath( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -7716,7 +7717,7 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
 function hlinkOptionIncludingPath( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -7897,7 +7898,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 function hlinkOptionExcludingPath( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -8084,7 +8085,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 function hlinkOptionExcludingHyphened( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'hlinkExclusive' );
   let file1 = a.abs( 'dir/-F1.txt' );
   let file2 = a.abs( 'dir/-F2.txt' );
@@ -8171,7 +8172,7 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 function entryAddBasic( test )
 {
   let context = this
-  let profile = `test-${ _.intRandom( 1000000 ) }`;;
+  let profile = `test-${ __.intRandom( 1000000 ) }`;;
   let a = test.assetFor( 'entry' );
 
   /* - */
@@ -8192,7 +8193,7 @@ function entryAddBasic( test )
     test.identical( op.exitCode, 0 );
 
     var exp = `+ Add entry`;
-    test.identical( _.strCount( op.output, exp ), 1 );
+    test.identical( __.strCount( op.output, exp ), 1 );
 
     var exp = [ '.', './F1.js', './F2.js' ];
     var files = a.findAll( a.abs( '.' ) );
@@ -8248,7 +8249,7 @@ const Proto =
   {
 
     help,
-    runDebugCensor,
+    // runDebugCensor,
 
     configGetBasic,
     configSetBasic,

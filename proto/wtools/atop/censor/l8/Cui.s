@@ -6,7 +6,7 @@
 //
 
 const _ = _global_.wTools;
-let Parent = null;
+const Parent = null;
 const Self = wCensorCui;
 function wCensorCui( o )
 {
@@ -148,7 +148,7 @@ function _command_head( o )
     _.mapExtend( e.propertiesMap, cui.implied );
   }
 
-  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShort( e.propertiesMap ) );
+  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShallow( e.propertiesMap ) );
   if( o.routine.commandProperties )
   _.map.sureHasOnly( e.propertiesMap, o.routine.commandProperties, `Command does not expect options:` );
 
@@ -577,10 +577,14 @@ function commandHlink( e )
   let op = e.propertiesMap;
 
   cui._command_head( commandHlink, arguments );
-  op.logger = 1;
+  op.logger = new _.Logger({ outputTo : logger });
 
   if( op.verbosity === undefined )
   op.verbosity = 3;
+
+  if( op.verbosity )
+  op.logger.verbosity = op.verbosity;
+  delete op.verbosity;
 
   if( e.subject )
   op.basePath = _.arrayAppendArrays( _.arrayAs( e.subject ), op.basePath ? _.arrayAs( op.basePath ) : [] );
@@ -603,7 +607,7 @@ commandHlink.commandProperties =
   includingPath : 'Glob or path to filter in.',
   excludingPath : 'Glob or path to filter out.',
   excludingHyphened : 'Glob or path that starts with "-" to filter in/out',
-  withConfigPath : 'To add path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
+  withShared : 'To add path::hlink defined in config at ~/.censor/default/config.yaml. Default : true.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
 }

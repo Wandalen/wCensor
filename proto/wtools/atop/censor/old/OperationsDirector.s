@@ -21,7 +21,7 @@ if( typeof module !== 'undefined' )
 //
 
 const _ = _global_.wTools;
-let Parent = null;
+const Parent = null;
 const Self = wFilesOperationsDirector;
 function wFilesOperationsDirector( o )
 {
@@ -60,7 +60,7 @@ function init( o )
 function form()
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let currentPath = fileProvider.path.current();
 
   _.assert( arguments.length === 0, 'Expects no arguments' );
@@ -99,7 +99,7 @@ function exec()
 {
   let self = this;
   let logger = self.logger;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
 
   _.assert( _.instanceIs( self ) );
   _.assert( arguments.length === 0, 'Expects no arguments' );
@@ -159,7 +159,7 @@ function commandHelp( e )
 function commandConfigClear( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -180,7 +180,7 @@ function commandConfigClear( e )
 function commandConfigDefine( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -200,7 +200,7 @@ function commandConfigDefine( e )
 function commandConfigAppend( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -220,7 +220,7 @@ function commandConfigAppend( e )
 function commandConfigDelete( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -241,7 +241,7 @@ function commandConfigDelete( e )
 function commandConfigDefinePath( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -270,7 +270,7 @@ function commandConfigDefinePath( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-filePath-}' + '\nfilePath : ' + _.entity.exportStringShort( self.storage.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-filePath-}' + '\nfilePath : ' + _.entity.exportStringShallow( self.storage.filePath ) );
 
   self.storage.filePath = fileProvider.path.resolve( self.storage.filePath );
 
@@ -284,7 +284,7 @@ function commandConfigDefinePath( e )
 function commandFind( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -324,7 +324,7 @@ function commandFind( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -341,7 +341,7 @@ function commandFind( e )
 function _execReplace( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -379,7 +379,7 @@ function _execReplace( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   // o2.filePath = self.filePath;
@@ -396,7 +396,7 @@ function _execReplace( e )
 function commandIfReplace( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -412,7 +412,7 @@ function commandIfReplace( e )
 function commandReplace( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
 
   _.assert( _.instanceIs( self ) );
@@ -428,7 +428,7 @@ function commandReplace( e )
 function commandUndo( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -463,7 +463,7 @@ function commandUndo( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -480,7 +480,7 @@ function commandUndo( e )
 function commandFindSimilar( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -518,7 +518,7 @@ function commandFindSimilar( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -535,7 +535,7 @@ function commandFindSimilar( e )
 function commandTokenize( e )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger= self.logger;
   let o2 = Object.create( null );
 
@@ -570,7 +570,7 @@ function commandTokenize( e )
   });
 
   if( !self.filePath )
-  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShort( self.filePath ) );
+  throw _.errBrief( 'Not clear where to look for, please define {-self.filePath-}' + '\nself.filePath : ' + _.entity.exportStringShallow( self.filePath ) );
 
   self.filePath = fileProvider.path.s.resolve( self.filePath );
   o2.filePath = self.filePath;
@@ -1340,7 +1340,7 @@ function undo()
 function _storageFileWrite( o )
 {
   let self = this;
-  let fileProvider = self.fileProvider;
+  const fileProvider = self.fileProvider;
   let logger = self.logger;
 
   _.routineOptions( _storageFileWrite, o );
