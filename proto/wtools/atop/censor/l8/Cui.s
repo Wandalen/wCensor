@@ -577,7 +577,7 @@ function commandHlink( e )
   let op = e.propertiesMap;
 
   cui._command_head( commandHlink, arguments );
-  op.logger = new _.Logger({ outputTo : logger });
+  op.logger = new _.Logger({ output : logger });
 
   if( op.verbosity === undefined )
   op.verbosity = 3;
