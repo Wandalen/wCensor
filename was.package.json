@@ -4,7 +4,7 @@
   "description" : "Utility to edit files massively from console and with undo.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
-  "main" : "/pro/module/wCensor/proto/node_modules/wcensor",
+  "main" : "proto/node_modules/wcensor",
   "files" : [ "proto/wtools/atop/censor", "proto/wtools/Tools.s", "proto/node_modules" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen .build proto" },
   "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wCensor.git" },
