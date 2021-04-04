@@ -22,7 +22,8 @@ function onSuiteBegin()
   let context = this;
   context.suiteTempPath = __.path.tempOpen( __.path.join( __dirname, '../..' ), 'censor' );
   context.assetsOriginalPath = __.path.join( __dirname, '_asset' );
-  context.appJsPath = __.path.nativize( __.module.resolve( 'wCensor' ) );
+  // context.appJsPath = __.path.nativize( __.module.resolve( 'wCensor' ) );
+  context.appJsPath = __.path.join( __dirname, '../censor/entry/Exec' );
 }
 
 //
@@ -69,8 +70,6 @@ function help( test )
   });
 
   /* */
-
-  debugger;
 
   return a.ready;
 }
@@ -7225,6 +7224,36 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 
 //
 
+function hlinkWithSoftLinks( test )
+{
+  let context = this
+  let profile = `censor-test`;
+  let a = test.assetFor( false );
+
+  debugger;
+  a.fileProvider.fileWrite( a.abs( 'f1' ), 'txt' );
+  a.fileProvider.softLink( a.abs( 's1' ), a.abs( 'f1' ) );
+  a.fileProvider.fileWrite( a.abs( 'f2' ), 'txt' );
+  a.fileProvider.softLink( a.abs( 's2' ), a.abs( 'f2' ) );
+  a.fileProvider.fileWrite( a.abs( 'f3' ), 'txt2' );
+  a.fileProvider.softLink( a.abs( 's3' ), a.abs( 'f3' ) );
+
+  test.true( a.fileProvider.isSoftLink( a.abs( 's1' ) ) );
+  test.true( a.fileProvider.isSoftLink( a.abs( 's2' ) ) );
+  test.true( a.fileProvider.isSoftLink( a.abs( 's3' ) ) );
+
+  test.true( a.fileProvider.isSoftLinked( a.abs( 's1' ), a.abs( 'f1' ) ) );
+  test.true( a.fileProvider.isSoftLinked( a.abs( 's2' ), a.abs( 'f2' ) ) );
+  test.true( a.fileProvider.isSoftLinked( a.abs( 's3' ), a.abs( 'f3' ) ) );
+
+  test.true( !a.fileProvider.isHardLinked( a.abs( 'f1' ), a.abs( 'f2' ) ) );
+  test.true( !a.fileProvider.isHardLinked( a.abs( 'f1' ), a.abs( 'f3' ) ) );
+  test.true( !a.fileProvider.isHardLinked( a.abs( 'f2' ), a.abs( 'f3' ) ) );
+
+}
+
+//
+
 function hlinkOptionBasePath( test )
 {
   let context = this
@@ -8300,6 +8329,7 @@ const Proto =
     // /* qqq : implement test to check locking, tell how first */
 
     hlinkBasic,
+    hlinkWithSoftLinks,
     hlinkOptionBasePath,
     hlinkOptionIncludingPath,
     hlinkOptionExcludingPath,
