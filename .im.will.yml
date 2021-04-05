@@ -78,8 +78,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/wCensor/proto/wtools/atop/censor/entry/Include.s
-    - /pro/module/wCensor/proto/node_modules/wcensor
+    - proto/wtools/atop/censor/entry/Include.s
+    - proto/node_modules/wcensor
 reflector:
   reflect.proto:
     inherit: predefined.*
