@@ -82,8 +82,8 @@ function _commandsMake()
 
   let commands =
   {
-    'help' :                    { e : _.routineJoin( cui, cui.commandHelp ) },
-    'version' :                 { e : _.routineJoin( cui, cui.commandVersion ) },
+    'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
+    'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
     'imply' :                   { e : _.routineJoin( cui, cui.commandImply )                },
     'storage.del' :             { e : _.routineJoin( cui, cui.commandStorageDel )           },
     'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
@@ -108,11 +108,14 @@ function _commandsMake()
   ({
     basePath : _.path.current(),
     commands,
-    commandPrefix : 'node ',
+    // commandPrefix : 'node ',
     commandsImplicitDelimiting : 1,
   })
 
   ca.form();
+  debugger;
+
+  ca.logger.verbosity = 0;
 
   return ca;
 }

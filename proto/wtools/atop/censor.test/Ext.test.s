@@ -7,7 +7,7 @@ if( typeof module !== 'undefined' )
 {
   let _ = require( '../../../wtools/Tools.s' );
   require( '../censor/entry/Include.s' );
-  _.include( 'wTesting' );;
+  _.include( 'wTesting' );
 }
 
 const _ = _global_.wTools;
@@ -134,7 +134,7 @@ function help( test )
 function configGetBasic( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -200,7 +200,7 @@ function configGetBasic( test )
 function configSetBasic( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -317,7 +317,7 @@ function configSetBasic( test )
 function configDelBasic( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -478,7 +478,7 @@ function configDelBasic( test )
 function configLogBasic( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -526,7 +526,7 @@ function configLogBasic( test )
 function version( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
   a.reflect();
@@ -553,7 +553,7 @@ function version( test )
 function arrangementLog( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -646,7 +646,7 @@ function arrangementLog( test )
 function arrangementDel( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -746,7 +746,7 @@ function storageLog( test )
 {
 
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let profile2 = `test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
@@ -807,7 +807,7 @@ function storageDel( test )
 {
 
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -857,7 +857,7 @@ storageDel.experimental = true;
 function statusBasic( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -925,7 +925,7 @@ redo :
 function statusOptionSession( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
   let session1 = 'ses1';
   let session2 = 'ses2';
@@ -1009,7 +1009,7 @@ statusOptionSession.experimental = true;
 function profileLog( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let profile2 = 'another_profile';
   let a = test.assetFor( 'basic' );
 
@@ -1065,7 +1065,7 @@ function profileLog( test )
 function profileDel( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1104,7 +1104,7 @@ function profileDel( test )
 function replaceBasic( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1179,7 +1179,7 @@ function replaceBasic( test )
 function replaceStatusOptionVerbosity( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -1376,7 +1376,7 @@ redo :
 function replaceRedoOptionVerbosity( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -2162,7 +2162,7 @@ Nothing to redo.
 function replaceRedoOptionDepth( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -2896,7 +2896,7 @@ Nothing to redo.
 function replaceChangeRedo( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -3450,7 +3450,7 @@ undo : 2
 function replaceRedoDepth0OptionVerbosity( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4050,7 +4050,7 @@ Nothing to redo.
 function replaceRedoHardLinked( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4245,7 +4245,7 @@ function replaceRedoHardLinked( test )
 function replaceRedoSoftLinked( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4552,7 +4552,7 @@ function replaceRedoSoftLinked( test )
 function replaceRedoBrokenSoftLink( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect(); debugger;
@@ -4649,7 +4649,7 @@ replaceRedoBrokenSoftLink.experimental = true;
 function replaceRedoTextLink( test )
 {
   let context = this;
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -4762,7 +4762,7 @@ replaceRedoTextLink.experimental = true;
 function replaceRedoBrokenTextLink( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'tlink' );
 
   a.reflect();
@@ -4862,7 +4862,7 @@ replaceRedoBrokenTextLink.experimental = true;
 function replaceBigFile( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
   let times = 1e6;
   let originalData = __.dup( '1234567890\n', times ) + 'ins1';
@@ -4952,7 +4952,7 @@ replaceBigFile.rapidity = -1;
 function replaceRedoUndo( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -5207,7 +5207,7 @@ Nothing to undo.
 function replaceRedoChangeUndo( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -5695,7 +5695,7 @@ undo : 0
 function replaceRedoUndoOptionVerbosity( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -6415,7 +6415,7 @@ Nothing to undo.
 function replaceRedoUndoOptionDepth( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -6554,7 +6554,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();;
+  reverseChanges();
 
   /* */
 
@@ -6620,7 +6620,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();;
+  reverseChanges();
 
   /* */
 
@@ -6727,7 +6727,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();;
+  reverseChanges();
 
   /* */
 
@@ -6849,7 +6849,7 @@ function replaceRedoUndoOptionDepth( test )
     return null;
   });
 
-  reverseChanges();;
+  reverseChanges();
 
   test.close( 'redo depth' );
 
@@ -6889,7 +6889,7 @@ replaceRedoUndoOptionDepth.experimental = true;
 function replaceOptionSession( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let session1 = 'ses1';
   let session2 = 'ses2';
   let a = test.assetFor( 'basic' );
@@ -6992,7 +6992,7 @@ replaceOptionSession.experimental = true;
 function replaceRedoUndoSingleCommand( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'basic' );
 
   a.reflect();
@@ -7178,7 +7178,7 @@ function replaceRedoUndoSingleCommand( test )
 function hlinkBasic( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'hlink' );
 
   /* - */
@@ -7227,29 +7227,61 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 function hlinkWithSoftLinks( test )
 {
   let context = this
-  let profile = `censor-test`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
 
-  debugger;
-  a.fileProvider.fileWrite( a.abs( 'f1' ), 'txt' );
-  a.fileProvider.softLink( a.abs( 's1' ), a.abs( 'f1' ) );
-  a.fileProvider.fileWrite( a.abs( 'f2' ), 'txt' );
-  a.fileProvider.softLink( a.abs( 's2' ), a.abs( 'f2' ) );
-  a.fileProvider.fileWrite( a.abs( 'f3' ), 'txt2' );
-  a.fileProvider.softLink( a.abs( 's3' ), a.abs( 'f3' ) );
+  /* - */
 
-  test.true( a.fileProvider.isSoftLink( a.abs( 's1' ) ) );
-  test.true( a.fileProvider.isSoftLink( a.abs( 's2' ) ) );
-  test.true( a.fileProvider.isSoftLink( a.abs( 's3' ) ) );
+  a.ready.then( () =>
+  {
+    test.case = 'basic';
 
-  test.true( a.fileProvider.isSoftLinked( a.abs( 's1' ), a.abs( 'f1' ) ) );
-  test.true( a.fileProvider.isSoftLinked( a.abs( 's2' ), a.abs( 'f2' ) ) );
-  test.true( a.fileProvider.isSoftLinked( a.abs( 's3' ), a.abs( 'f3' ) ) );
+    a.fileProvider.fileWrite( a.abs( 'f1' ), 'txt' );
+    a.fileProvider.softLink( a.abs( 's1' ), a.abs( 'f1' ) );
+    a.fileProvider.fileWrite( a.abs( 'f2' ), 'txt' );
+    a.fileProvider.softLink( a.abs( 's2' ), a.abs( 'f2' ) );
+    a.fileProvider.fileWrite( a.abs( 'f3' ), 'txt2' );
+    a.fileProvider.softLink( a.abs( 's3' ), a.abs( 'f3' ) );
 
-  test.true( !a.fileProvider.isHardLinked( a.abs( 'f1' ), a.abs( 'f2' ) ) );
-  test.true( !a.fileProvider.isHardLinked( a.abs( 'f1' ), a.abs( 'f3' ) ) );
-  test.true( !a.fileProvider.isHardLinked( a.abs( 'f2' ), a.abs( 'f3' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 's1' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 's2' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 's3' ) ) );
 
+    test.true( a.fileProvider.areSoftLinked( a.abs( 's1' ), a.abs( 'f1' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 's2' ), a.abs( 'f2' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 's3' ), a.abs( 'f3' ) ) );
+
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'f1' ), a.abs( 'f2' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'f1' ), a.abs( 'f3' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'f2' ), a.abs( 'f3' ) ) );
+
+    return null;
+  })
+
+  a.appStart( `.hlink profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    test.true( a.fileProvider.isSoftLink( a.abs( 's1' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 's2' ) ) );
+    test.true( a.fileProvider.isSoftLink( a.abs( 's3' ) ) );
+
+    test.true( a.fileProvider.areSoftLinked( a.abs( 's1' ), a.abs( 'f1' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 's2' ), a.abs( 'f2' ) ) );
+    test.true( a.fileProvider.areSoftLinked( a.abs( 's3' ), a.abs( 'f3' ) ) );
+
+    test.true( a.fileProvider.areHardLinked( a.abs( 'f1' ), a.abs( 'f2' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'f1' ), a.abs( 'f3' ) ) );
+    test.true( !a.fileProvider.areHardLinked( a.abs( 'f2' ), a.abs( 'f3' ) ) );
+
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
 }
 
 //
@@ -7257,7 +7289,7 @@ function hlinkWithSoftLinks( test )
 function hlinkOptionBasePath( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -7752,7 +7784,7 @@ Linked 4 file(s) at ( ${ a.abs( '.' ) }/ + [ ./dir1/** , ./dir3/** ] )
 function hlinkOptionIncludingPath( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -7933,7 +7965,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 function hlinkOptionExcludingPath( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'hlinkAdvanced' );
 
   /* - */
@@ -8120,7 +8152,7 @@ Linked 4 file(s) at ${ a.abs( '.' ) }
 function hlinkOptionExcludingHyphened( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'hlinkExclusive' );
   let file1 = a.abs( 'dir/-F1.txt' );
   let file2 = a.abs( 'dir/-F2.txt' );
@@ -8207,7 +8239,7 @@ Linked 2 file(s) at ${ a.abs( '.' ) }
 function entryAddBasic( test )
 {
   let context = this
-  let profile = `test-${ __.intRandom( 1000000 ) }`;;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( 'entry' );
 
   /* - */
