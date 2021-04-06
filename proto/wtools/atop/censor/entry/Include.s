@@ -5,7 +5,7 @@
   @module Tools/top/Censor
 */
 
-let _ = require( '../include/Top.s' );
+const _ = require( '../include/Top.s' );
 module[ 'exports' ] = _;
 if( !module.parent )
 _.censor.Cui.Exec();
