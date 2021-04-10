@@ -82,26 +82,26 @@ function _commandsMake()
 
   let commands =
   {
-    'help' :                    { e : _.routineJoin( cui, cui.commandHelp )                 },
-    'version' :                 { e : _.routineJoin( cui, cui.commandVersion )              },
-    'imply' :                   { e : _.routineJoin( cui, cui.commandImply )                },
-    'storage.del' :             { e : _.routineJoin( cui, cui.commandStorageDel )           },
-    'storage.log' :             { e : _.routineJoin( cui, cui.commandStorageLog )           },
-    'profile.del' :             { e : _.routineJoin( cui, cui.commandProfileDel )           },
-    'profile.log' :             { e : _.routineJoin( cui, cui.commandProfileLog )           },
-    'config.log' :              { e : _.routineJoin( cui, cui.commandConfigLog )            },
-    'config.get' :              { e : _.routineJoin( cui, cui.commandConfigGet )            },
-    'config.set' :              { e : _.routineJoin( cui, cui.commandConfigSet )            },
-    'config.del' :              { e : _.routineJoin( cui, cui.commandConfigDel )            },
-    'arrangement.del' :         { e : _.routineJoin( cui, cui.commandArrangementDel )       },
-    'arrangement.log' :         { e : _.routineJoin( cui, cui.commandArrangementLog )       },
-    'replace' :                 { e : _.routineJoin( cui, cui.commandReplace )              },
-    'hlink' :                   { e : _.routineJoin( cui, cui.commandHlink )                },
-    'entry.add' :               { e : _.routineJoin( cui, cui.commandEntryAdd )             },
-    'do' :                      { e : _.routineJoin( cui, cui.commandDo )                   },
-    'redo' :                    { e : _.routineJoin( cui, cui.commandRedo )                 },
-    'undo' :                    { e : _.routineJoin( cui, cui.commandUndo )                 },
-    'status' :                  { e : _.routineJoin( cui, cui.commandStatus )               },
+    'help' :                    { ro : _.routineJoin( cui, cui.commandHelp )                 },
+    'version' :                 { ro : _.routineJoin( cui, cui.commandVersion )              },
+    'imply' :                   { ro : _.routineJoin( cui, cui.commandImply )                },
+    'storage.del' :             { ro : _.routineJoin( cui, cui.commandStorageDel )           },
+    'storage.log' :             { ro : _.routineJoin( cui, cui.commandStorageLog )           },
+    'profile.del' :             { ro : _.routineJoin( cui, cui.commandProfileDel )           },
+    'profile.log' :             { ro : _.routineJoin( cui, cui.commandProfileLog )           },
+    'config.log' :              { ro : _.routineJoin( cui, cui.commandConfigLog )            },
+    'config.get' :              { ro : _.routineJoin( cui, cui.commandConfigGet )            },
+    'config.set' :              { ro : _.routineJoin( cui, cui.commandConfigSet )            },
+    'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel )            },
+    'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel )       },
+    'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog )       },
+    'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace )              },
+    'hlink' :                   { ro : _.routineJoin( cui, cui.commandHlink )                },
+    'entry.add' :               { ro : _.routineJoin( cui, cui.commandEntryAdd )             },
+    'do' :                      { ro : _.routineJoin( cui, cui.commandDo )                   },
+    'redo' :                    { ro : _.routineJoin( cui, cui.commandRedo )                 },
+    'undo' :                    { ro : _.routineJoin( cui, cui.commandUndo )                 },
+    'status' :                  { ro : _.routineJoin( cui, cui.commandStatus )               },
   }
 
   let ca = _.CommandsAggregator
@@ -145,39 +145,39 @@ function _command_head( o )
 
   if( cui.implied )
   {
-    if( o.routine.commandProperties )
-    _.mapExtend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.commandProperties ) );
+    if( o.routine.command.properties )
+    _.mapExtend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
     else
     _.mapExtend( e.propertiesMap, cui.implied );
   }
 
   _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShallow( e.propertiesMap ) );
-  if( o.routine.commandProperties )
-  _.map.sureHasOnly( e.propertiesMap, o.routine.commandProperties, `Command does not expect options:` );
+  if( o.routine.command.properties )
+  _.map.sureHasOnly( e.propertiesMap, o.routine.command.properties, `Command does not expect options:` );
 
-  if( _.boolLikeFalse( o.routine.commandSubjectHint ) )
+  if( _.boolLikeFalse( o.routine.command.subjectHint ) )
   if( e.subject.trim() !== '' )
   throw _.errBrief
   (
-    `Command .${e.subjectDescriptor.phraseDescriptor.phrase} does not expect subject`
+    `Command .${e.phraseDescriptor.phrase} does not expect subject`
     + `, but got "${e.subject}"`
   );
 
-  if( o.routine.commandProperties && o.routine.commandProperties.v )
+  if( o.routine.command.properties && o.routine.command.properties.v )
   if( e.propertiesMap.v !== undefined )
   {
     e.propertiesMap.verbosity = e.propertiesMap.v;
     delete e.propertiesMap.v;
   }
 
-  if( o.routine.commandProperties && o.routine.commandProperties.profile )
+  if( o.routine.command.properties && o.routine.command.properties.profile )
   if( e.propertiesMap.profile !== undefined )
   {
     e.propertiesMap.profileDir = e.propertiesMap.profile;
     delete e.propertiesMap.profile;
   }
 
-  if( o.routine.commandProperties && o.routine.commandProperties.storage )
+  if( o.routine.command.properties && o.routine.command.properties.storage )
   if( e.propertiesMap.storage !== undefined )
   {
     e.propertiesMap.storageTerminal = e.propertiesMap.storage;
@@ -200,14 +200,15 @@ _command_head.defaults =
 function commandHelp( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   ca._commandHelp( e );
 
   return cui;
 }
 
-commandHelp.hint = 'Get help.';
+var command = commandHelp.command = Object.create( null );
+command.hint = 'Get help.';
 
 //
 
@@ -224,15 +225,16 @@ function commandVersion( e )
   });
 }
 
-commandVersion.hint = 'Get information about version.';
-commandVersion.commandSubjectHint = false;
+var command = commandVersion.command = Object.create( null );
+command.hint = 'Get information about version.';
+command.subjectHint = false;
 
 //
 
 function commandImply( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui.implied = null;
 
@@ -242,8 +244,9 @@ function commandImply( e )
 
 }
 
-commandImply.hint = 'Change state or imply value of a variable.';
-commandImply.commandSubjectHint = false;
+var command = commandImply.command = Object.create( null );
+command.hint = 'Change state or imply value of a variable.';
+command.subjectHint = false;
 
 // --
 // storage commands
@@ -252,16 +255,17 @@ commandImply.commandSubjectHint = false;
 function commandStorageDel( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandStorageDel, arguments );
 
   return _.censor.storageDel( e.propertiesMap );
 }
 
-commandStorageDel.hint = 'Delete the storage including all profiles and arrangements, forgetting everything. Reset defaults.';
-commandStorageDel.commandSubjectHint = false;
-commandStorageDel.commandProperties =
+var command = commandStorageDel.command = Object.create( null );
+command.hint = 'Delete the storage including all profiles and arrangements, forgetting everything. Reset defaults.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -272,16 +276,17 @@ commandStorageDel.commandProperties =
 function commandStorageLog( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandStorageLog, arguments );
 
   return _.censor.storageLog( e.propertiesMap );
 }
 
-commandStorageLog.hint = 'Log content of all files of the storage.';
-commandStorageLog.commandSubjectHint = false;
-commandStorageLog.commandProperties =
+var command = commandStorageLog.command = Object.create( null );
+command.hint = 'Log content of all files of the storage.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -292,16 +297,17 @@ commandStorageLog.commandProperties =
 function commandProfileDel( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandProfileDel, arguments );
 
   return _.censor.profileDel( e.propertiesMap );
 }
 
-commandProfileDel.hint = 'Delete the profile its arrangements.';
-commandProfileDel.commandSubjectHint = false;
-commandProfileDel.commandProperties =
+var command = commandProfileDel.command = Object.create( null );
+command.hint = 'Delete the profile its arrangements.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -313,16 +319,17 @@ commandProfileDel.commandProperties =
 function commandProfileLog( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandProfileLog, arguments );
 
   return _.censor.profileLog( e.propertiesMap );
 }
 
-commandProfileLog.hint = 'Log content of all files of the profile.';
-commandProfileLog.commandSubjectHint = false;
-commandProfileLog.commandProperties =
+var command = commandProfileLog.command = Object.create( null );
+command.hint = 'Log content of all files of the profile.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -334,16 +341,17 @@ commandProfileLog.commandProperties =
 function commandConfigLog( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandConfigLog, arguments );
 
   return _.censor.configLog( e.propertiesMap );
 }
 
-commandConfigLog.hint = 'Log content of config file.';
-commandConfigLog.commandSubjectHint = false;
-commandConfigLog.commandProperties =
+var command = commandConfigLog.command = Object.create( null );
+command.hint = 'Log content of config file.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -355,7 +363,7 @@ commandConfigLog.commandProperties =
 function commandConfigGet( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head({ routine : commandConfigGet, args : arguments });
 
@@ -384,9 +392,10 @@ function commandConfigGet( e )
 
 }
 
-commandConfigGet.hint = 'Read one or several variables of config.';
-commandConfigGet.commandSubjectHint = 'Key or array of keys to read. Could be selectors.';
-commandConfigGet.commandProperties =
+var command = commandConfigGet.command = Object.create( null );
+command.hint = 'Read one or several variables of config.';
+command.subjectHint = 'Key or array of keys to read. Could be selectors.';
+command.properties =
 {
   selector : 'Key or array of keys to read. Could be selectors.',
   verbosity : 'Level of verbosity.',
@@ -399,7 +408,7 @@ commandConfigGet.commandProperties =
 function commandConfigSet( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head({ routine : commandConfigSet, args : arguments, propertiesMapAsProperty : 'set' });
 
@@ -412,9 +421,10 @@ function commandConfigSet( e )
   return _.censor.configSet( e.propertiesMap );
 }
 
-commandConfigSet.hint = 'Set one or several variables of config persistently. Does not delete variables config have had before setting, but may rewrite them by new values.';
-commandConfigSet.commandSubjectHint = false;
-commandConfigSet.commandProperties =
+var command = commandConfigSet.command = Object.create( null );
+command.hint = 'Set one or several variables of config persistently. Does not delete variables config have had before setting, but may rewrite them by new values.';
+command.subjectHint = false;
+command.properties =
 {
   set : 'Map of pairs "key:value" to set. Key is selector.',
   verbosity : 'Level of verbosity.',
@@ -427,7 +437,7 @@ commandConfigSet.commandProperties =
 function commandConfigDel( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head({ routine : commandConfigDel, args : arguments });
 
@@ -455,9 +465,10 @@ function commandConfigDel( e )
   return _.censor.configDel( e.propertiesMap );
 }
 
-commandConfigDel.hint = 'Delete one or several variables of config persistently. Delete whole config if no keys are specified.';
-commandConfigDel.commandSubjectHint = 'Key or array of keys to delete. Could be selectors.';
-commandConfigDel.commandProperties =
+var command = commandConfigDel.command = Object.create( null );
+command.hint = 'Delete one or several variables of config persistently. Delete whole config if no keys are specified.';
+command.subjectHint = 'Key or array of keys to delete. Could be selectors.';
+command.properties =
 {
   selector : 'Key or array of keys to delete. Could be selectors.',
   verbosity : 'Level of verbosity.',
@@ -470,16 +481,17 @@ commandConfigDel.commandProperties =
 // function commandConfigDel( e )
 // {
 //   let cui = this;
-//   let ca = e.ca;
+//   let ca = e.aggregator;
 //
 //   cui._command_head( commandConfigDel, arguments );
 //
 //   return _.censor.configDel( e.propertiesMap );
 // }
 //
-// commandConfigDel.hint = 'Delete current config.';
-// commandConfigDel.commandSubjectHint = false;
-// commandConfigDel.commandProperties =
+// var command = commandHelp.command = Object.create( null );
+// command.hint = 'Delete current config.';
+// command.subjectHint = false;
+// command.properties =
 // {
 //   verbosity : 'Level of verbosity.',
 //   v : 'Level of verbosity.',
@@ -491,16 +503,17 @@ commandConfigDel.commandProperties =
 function commandArrangementDel( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandArrangementDel, arguments );
 
   return _.censor.arrangementDel( e.propertiesMap );
 }
 
-commandArrangementDel.hint = 'Delete current arrangement.';
-commandArrangementDel.commandSubjectHint = false;
-commandArrangementDel.commandProperties =
+var command = commandArrangementDel.command = Object.create( null );
+command.hint = 'Delete current arrangement.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -513,16 +526,17 @@ commandArrangementDel.commandProperties =
 function commandArrangementLog( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandArrangementLog, arguments );
 
   return _.censor.arrangementLog( e.propertiesMap );
 }
 
-commandArrangementLog.hint = 'Log content of arrangment file.';
-commandArrangementLog.commandSubjectHint = false;
-commandArrangementLog.commandProperties =
+var command = commandArrangementLog.command = Object.create( null );
+command.hint = 'Log content of arrangment file.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity.',
   v : 'Level of verbosity.',
@@ -537,7 +551,7 @@ commandArrangementLog.commandProperties =
 function commandReplace( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let op = e.propertiesMap;
 
   cui._command_head( commandReplace, arguments );
@@ -554,9 +568,10 @@ function commandReplace( e )
   return _.censor.filesReplace( op );
 }
 
-commandReplace.hint = 'Replace text in files.';
-commandReplace.commandSubjectHint = false;
-commandReplace.commandProperties =
+var command = commandReplace.command = Object.create( null );
+command.hint = 'Replace text in files.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
@@ -576,7 +591,7 @@ commandReplace.commandProperties =
 function commandHlink( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let op = e.propertiesMap;
 
   cui._command_head( commandHlink, arguments );
@@ -600,9 +615,10 @@ function commandHlink( e )
   return _.censor.filesHardLink( op );
 }
 
-commandHlink.hint = 'Hard links all files with identical content in specified directories.';
-commandHlink.commandSubjectHint = 'basePath if specified';
-commandHlink.commandProperties =
+var command = commandHlink.command = Object.create( null );
+command.hint = 'Hard links all files with identical content in specified directories.';
+command.subjectHint = 'basePath if specified';
+command.properties =
 {
   verbosity : 'Level of verbosity. Default = 3.',
   v : 'Level of verbosity. Default = 3.',
@@ -620,7 +636,7 @@ commandHlink.commandProperties =
 function commandEntryAdd( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let op = e.propertiesMap;
 
   cui._command_head( commandEntryAdd, arguments );
@@ -641,9 +657,10 @@ function commandEntryAdd( e )
   return _.censor.systemEntryAdd( op );
 }
 
-commandEntryAdd.hint = 'Add entry for application making it available globally on your machine.';
-commandEntryAdd.commandSubjectHint = 'Set option appPath if specified';
-commandEntryAdd.commandProperties =
+var command = commandEntryAdd.command = Object.create( null );
+command.hint = 'Add entry for application making it available globally on your machine.';
+command.subjectHint = 'Set option appPath if specified';
+command.properties =
 {
   verbosity : 'Level of verbosity. Default = 3.',
   v : 'Level of verbosity. Default = 3.',
@@ -668,7 +685,7 @@ commandEntryAdd.commandProperties =
 function commandDo( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let op = e.propertiesMap;
 
   cui._command_head( commandDo, arguments );
@@ -684,9 +701,10 @@ function commandDo( e )
   return _.censor.do( op );
 }
 
-commandDo.hint = 'Do actions planned earlier. Alias of command redo.';
-commandDo.commandSubjectHint = false;
-commandDo.commandProperties =
+var command = commandDo.command = Object.create( null );
+command.hint = 'Do actions planned earlier. Alias of command redo.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
@@ -702,7 +720,7 @@ commandDo.commandProperties =
 function commandRedo( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let op = e.propertiesMap;
 
   cui._command_head( commandRedo, arguments );
@@ -718,9 +736,10 @@ function commandRedo( e )
   return _.censor.redo( op );
 }
 
-commandRedo.hint = 'Do actions planned earlier. Alias of command do.';
-commandRedo.commandSubjectHint = false;
-commandRedo.commandProperties =
+var command = commandRedo.command = Object.create( null );
+command.hint = 'Do actions planned earlier. Alias of command do.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
@@ -736,7 +755,7 @@ commandRedo.commandProperties =
 function commandUndo( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let op = e.propertiesMap;
 
   cui._command_head( commandUndo, arguments );
@@ -755,9 +774,10 @@ function commandUndo( e )
   return _.censor.undo( op );
 }
 
-commandUndo.hint = 'Undo an action done earlier.';
-commandUndo.commandSubjectHint = false;
-commandUndo.commandProperties =
+var command = commandUndo.command = Object.create( null );
+command.hint = 'Undo an action done earlier.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
@@ -772,7 +792,7 @@ commandUndo.commandProperties =
 function commandStatus( e )
 {
   let cui = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
 
   cui._command_head( commandStatus, arguments );
 
@@ -782,9 +802,10 @@ function commandStatus( e )
 
 }
 
-commandStatus.hint = 'Get status of the current state.';
-commandStatus.commandSubjectHint = false;
-commandStatus.commandProperties =
+var command = commandStatus.command = Object.create( null );
+command.hint = 'Get status of the current state.';
+command.subjectHint = false;
+command.properties =
 {
   verbosity : 'Level of verbosity. Default = 3',
   v : 'Level of verbosity. Default = 3',
