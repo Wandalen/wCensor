@@ -113,7 +113,6 @@ function _commandsMake()
   })
 
   ca.form();
-  debugger;
 
   ca.logger.verbosity = 0;
 
