@@ -12,7 +12,7 @@
   "files" : 
   [
     "../proto/Integration.test.s", 
-    "../proto/wtools/Tools.s", 
+    "../proto/node_modules/Tools", 
     "../proto/wtools/atop/censor/entry/Exec", 
     "../proto/wtools/atop/censor/entry/ExecDebug", 
     "../proto/wtools/atop/censor/entry/ExecUnrestricted", 

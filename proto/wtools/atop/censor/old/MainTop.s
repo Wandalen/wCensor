@@ -48,7 +48,8 @@ function exec()
   let appArgs = _.process.input({ keyValDelimeter : 0 });
   let ca = censor._commandsMake();
 
-  return ca.appArgsPerform({ appArgs });
+  return ca.programPerform({ program : appArgs.original });
+  // return ca.appArgsPerform({ appArgs });
 }
 
 // --
@@ -68,8 +69,8 @@ function _commandsMake()
   let commands =
   {
 
-    'help' :                    { e : _.routineJoin( censor, censor.commandHelp ), h : 'Get help.' },
-    'imply' :                   { e : _.routineJoin( censor, censor.commandImply ), h : 'Change state or imply value of a variable.' },
+    'help' :                    { ro : _.routineJoin( censor, censor.commandHelp ), h : 'Get help.' },
+    'imply' :                   { ro : _.routineJoin( censor, censor.commandImply ), h : 'Change state or imply value of a variable.' },
 
   }
 
@@ -97,7 +98,7 @@ function _commandsMake()
 function commandHelp( e )
 {
   let censor = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let logger = censor.logger;
 
   ca._commandHelp( e );
@@ -114,7 +115,7 @@ function commandHelp( e )
 function commandImply( e )
 {
   let censor = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let logger = censor.logger;
 
   let namesMap =
@@ -124,7 +125,7 @@ function commandImply( e )
     beeping : 'beeping',
   }
 
-  let request = censor.Resolver.strRequestParse( e.commandArgument );
+  let request = censor.Resolver.strRequestParse( e.instructionArgument );
 
   _.process.inputReadTo
   ({

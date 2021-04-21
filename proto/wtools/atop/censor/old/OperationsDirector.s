@@ -6,7 +6,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../../wtools/Tools.s' );
+  const _ = require( '../../node_modules/Tools' );
 
   _.include( 'wArraySparse' );
   _.include( 'wCopyable' );
@@ -108,21 +108,21 @@ function exec()
   let commands =
   {
 
-    'help' :                    { e : _.routineJoin( self, self.commandHelp ), h : 'Get help' },
+    'help' :                    { ro : _.routineJoin( self, self.commandHelp ), h : 'Get help' },
 
-    'session clear' :           { e : _.routineJoin( self, self.commandConfigClear ), h : 'Clear options and persistent state' },
-    'session define' :          { e : _.routineJoin( self, self.commandConfigDefine ), h : 'Define options for the following operation' },
-    'session append' :          { e : _.routineJoin( self, self.commandConfigAppend ), h : 'Append defined options' },
-    'session delete' :          { e : _.routineJoin( self, self.commandConfigDelete ), h : 'Delete field or several from defined options' },
-    'session define path' :     { e : _.routineJoin( self, self.commandConfigDefinePath ), h : 'Define file path' },
+    'session clear' :           { ro : _.routineJoin( self, self.commandConfigClear ), h : 'Clear options and persistent state' },
+    'session define' :          { ro : _.routineJoin( self, self.commandConfigDefine ), h : 'Define options for the following operation' },
+    'session append' :          { ro : _.routineJoin( self, self.commandConfigAppend ), h : 'Append defined options' },
+    'session delete' :          { ro : _.routineJoin( self, self.commandConfigDelete ), h : 'Delete field or several from defined options' },
+    'session define path' :     { ro : _.routineJoin( self, self.commandConfigDefinePath ), h : 'Define file path' },
 
-    'find' :                    { e : _.routineJoin( self, self.commandFind ), h : 'Find text' },
-    'if replace' :              { e : _.routineJoin( self, self.commandIfReplace ), h : 'Pretend replacement proceeding to see result' },
-    'replace' :                 { e : _.routineJoin( self, self.commandReplace ), h : 'Proceed replacement' },
-    'undo' :                    { e : _.routineJoin( self, self.commandUndo ), h : 'Restore the previous state of files changed by the recent operation' },
+    'find' :                    { ro : _.routineJoin( self, self.commandFind ), h : 'Find text' },
+    'if replace' :              { ro : _.routineJoin( self, self.commandIfReplace ), h : 'Pretend replacement proceeding to see result' },
+    'replace' :                 { ro : _.routineJoin( self, self.commandReplace ), h : 'Proceed replacement' },
+    'undo' :                    { ro : _.routineJoin( self, self.commandUndo ), h : 'Restore the previous state of files changed by the recent operation' },
 
-    'find similar' :            { e : _.routineJoin( self, self.commandFindSimilar ), h : 'Find similar files at a specific path' },
-    'tokenize' :                { e : _.routineJoin( self, self.commandTokenize ), h : 'Tokenize source files' },
+    'find similar' :            { ro : _.routineJoin( self, self.commandFindSimilar ), h : 'Find similar files at a specific path' },
+    'tokenize' :                { ro : _.routineJoin( self, self.commandTokenize ), h : 'Tokenize source files' },
 
   }
 
@@ -133,7 +133,8 @@ function exec()
     commandPrefix : 'node ',
   }).form();
 
-  return ca.appArgsPerform({ appArgs });
+  return ca.programPerform({ program : appArgs.original });
+  // return ca.appArgsPerform({ appArgs });
 }
 
 //
@@ -141,7 +142,7 @@ function exec()
 function commandHelp( e )
 {
   let self = this;
-  let ca = e.ca;
+  let ca = e.aggregator;
   let logger = self.logger;
 
   ca._commandHelp( e );

@@ -3,14 +3,14 @@ root:
   - wCensor.out
 consistency:
   wCensor.out.will.yml: &ref_0
-    hash: 525f046dc369114ab11baa334c9f7474
-    size: 41811
+    hash: 63f686c096c3e0739707e68f48222d41
+    size: 42966
   ../.ex.will.yml: &ref_1
     hash: b33b0151b242124418622040705256f1
     size: 1710
   ../.im.will.yml: &ref_2
-    hash: f932305701cdcef8ee816bd3288442d0
-    size: 5084
+    hash: 1b19f9d3e6fc6f6cf8a6a7750cc6a813
+    size: 5055
 module:
   wCensor.out:
     about:
@@ -62,7 +62,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ../
+        path: ..
       repository:
         path: 'git+https:///github.com/Wandalen/wCensor.git'
       origins:
@@ -139,6 +139,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - ../proto/wtools/atop/censor/entry/Include.s
+          - ../proto/node_modules/wcensor
       exported.dir.proto.export:
         criterion:
           generated: 1
@@ -154,9 +158,9 @@ module:
           - ../proto
           - ../proto/Integration.test.ss
           - ../proto/node_modules
+          - ../proto/node_modules/Tools
           - ../proto/node_modules/wcensor
           - ../proto/wtools
-          - ../proto/wtools/Tools.s
           - ../proto/wtools/abase
           - ../proto/wtools/amid
           - ../proto/wtools/atop
@@ -928,7 +932,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ./
+        path: .
       repository:
         path: 'git+https:///github.com/Wandalen/wCensor.git'
       origins:
@@ -1005,6 +1009,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - proto/wtools/atop/censor/entry/Include.s
+          - proto/node_modules/wcensor
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -1571,6 +1579,6 @@ module:
         hash: b33b0151b242124418622040705256f1
         size: 1710
       ../.im.will.yml:
-        hash: f932305701cdcef8ee816bd3288442d0
-        size: 5084
+        hash: 1b19f9d3e6fc6f6cf8a6a7750cc6a813
+        size: 5055
       wCensor.out.will.yml: *ref_0

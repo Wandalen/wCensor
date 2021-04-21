@@ -1,45 +1,33 @@
 {
-  "name": "wcensor",
-  "version": "0.2.125",
-  "description": "Utility to edit files massively from console and with undo.",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
-  "license": "MIT",
-  "main": "proto/wtools/atop/censor/entry/Include.s",
-  "files": [
-    "proto/wtools/atop/censor",
-    "proto/wtools/Tools.s",
-    "proto/node_modules"
-  ],
-  "scripts": {
-    "test": "wtest .run 'proto/**' rapidity:-3",
-    "docgen": "wdocgen .build proto"
+  "name" : "wcensor",
+  "version" : "0.2.141",
+  "description" : "Utility to edit files massively from console and with undo.",
+  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
+  "license" : "MIT",
+  "main" : "proto/node_modules/wcensor",
+  "files" : [ "proto/wtools/atop/censor", "proto/node_modules" ],
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen .build proto" },
+  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wCensor.git" },
+  "bin" :
+  {
+    "censor.singleproc" : "proto/wtools/atop/censor/entry/Exec",
+    "censor.debug" : "proto/wtools/atop/censor/entry/ExecDebug",
+    "censor.unrestricted" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
+    "censor" : "proto/wtools/atop/censor/entry/ExecUnrestricted"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Wandalen/wCensor.git"
+  "bugs" :
+  {
+    "url" : "https://github.com/Wandalen/wCensor/issues"
   },
-  "bin": {
-    "censor.singleproc": "proto/wtools/atop/censor/entry/Exec",
-    "censor.debug": "proto/wtools/atop/censor/entry/ExecDebug",
-    "censor.unrestricted": "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "censor": "proto/wtools/atop/censor/entry/ExecUnrestricted"
+  "dependencies" :
+  {
+    "wTools" : "delta",
+    "wcensorbasic" : "delta",
+    "wblueprint" : "delta",
+    "wnpmtools" : "delta",
+    "wcommandsaggregator" : "delta",
+    "wprocess" : "delta"
   },
-  "bugs": {
-    "url": "https://github.com/Wandalen/wCensor/issues"
-  },
-  "dependencies": {
-    "wTools": "delta",
-    "wcensorbasic": "delta",
-    "wblueprint": "delta",
-    "wnpmtools": "delta",
-    "wcommandsaggregator": "delta",
-    "wprocess": "delta"
-  },
-  "devDependencies": {
-    "eslint": "7.1.0",
-    "wTesting": "delta"
-  },
-  "keywords": [
-    "wTools"
-  ]
+  "devDependencies" : { "wTesting" : "delta" },
+  "keywords" : [ "wTools" ]
 }
