@@ -129,7 +129,7 @@ function _command_head( o )
   if( arguments.length === 2 )
   o = { routine : arguments[ 0 ], args : arguments[ 1 ] }
 
-  _.routineOptions( _command_head, o );
+  _.routine.options_( _command_head, o );
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.assert( o.args.length === 1 );
 
@@ -146,9 +146,9 @@ function _command_head( o )
   if( cui.implied )
   {
     if( o.routine.command.properties )
-    _.mapExtend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
+    _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
     else
-    _.mapExtend( e.propertiesMap, cui.implied );
+    _.props.extend( e.propertiesMap, cui.implied );
   }
 
   _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringShallow( e.propertiesMap ) );
@@ -414,7 +414,7 @@ function commandConfigSet( e )
 
   _.sure
   (
-    _.mapIs( e.propertiesMap.set ) && _.lengthOf( e.propertiesMap.set ),
+    _.mapIs( e.propertiesMap.set ) && _.entity.lengthOf( e.propertiesMap.set ),
     'Expects one or more pair "key:value" to append to the config'
   );
 
