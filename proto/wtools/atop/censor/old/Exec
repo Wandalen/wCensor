@@ -1,7 +1,0 @@
-#! /usr/bin/env node
-
-const Self = require( './Main.s' );
-if( typeof module !== 'undefined' )
-module[ 'exports' ] = Self;
-Self.starter.Center.Exec();
-
