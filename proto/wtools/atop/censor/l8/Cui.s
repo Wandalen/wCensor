@@ -82,26 +82,26 @@ function _commandsMake()
 
   let commands =
   {
-    'help' :                    { ro : _.routineJoin( cui, cui.commandHelp )                 },
-    'version' :                 { ro : _.routineJoin( cui, cui.commandVersion )              },
-    'imply' :                   { ro : _.routineJoin( cui, cui.commandImply )                },
-    'storage.del' :             { ro : _.routineJoin( cui, cui.commandStorageDel )           },
-    'storage.log' :             { ro : _.routineJoin( cui, cui.commandStorageLog )           },
-    'profile.del' :             { ro : _.routineJoin( cui, cui.commandProfileDel )           },
-    'profile.log' :             { ro : _.routineJoin( cui, cui.commandProfileLog )           },
-    'config.log' :              { ro : _.routineJoin( cui, cui.commandConfigLog )            },
-    'config.get' :              { ro : _.routineJoin( cui, cui.commandConfigGet )            },
-    'config.set' :              { ro : _.routineJoin( cui, cui.commandConfigSet )            },
-    'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel )            },
-    'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel )       },
-    'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog )       },
-    'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace )              },
-    'hlink' :                   { ro : _.routineJoin( cui, cui.commandHlink )                },
-    'entry.add' :               { ro : _.routineJoin( cui, cui.commandEntryAdd )             },
-    'do' :                      { ro : _.routineJoin( cui, cui.commandDo )                   },
-    'redo' :                    { ro : _.routineJoin( cui, cui.commandRedo )                 },
-    'undo' :                    { ro : _.routineJoin( cui, cui.commandUndo )                 },
-    'status' :                  { ro : _.routineJoin( cui, cui.commandStatus )               },
+    'help' :                    { ro : _.routineJoin( cui, cui.commandHelp ) },
+    'version' :                 { ro : _.routineJoin( cui, cui.commandVersion ) },
+    'imply' :                   { ro : _.routineJoin( cui, cui.commandImply ) },
+    'storage.del' :             { ro : _.routineJoin( cui, cui.commandStorageDel ) },
+    'storage.log' :             { ro : _.routineJoin( cui, cui.commandStorageLog ) },
+    'profile.del' :             { ro : _.routineJoin( cui, cui.commandProfileDel ) },
+    'profile.log' :             { ro : _.routineJoin( cui, cui.commandProfileLog ) },
+    'config.log' :              { ro : _.routineJoin( cui, cui.commandConfigLog ) },
+    'config.get' :              { ro : _.routineJoin( cui, cui.commandConfigGet ) },
+    'config.set' :              { ro : _.routineJoin( cui, cui.commandConfigSet ) },
+    'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel ) },
+    'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
+    'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
+    'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
+    'hlink' :                   { ro : _.routineJoin( cui, cui.commandHlink ) },
+    'entry.add' :               { ro : _.routineJoin( cui, cui.commandEntryAdd ) },
+    'do' :                      { ro : _.routineJoin( cui, cui.commandDo ) },
+    'redo' :                    { ro : _.routineJoin( cui, cui.commandRedo ) },
+    'undo' :                    { ro : _.routineJoin( cui, cui.commandUndo ) },
+    'status' :                  { ro : _.routineJoin( cui, cui.commandStatus ) },
   }
 
   let ca = _.CommandsAggregator
@@ -113,7 +113,6 @@ function _commandsMake()
   })
 
   ca.form();
-  debugger;
 
   ca.logger.verbosity = 0;
 
