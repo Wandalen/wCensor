@@ -1,5 +1,5 @@
 
-# utility::Censor  [![status](https://github.com/Wandalen/wCensor/workflows/publish/badge.svg)](https://github.com/Wandalen/wCensor/actions?query=workflow%3Apublish) [![unstable](https://img.shields.io/badge/stability-unstable-yellow.svg)](https://github.com/emersion/stability-badges#unstable)
+# utility::Censor  [![status](https://github.com/Wandalen/wCensor/actions/workflows/StandardPublish.yml/badge.svg)](https://github.com/Wandalen/wCensor/actions/workflows/StandardPublish.yml) [![unstable](https://img.shields.io/badge/stability-unstable-yellow.svg)](https://github.com/emersion/stability-badges#unstable)
 
 Utility to edit files massively from console and with undo.
 
@@ -11,7 +11,7 @@ npm install
 node sample/trivial/Sample.s
 ```
 
-## To add to your project
+### To add to your project
 ```
 npm add 'wcensor@alpha'
 ```
