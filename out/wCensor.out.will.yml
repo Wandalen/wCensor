@@ -194,6 +194,12 @@ module:
           - ../proto/wtools/atop/censor.test/_asset/basic/before
           - ../proto/wtools/atop/censor.test/_asset/basic/before/File1.txt
           - ../proto/wtools/atop/censor.test/_asset/basic/before/File2.txt
+          - ../proto/wtools/atop/censor.test/_asset/docSamples
+          - ../proto/wtools/atop/censor.test/_asset/docSamples/doc
+          - ../proto/wtools/atop/censor.test/_asset/docSamples/doc/doc.md
+          - ../proto/wtools/atop/censor.test/_asset/entry
+          - ../proto/wtools/atop/censor.test/_asset/entry/F1.js
+          - ../proto/wtools/atop/censor.test/_asset/entry/F2.js
           - ../proto/wtools/atop/censor.test/_asset/hlink
           - ../proto/wtools/atop/censor.test/_asset/hlink/F1.txt
           - ../proto/wtools/atop/censor.test/_asset/hlink/F2.txt
@@ -215,6 +221,13 @@ module:
           - ../proto/wtools/atop/censor.test/_asset/hlinkExclusive/dir
           - ../proto/wtools/atop/censor.test/_asset/hlinkExclusive/dir/-F1.txt
           - ../proto/wtools/atop/censor.test/_asset/hlinkExclusive/dir/-F2.txt
+          - ../proto/wtools/atop/censor.test/_asset/replaceStatus
+          - ../proto/wtools/atop/censor.test/_asset/replaceStatus/+before
+          - >-
+            ../proto/wtools/atop/censor.test/_asset/replaceStatus/+before/File1.txt
+          - ../proto/wtools/atop/censor.test/_asset/replaceStatus/before
+          - >-
+            ../proto/wtools/atop/censor.test/_asset/replaceStatus/before/File1.txt
           - ../proto/wtools/atop/censor.test/_asset/tlink
           - ../proto/wtools/atop/censor.test/_asset/tlink/after
           - ../proto/wtools/atop/censor.test/_asset/tlink/after/File1.txt
