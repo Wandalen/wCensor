@@ -14,15 +14,7 @@ node sample/trivial/Sample.s
 
 Make sure you have utility `willbe` installed. To install willbe: `npm i -g willbe@delta`. Willbe is required to build of the module.
 
-### To add to your project
-
+### To install
 ```
-npm add 'wcensor@delta'
-```
-
-`Willbe` is not required to use the module in your project as submodule.
-
-## To install
-```
-npm i -g 'wcensor@alpha'
+npm i -g 'wcensor@delta'
 ```
