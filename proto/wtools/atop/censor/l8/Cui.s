@@ -556,7 +556,7 @@ function commandReplace( e )
   cui._command_head( commandReplace, arguments );
 
   op.logger = 1;
-  op.resetting = 1;
+  // op.resetting = 1;
 
   if( !op.basePath )
   op.basePath = '.';
@@ -580,7 +580,7 @@ command.properties =
   sub : 'Text to put instead of ins.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
-  resetting : 'Del redo/undo list. Default is true',
+  resetting : 'Del redo/undo list. Default is false',
   fileSizeLimit : 'Max size of file to read',
   usingTextLink : 'Treat a file as a textlink. Default is 0'
 }

@@ -7167,6 +7167,139 @@ function replaceRedoUndoSingleCommand( test )
   return a.ready;
 }
 
+//
+
+function replaceSeveral( test )
+{
+  let context = this
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'replaceStatus' );
+
+  a.reflect();
+
+  /* */
+
+  a.ready.then( () =>
+  {
+    test.case = 'single line';
+    a.reflect();
+    return null;
+  })
+  a.appStart( `.replace filePath:before/** ins:"line2" sub:"line22" profile:${profile}` )
+  a.appStart( `.replace filePath:before/** ins:"line3" sub:"line33" profile:${profile}` )
+  a.appStart( `.do profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.description = '.';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+line1
+line22
+line33
+line4
+`
+    var got = a.fileProvider.fileRead( a.abs( 'before/File1.txt' ) );
+    test.equivalent( got, exp );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+replaceSeveral.description =
+`
+- several replacement in a raw does arrange replacement
+- arranged several replacements change file properly
+`
+
+//
+
+function replaceStatus( test )
+{
+  let context = this
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'replaceStatus' );
+
+  a.reflect();
+
+  // a.appStart( `.replace filePath:before/** ins:line2\nline3 sub:line22\nline33 profile:${profile} .do profile:${profile}` )
+  // a.appStart( `.imply profile:${profile} .replace filePath:before/** ins:line1\nline2 sub:line3\nline4 .do` ) /* xxx : qqq : make working */
+
+  /* */
+
+  a.ready.then( () =>
+  {
+    test.case = 'single line';
+    a.reflect();
+    return null;
+  })
+  a.appStart({ args : `.replace filePath:before/** ins:"line2" sub:"line22" profile:${profile} .status profile:${profile}`, outputColoring : 0, outputGraying : 0 })
+  // a.appStart( `.imply profile:${profile} .replace filePath:before/** ins:line2\nline3 sub:line22\nline33 profile:${profile} .status profile:${profile}` ) /* xxx : qqq : make working */
+  .then( ( op ) =>
+  {
+    test.description = '.';
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
+ + replace 1 in ${a.abs( './before/File1.txt' )}
+     1 : line1
+     2 : line2line22
+     3 : line3
+ . Found 1 file(s). Arranged 1 replacement(s) in 1 file(s).
+  redo :
+     + replace 1 in ${a.abs( './before/File1.txt' )}
+     1 : line1
+     2 : line2line22
+     3 : line3
+`
+    test.equivalent( _.ct.stripAnsi( op.output ), exp );
+
+    return null;
+  })
+
+  /* */
+
+//   a.ready.then( () =>
+//   {
+//     test.case = 'multiple lines';
+//     a.reflect();
+//     return null;
+//   })
+//   a.appStart( `.profile.del profile:${profile}` )
+//   a.appStart({ args : `.replace filePath:before/** ins:"line2\nline3" sub:"line22\nline33" profile:${profile} .status profile:${profile}`, outputColoring : 0, outputGraying : 0 })
+//   .then( ( op ) =>
+//   {
+//     test.description = '.';
+//     test.identical( op.exitCode, 0 );
+//
+//     /* qqq : implement */
+//
+//     var exp =
+// `
+// `
+//     test.equivalent( _.ct.stripAnsi( op.output ), exp );
+//
+//     return null;
+//   })
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+replaceStatus.description =
+`
+- output of command status is proper for both single-line replacement and multy-line replacement
+`
+
 // --
 // hlink
 // --
@@ -8341,20 +8474,23 @@ const Proto =
     replaceRedoDepth0OptionVerbosity,
     replaceRedoHardLinked,
     replaceRedoSoftLinked,
-    replaceRedoBrokenSoftLink, /* qqq : add test routine of repalce of files which have several borken links  | aaa : done */
-    replaceRedoTextLink, /* qqq : implement. look replaceRedoTextLink. add option resolvingTextLink | aaa : Done. Yevhen S. */
-    replaceRedoBrokenTextLink, /* qqq : add test routine of tlink of files which have several borken links | aaa : Done. Yevhen S. */
+    replaceRedoBrokenSoftLink,
+    replaceRedoTextLink,
+    replaceRedoBrokenTextLink,
     // replaceRedoTextLinked, /* qqq : implement. look replaceRedoSoftLinked. add option resolvingTextLink */
     replaceBigFile,
 
     replaceRedoUndo,
     replaceRedoChangeUndo,
     replaceRedoUndoOptionVerbosity,
-    replaceRedoUndoOptionDepth, /* qqq : implement. look replaceRedoOptionDepth | aaa : Done. Yevhen S. */
-    replaceOptionSession, /* qqq : add test routine to cover command option session | aaa : Done. Yevhen S.  */
+    replaceRedoUndoOptionDepth,
+    replaceOptionSession,
     replaceRedoUndoSingleCommand,
 
-    // /* qqq : implement test to check locking, tell how first */
+    replaceStatus, /* qqq : make it working */
+    // replaceSeveral, /* qqq : make it working */
+
+    // /* qqq : implement test to check locking, discuss first */
 
     hlinkBasic,
     hlinkWithSoftLinks,
