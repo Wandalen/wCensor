@@ -12,9 +12,9 @@ will .npm.install
 node sample/trivial/Sample.s
 ```
 
-Make sure you have utility `willbe` installed. To install willbe: `npm i -g willbe@delta`. Willbe is required to build of the module.
+Make sure you have utility `willbe` installed. To install willbe: `npm i -g willbe@stable`. Willbe is required to build of the module.
 
 ### To install
 ```
-npm i -g 'wcensor@delta'
+npm i -g 'wcensor@stable'
 ```
