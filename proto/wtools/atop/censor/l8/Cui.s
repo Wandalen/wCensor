@@ -367,14 +367,14 @@ function commandConfigGet( e )
   cui._command_head({ routine : commandConfigGet, args : arguments });
 
   if( e.propertiesMap.selector )
-  e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
+  e.propertiesMap.selector = _.array.as( e.propertiesMap.selector );
   else
   e.propertiesMap.selector = [];
 
   // if( !e.propertiesMap.selector )
   // e.propertiesMap.selector = [];
   // else
-  // e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
+  // e.propertiesMap.selector = _.array.as( e.propertiesMap.selector );
 
   if( e.subject )
   {
@@ -441,14 +441,14 @@ function commandConfigDel( e )
   cui._command_head({ routine : commandConfigDel, args : arguments });
 
   if( e.propertiesMap.selector )
-  e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
+  e.propertiesMap.selector = _.array.as( e.propertiesMap.selector );
   else
   e.propertiesMap.selector = [];
 
   // if( !e.propertiesMap.selector )
   // e.propertiesMap.selector = [];
   // else
-  // e.propertiesMap.selector = _.arrayAs( e.propertiesMap.selector );
+  // e.propertiesMap.selector = _.array.as( e.propertiesMap.selector );
 
   if( e.subject )
   {
@@ -604,7 +604,7 @@ function commandHlink( e )
   delete op.verbosity;
 
   if( e.subject )
-  op.basePath = _.arrayAppendArrays( _.arrayAs( e.subject ), op.basePath ? _.arrayAs( op.basePath ) : [] );
+  op.basePath = _.arrayAppendArrays( _.array.as( e.subject ), op.basePath ? _.array.as( op.basePath ) : [] );
 
   if( !op.basePath )
   op.basePath = '.';
