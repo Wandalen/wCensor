@@ -7239,9 +7239,14 @@ function replaceStatus( test )
     a.reflect();
     return null;
   })
-  a.appStart({ args : `.replace filePath:before/** ins:"line2" sub:"line22" profile:${profile} .status profile:${profile}`, outputColoring : 0, outputGraying : 0 })
+  a.appStart
+  ({
+    args : `.replace filePath:before/** ins:"line2" sub:"line22" profile:${profile} .status profile:${profile}`,
+    outputColoring : 0,
+    outputGraying : 0
+  });
   // a.appStart( `.imply profile:${profile} .replace filePath:before/** ins:line2\nline3 sub:line22\nline33 profile:${profile} .status profile:${profile}` ) /* xxx : qqq : make working */
-  .then( ( op ) =>
+  a.ready.then( ( op ) =>
   {
     test.description = '.';
     test.identical( op.exitCode, 0 );
