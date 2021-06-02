@@ -4,7 +4,7 @@
 'use strict';
 
 const _ = _global_.wTools;
-const Self = _.censor = _.censor || Object.create( null );
+_.censor = _.censor || Object.create( null );
 
 let _vopts = { vectorizingContainerAdapter : 1, unwrapingContainerAdapter : 0 };
 let vectorize = _.routineDefaults( null, _.vectorize, _vopts );
@@ -37,11 +37,6 @@ let Extension =
 
 }
 
-_.props.extend( Self, Extension );
-
-//
-
-if( typeof module !== 'undefined' )
-module[ 'exports' ] = _global_.wTools;
+/* _.props.extend */Object.assign( _.censor, Extension );
 
 })();
