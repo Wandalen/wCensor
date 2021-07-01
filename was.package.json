@@ -1,33 +1,46 @@
 {
-  "name" : "wcensor",
-  "version" : "0.2.156",
-  "description" : "Utility to edit files massively from console and with undo.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "license" : "MIT",
-  "main" : "proto/node_modules/wcensor",
-  "files" : [ "proto/wtools/atop/censor", "proto/node_modules", "proto/node_modules/Tools", "proto/node_modules/wcensor" ],
-  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen .build proto" },
-  "repository" : { "type" : "git", "url" : "https://github.com/Wandalen/wCensor.git" },
-  "bin" :
-  {
-    "censor.singleproc" : "proto/wtools/atop/censor/entry/Exec",
-    "censor.debug" : "proto/wtools/atop/censor/entry/ExecDebug",
-    "censor.unrestricted" : "proto/wtools/atop/censor/entry/ExecUnrestricted",
-    "censor" : "proto/wtools/atop/censor/entry/ExecUnrestricted"
+  "name": "wcensor",
+  "version": "0.2.157",
+  "description": "Utility to edit files massively from console and with undo.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "license": "MIT",
+  "main": "proto/node_modules/wcensor",
+  "files": [
+    "proto/wtools/atop/censor",
+    "proto/node_modules",
+    "proto/node_modules/Tools",
+    "proto/node_modules/wcensor"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**' rapidity:-3",
+    "docgen": "wdocgen .build proto"
   },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wCensor/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wCensor.git"
   },
-  "dependencies" :
-  {
-    "wTools" : "",
-    "wcensorbasic" : "",
-    "wblueprint" : "",
-    "wnpmtools" : "",
-    "wcommandsaggregator" : "",
-    "wprocess" : ""
+  "bin": {
+    "censor.singleproc": "proto/wtools/atop/censor/entry/Exec",
+    "censor.debug": "proto/wtools/atop/censor/entry/ExecDebug",
+    "censor.unrestricted": "proto/wtools/atop/censor/entry/ExecUnrestricted",
+    "censor": "proto/wtools/atop/censor/entry/ExecUnrestricted"
   },
-  "devDependencies" : { "wTesting" : "", "eslint" : "7.1.0" },
-  "keywords" : [ "wTools" ]
+  "bugs": {
+    "url": "https://github.com/Wandalen/wCensor/issues"
+  },
+  "dependencies": {
+    "wTools": "",
+    "wprocess": "",
+    "wnpmtools": "",
+    "wcommandsaggregator": "",
+    "wcensorbasic": "",
+    "wblueprint": ""
+  },
+  "devDependencies": {
+    "wTesting": "",
+    "eslint": "7.1.0"
+  },
+  "keywords": [
+    "wTools"
+  ]
 }
