@@ -96,6 +96,9 @@ function _commandsMake()
     'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
     'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
+    'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
+    'listing.squeeze' :         { ro : _.routineJoin( cui, cui.commandListingSqueeze ) },
+
     'hlink' :                   { ro : _.routineJoin( cui, cui.commandHlink ) },
     'entry.add' :               { ro : _.routineJoin( cui, cui.commandEntryAdd ) },
     'do' :                      { ro : _.routineJoin( cui, cui.commandDo ) },
@@ -677,6 +680,57 @@ command.properties =
   forcing : 'Allowing ignoring fail of safegaurd checks. Default is 0.',
 }
 
+//
+
+function commandListingReorder( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+  let op = e.propertiesMap;
+
+  cui._command_head( commandListingReorder, arguments );
+
+  op.dirPath = op.dirPath || _.path.current();
+
+  return _.censor.listingReorder( op );
+}
+
+var command = commandListingReorder.command = Object.create( null );
+command.hint = 'Reorder a ordered list of files in the directory';
+command.properties =
+{
+  verbosity : 'Level of verbosity. Default = 3.',
+  v : 'Level of verbosity. Default = 3.',
+  dirPath : 'Path to directory. Default is current path.',
+  first : 'First element of the listing will take the cardinal. Default is 10.',
+  step : 'Width of one step. Default is 10',
+}
+
+//
+
+function commandListingSqueeze( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+  let op = e.propertiesMap;
+
+  cui._command_head( commandListingSqueeze, arguments );
+
+  op.dirPath = op.dirPath || _.path.current();
+
+  return _.censor.listingSqueeze( op );
+}
+
+var command = commandListingSqueeze.command = Object.create( null );
+command.hint = 'Squeeze a ordered list of files in the directory';
+command.properties =
+{
+  verbosity : 'Level of verbosity. Default = 3.',
+  v : 'Level of verbosity. Default = 3.',
+  dirPath : 'Path to directory. Default is current path.',
+  first : 'First element of the listing will take the cardinal. Default is 1.',
+}
+
 // --
 // do commands
 // --
@@ -863,25 +917,30 @@ let Extension =
   // general commands
 
   commandHelp,
-  commandVersion, /* qqq : cover | aaa : Done. Yevhen S. */
+  commandVersion,
   commandImply,
 
   // storage commands
 
-  commandStorageDel, /* qqq : cover | aaa : Done. Yevhen S.*/
-  commandStorageLog, /* qqq : cover | aaa : Done. Yevhen S.*/
-  commandProfileDel, /* qqq : cover | aaa : Done. Yevhen S.*/
-  commandProfileLog, /* qqq : cover | aaa : Done. Yevhen S.*/
-  commandConfigLog, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandStorageDel,
+  commandStorageLog,
+  commandProfileDel,
+  commandProfileLog,
+  commandConfigLog,
   commandConfigGet,
   commandConfigSet,
   commandConfigDel,
-  commandArrangementDel, /* qqq : cover | aaa : Done. Yevhen S.*/
-  commandArrangementLog, /* qqq : cover | aaa : Done. Yevhen S.*/
+  commandArrangementDel,
+  commandArrangementLog,
 
   // operation commands
 
   commandReplace,
+  commandListingReorder,
+  commandListingSqueeze,
+
+  // instant operation commands
+
   commandHlink, /* xxx : marry hlink with redo */
   commandEntryAdd,
 

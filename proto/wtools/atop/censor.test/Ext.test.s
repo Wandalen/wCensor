@@ -7271,6 +7271,7 @@ function replaceStatus( test )
 
   /* */
 
+// xxx
 //   a.ready.then( () =>
 //   {
 //     test.case = 'multiple lines';
@@ -7304,6 +7305,260 @@ replaceStatus.description =
 `
 - output of command status is proper for both single-line replacement and multy-line replacement
 `
+
+// //
+//
+// function listingReorder( test )
+// {
+//   let context = this;
+//   let a = test.assetFor( 'listingSqueeze' );
+//   let profileDir = `test-${ _.intRandom( 1000000 ) }`;
+//   profileDir = null;
+//
+//   /* */
+//
+//   test.case = 'basic';
+//
+//   _.censor.profileDel( profileDir );
+//   a.reflect();
+//
+//   var expected =
+//   {
+//     '11_F3.txt' : '11_F3.txt',
+//     '3_F1.txt' : '3_F1.txt',
+//     '3_F2.txt' : '3_F2.txt',
+//     '5_F0.txt' : '5_F0.txt',
+//     '_3_F1.txt' : '_3_F1.txt',
+//   };
+//   var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+//   test.identical( extract.filesTree, expected );
+//
+//   var got = _.censor.listingReorder
+//   ({
+//     dirPath : a.abs( '.' ),
+//     profileDir,
+//   });
+//   _.censor.do({ profileDir });
+//
+//   var expected =
+//   {
+//     '10_F1.txt' : '3_F1.txt',
+//     '20_F2.txt' : '3_F2.txt',
+//     '30_F0.txt' : '5_F0.txt',
+//     '40_F3.txt' : '11_F3.txt',
+//     '_3_F1.txt' : '_3_F1.txt',
+//   };
+//   var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+//   test.identical( extract.filesTree, expected );
+//
+//   _.censor.undo({ profileDir });
+//
+//   var expected =
+//   {
+//     '11_F3.txt' : '11_F3.txt',
+//     '3_F1.txt' : '3_F1.txt',
+//     '3_F2.txt' : '3_F2.txt',
+//     '5_F0.txt' : '5_F0.txt',
+//     '_3_F1.txt' : '_3_F1.txt',
+//   };
+//   var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+//   test.identical( extract.filesTree, expected );
+//
+//   /* */
+//
+//   _.censor.profileDel( profileDir );
+// }
+
+//
+
+function listingReorder( test )
+{
+  let context = this
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'listingSqueeze' );
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+
+    var expected =
+    {
+      '11_F3.txt' : '11_F3.txt',
+      '3_F1.txt' : '3_F1.txt',
+      '3_F2.txt' : '3_F2.txt',
+      '5_F0.txt' : '5_F0.txt',
+      '_3_F1.txt' : '_3_F1.txt',
+    };
+    var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+    test.identical( extract.filesTree, expected );
+
+    return null;
+  })
+
+  /* xxx : qqq : implement test routine implyListingDo with such test cases:
+      a.appStart( `.imply profile:${profile} .listing.squeeze .do` )
+      a.appStart( `.listing.squeeze profile:${profile} .do profile:${profile}` )
+    should be identical outcomes
+  */
+
+  a.appStart( `.listing.reorder profile:${profile} .do profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ ${a.abs( '.' )}/ : ./1_F1.txt <- ./3_F1.txt
+`
+    test.equivalent( op.output, exp );
+
+    var expected =
+    {
+    };
+    var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+    test.identical( extract.filesTree, expected );
+
+    return null;
+  })
+
+//   a.appStart( `.undo profile:${profile}` )
+//   .then( ( op ) =>
+//   {
+//     test.identical( op.exitCode, 0 );
+//
+//     var exp =
+// `
+// + undo fileRename ${a.abs( '.' )}/ : ./4_F3.txt <- ./11_F3.txt
+// + undo fileRename ${a.abs( '.' )}/ : ./3_F0.txt <- ./5_F0.txt
+// + undo fileRename ${a.abs( '.' )}/ : ./2_F2.txt <- ./3_F2.txt
+// + undo fileRename ${a.abs( '.' )}/ : ./1_F1.txt <- ./3_F1.txt
+// - Undone 4 action(s). Thrown 0 error(s).
+// `
+//     test.equivalent( op.output, exp );
+//
+//     var expected =
+//     {
+//       '11_F3.txt' : '11_F3.txt',
+//       '3_F1.txt' : '3_F1.txt',
+//       '3_F2.txt' : '3_F2.txt',
+//       '5_F0.txt' : '5_F0.txt',
+//       '_3_F1.txt' : '_3_F1.txt',
+//     };
+//     var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+//     test.identical( extract.filesTree, expected );
+//
+//     return null;
+//   })
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function listingSqueeze( test )
+{
+  let context = this
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( 'listingSqueeze' );
+
+  /* - */
+
+  a.ready
+  .then( ( op ) =>
+  {
+    test.case = 'basic';
+    a.reflect();
+
+    var expected =
+    {
+      '11_F3.txt' : '11_F3.txt',
+      '3_F1.txt' : '3_F1.txt',
+      '3_F2.txt' : '3_F2.txt',
+      '5_F0.txt' : '5_F0.txt',
+      '_3_F1.txt' : '_3_F1.txt',
+    };
+    var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+    test.identical( extract.filesTree, expected );
+
+    return null;
+  })
+
+  /* xxx : qqq : implement test routine implyListingDo with such test cases:
+      a.appStart( `.imply profile:${profile} .listing.squeeze .do` )
+      a.appStart( `.listing.squeeze profile:${profile} .do profile:${profile}` )
+    should be identical outcomes
+  */
+
+  a.appStart( `.listing.squeeze profile:${profile} .do profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ ${a.abs( '.' )}/ : ./1_F1.txt <- ./3_F1.txt
++ ${a.abs( '.' )}/ : ./2_F2.txt <- ./3_F2.txt
++ ${a.abs( '.' )}/ : ./3_F0.txt <- ./5_F0.txt
++ ${a.abs( '.' )}/ : ./4_F3.txt <- ./11_F3.txt
++ Done 4 action(s). Thrown 0 error(s).
+`
+    test.equivalent( op.output, exp );
+
+    var expected =
+    {
+      '1_F1.txt' : '3_F1.txt',
+      '2_F2.txt' : '3_F2.txt',
+      '3_F0.txt' : '5_F0.txt',
+      '4_F3.txt' : '11_F3.txt',
+      '_3_F1.txt' : '_3_F1.txt',
+    };
+    var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+    test.identical( extract.filesTree, expected );
+
+    return null;
+  })
+
+  a.appStart( `.undo profile:${profile}` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+
+    var exp =
+`
++ undo fileRename ${a.abs( '.' )}/ : ./4_F3.txt <- ./11_F3.txt
++ undo fileRename ${a.abs( '.' )}/ : ./3_F0.txt <- ./5_F0.txt
++ undo fileRename ${a.abs( '.' )}/ : ./2_F2.txt <- ./3_F2.txt
++ undo fileRename ${a.abs( '.' )}/ : ./1_F1.txt <- ./3_F1.txt
+- Undone 4 action(s). Thrown 0 error(s).
+`
+    test.equivalent( op.output, exp );
+
+    var expected =
+    {
+      '11_F3.txt' : '11_F3.txt',
+      '3_F1.txt' : '3_F1.txt',
+      '3_F2.txt' : '3_F2.txt',
+      '5_F0.txt' : '5_F0.txt',
+      '_3_F1.txt' : '_3_F1.txt',
+    };
+    var extract = a.fileProvider.filesExtract( a.abs( '.' ) );
+    test.identical( extract.filesTree, expected );
+
+    return null;
+  })
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
 
 // --
 // hlink
@@ -8494,6 +8749,9 @@ const Proto =
 
     replaceStatus, /* qqq : make it working */
     // replaceSeveral, /* qqq : make it working */
+
+    listingReorder,
+    listingSqueeze,
 
     // /* qqq : implement test to check locking, discuss first */
 
