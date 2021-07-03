@@ -671,8 +671,8 @@ command.properties =
   name : 'Name of entry. If not specified, deduced from appPath.',
   platform : 'Platform. If not specified then add entry of both kind, for Windows and Posix platforms. "windows" for Windows, "posix" for posix OSs, "multiple" for both kind of platforms. By default deduced from current OS.',
   relative : 'Relativize path to application from the entry. Default : 1',
-  profile : 'Name of profile to use. Default is "default"',
-  session : 'Name of session to use. Default is "default"',
+  // profile : 'Name of profile to use. Default is "default"',
+  // session : 'Name of session to use. Default is "default"',
   prefix : 'Prefix to use to prepend starting of the application. Default is "node ".',
   addingRights : 'Setting rights of the entry file. Default is 0o777.',
   allowingMissed : 'Allowing creating entry on application file which does not exist. Default is 0.',
@@ -704,6 +704,8 @@ command.properties =
   dirPath : 'Path to directory. Default is current path.',
   first : 'First element of the listing will take the cardinal. Default is 10.',
   step : 'Width of one step. Default is 10',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 //
@@ -729,6 +731,8 @@ command.properties =
   v : 'Level of verbosity. Default = 3.',
   dirPath : 'Path to directory. Default is current path.',
   first : 'First element of the listing will take the cardinal. Default is 1.',
+  profile : 'Name of profile to use. Default is "default"',
+  session : 'Name of session to use. Default is "default"',
 }
 
 // --
