@@ -3,6 +3,9 @@
 
 'use strict';
 
+/* xxx : qqq : check no garbage left in ~/.censor/* */
+/* xxx : qqq : check default profile is not demaged in ~/.censor/default/* especiall ~/.censor/default/config.yaml */
+
 if( typeof module !== 'undefined' )
 {
   const _ = require( '../../../node_modules/Tools' );
