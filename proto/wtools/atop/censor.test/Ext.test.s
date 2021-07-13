@@ -2160,6 +2160,8 @@ Nothing to redo.
   return a.ready;
 }
 
+replaceRedoOptionVerbosity.timeOut = 600000;
+
 //
 
 function replaceRedoOptionDepth( test )
@@ -2893,6 +2895,8 @@ Nothing to redo.
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
+
+replaceRedoOptionDepth.timeOut = 600000;
 
 //
 
@@ -6407,6 +6411,8 @@ Nothing to undo.
   a.appStart( `.profile.del profile:${profile}` );
   return a.ready;
 }
+
+replaceRedoUndoOptionVerbosity.timeOut = 600000;
 
 //
 
