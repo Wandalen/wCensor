@@ -96,6 +96,7 @@ function _commandsMake()
     'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel ) },
     'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
     'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
+    'identity copy' :           { ro : _.routineJoin( cui, cui.commandIdentityCopy ) },
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
@@ -553,6 +554,33 @@ command.properties =
 
 //
 
+function commandIdentityCopy( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityCopy, args : arguments });
+
+  const identityNames = _.strSplit({ src : e.subject, preservingDelimeters : 0 });
+  _.sure( identityNames.length === 2, 'Expects names of src and dst identities' );
+  e.propertiesMap.identitySrcName = identityNames[ 0 ];
+  e.propertiesMap.identityDstName = identityNames[ 1 ];
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityCopy.defaults );
+  return _.censor.identityCopy( e.propertiesMap );
+}
+
+var command = commandIdentityCopy.command = Object.create( null );
+command.hint = 'Copy data of source identity to destination identity.';
+command.subjectHint = 'Names of source and destination identities.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
 function commandIdentityNew( e )
 {
   let cui = this;
@@ -638,7 +666,6 @@ command.properties =
   v : 'Level of verbosity.',
   profile : 'Name of profile to use. Default is "default"',
 };
-
 
 // --
 // operation commands
@@ -1034,6 +1061,7 @@ let Extension =
   commandArrangementDel,
   commandArrangementLog,
 
+  commandIdentityCopy,
   commandIdentityNew,
   commandGitIdentityNew,
   commandIdentityRemove,
