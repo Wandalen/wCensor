@@ -1104,6 +1104,90 @@ function profileDel( test )
 
 //
 
+function identityNew( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'subject and login';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'subject and login and type';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user2 login:userLogin type:git` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity/user2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : git }' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'subject and login, type and user fields';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user3 login:userLogin type:git email:user@domain.com token:123` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity/user3` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'login : userLogin,' ), 1 );
+    test.identical( _.strCount( op.output, 'type : git,' ), 1 );
+    test.identical( _.strCount( op.output, 'email : user@domain.com,' ), 1 );
+    test.identical( _.strCount( op.output, 'token : 123' ), 1 );
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -8680,6 +8764,8 @@ const Proto =
 
     profileLog,
     profileDel,
+
+    identityNew,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
