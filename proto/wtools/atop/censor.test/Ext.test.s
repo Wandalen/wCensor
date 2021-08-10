@@ -1409,7 +1409,7 @@ function identityRemove( test )
 
 //
 
-function gitIdentityScriptSetTrivial( test )
+function gitIdentityScriptSet( test )
 {
   let context = this;
   let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
@@ -1433,14 +1433,140 @@ module.exports = onIdentity;
     return null;
   });
 
-  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
   a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
     return null;
   });
+  a.appStart( `.imply profile:${profile} .identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ type: \'git\', login: \'userLogin\', email: \'user@domain.com\' }' ), 1 );
+    return null;
+  });
   a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
+function identityUse( test )
+{
+  const a = test.assetFor( false );
+
+  if( !_.process.insideTestContainer() )
+  return test.true( true );
+
+  a.fileProvider.dirMake( a.abs( '.' ) );
+  const originalConfig = a.fileProvider.fileRead( a.fileProvider.configUserPath( '.gitconfig' ) );
+  const profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+
+  const script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'use default identity scripts';
+    a.fileProvider.fileWrite( a.fileProvider.configUserPath( '.gitconfig' ), '' );
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.identical( _.strCount( op.output, 'user.name=userLogin' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://userLogin@github.com.insteadof=https://github.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://userLogin@bitbucket.org.insteadof=https://bitbucket.org' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'change identities';
+    a.fileProvider.fileWrite( a.fileProvider.configUserPath( '.gitconfig' ), '' );
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .identity.new user2 login:userLogin2 type:git email:'user2@domain.com'` );
+  a.appStart( `.imply profile:${profile} .identity.use user` )
+  a.appStart( `.imply profile:${profile} .identity.use user2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.identical( _.strCount( op.output, 'user.name=userLogin2' ), 1 );
+    test.identical( _.strCount( op.output, 'user.email=user2@domain.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://userLogin2@github.com.insteadof=https://github.com' ), 1 );
+    test.identical( _.strCount( op.output, 'url.https://userLogin2@bitbucket.org.insteadof=https://bitbucket.org' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'custom user script';
+    a.fileProvider.fileWrite( a.fileProvider.configUserPath( '.gitconfig' ), '' );
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login: \'userLogin\', type: \'git\', email: \'user@domain.com\' }' ), 1 );
+    return null;
+  });
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.identical( op.output, '' );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.finally( ( err, arg ) =>
+  {
+    a.fileProvider.fileWrite( a.fileProvider.configUserPath( '.gitconfig' ), originalConfig );
+    if( err )
+    throw _.err( err );
+    return arg;
+  });
 
   /* - */
 
@@ -9031,7 +9157,8 @@ const Proto =
     identityNew,
     gitIdentityNew,
     identityRemove,
-    gitIdentityScriptSetTrivial,
+    gitIdentityScriptSet,
+    identityUse,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
