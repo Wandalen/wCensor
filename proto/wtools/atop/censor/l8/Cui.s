@@ -97,6 +97,7 @@ function _commandsMake()
     'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
     'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
+    'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -580,6 +581,39 @@ command.properties =
   profile : 'Name of profile to use. Default is "default"',
 };
 
+//
+
+function commandGitIdentityNew( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandGitIdentityNew, args : arguments, propertiesMapAsProperty : 'identity' });
+
+  _.sure
+  (
+    _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
+    'Expects one or more pair "key:value" to append to the config'
+  );
+  _.sure( !e.propertiesMap.identity.type, 'Expects no property `type`.' );
+
+  e.propertiesMap.identity.name = e.subject;
+  e.propertiesMap.identity.type = 'git';
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
+  return _.censor.identityNew( e.propertiesMap );
+}
+
+var command = commandGitIdentityNew.command = Object.create( null );
+command.hint = 'Create new git identity. Cannot rewrite existed identities.';
+command.subjectHint = 'A name of identity.';
+command.properties =
+{
+  identity : 'Map of pairs "key:value" to set identity.',
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
 
 // --
 // operation commands
@@ -976,6 +1010,7 @@ let Extension =
   commandArrangementLog,
 
   commandIdentityNew,
+  commandGitIdentityNew,
 
   // operation commands
 
