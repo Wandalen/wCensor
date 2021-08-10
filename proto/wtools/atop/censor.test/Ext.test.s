@@ -1250,6 +1250,72 @@ function gitIdentityNew( test )
 
 //
 
+function identityRemove( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'remove single identity';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .identity.new user2 login:userLogin2` );
+  a.appStart( `.imply profile:${profile} .identity.remove user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'user2' ), 1 );
+    test.identical( _.strCount( op.output, 'user' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'try to remove with glob';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .identity.new user2 login:userLogin2` );
+  a.appStart( `.imply profile:${profile} .identity.remove user*` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'user2' ), 1 );
+    test.identical( _.strCount( op.output, 'user' ), 2 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -8829,6 +8895,7 @@ const Proto =
 
     identityNew,
     gitIdentityNew,
+    identityRemove,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
