@@ -98,6 +98,7 @@ function _commandsMake()
     'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
+    'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -614,6 +615,30 @@ command.properties =
   profile : 'Name of profile to use. Default is "default"',
 };
 
+//
+
+function commandIdentityRemove( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityRemove, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityDel.defaults );
+  return _.censor.identityDel( e.propertiesMap );
+}
+
+var command = commandIdentityRemove.command = Object.create( null );
+command.hint = 'Remove identity(es).';
+command.subjectHint = 'A name of identity(es) to remove. Could be selectors.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
 
 // --
 // operation commands
@@ -1011,6 +1036,7 @@ let Extension =
 
   commandIdentityNew,
   commandGitIdentityNew,
+  commandIdentityRemove,
 
   // operation commands
 
