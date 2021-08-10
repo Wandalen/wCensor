@@ -101,6 +101,7 @@ function _commandsMake()
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
+    'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
     'identity use' :            { ro : _.routineJoin( cui, cui.commandIdentityUse ) },
 
@@ -685,7 +686,7 @@ function commandIdentityRemove( e )
 }
 
 var command = commandIdentityRemove.command = Object.create( null );
-command.hint = 'Remove identity(es).';
+command.hint = 'Remove identity.';
 command.subjectHint = 'A name of identity(es) to remove. Could be selectors.';
 command.properties =
 {
@@ -712,7 +713,34 @@ function commandGitIdentityScriptSet( e )
 }
 
 var command = commandGitIdentityScriptSet.command = Object.create( null );
-command.hint = 'Set script to set git config.';
+command.hint = 'Imply identity script to set git config.';
+command.subjectHint = 'A name of identity and script to set.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandNpmIdentityScriptSet( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandNpmIdentityScriptSet, args : arguments });
+
+  let subjectSplits = _.strIsolateLeftOrAll( e.subject, ' ' );
+  _.sure( subjectSplits[ 1 ] !== undefined, 'Expects identity name.' )
+  e.propertiesMap.selector = subjectSplits[ 0 ];
+  e.propertiesMap.hook = _.strUnquote( subjectSplits[ 2 ] );
+  e.propertiesMap.type = 'npm';
+  return _.censor.identityHookSet( e.propertiesMap );
+}
+
+var command = commandNpmIdentityScriptSet.command = Object.create( null );
+command.hint = 'Imply identity script to set npm config.';
 command.subjectHint = 'A name of identity and script to set.';
 command.properties =
 {
@@ -1144,6 +1172,7 @@ let Extension =
   commandGitIdentityNew,
   commandIdentityRemove,
   commandGitIdentityScriptSet,
+  commandNpmIdentityScriptSet,
   commandIdentityUse,
 
   // operation commands
