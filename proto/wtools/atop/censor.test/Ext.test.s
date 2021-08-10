@@ -1104,6 +1104,51 @@ function profileDel( test )
 
 //
 
+function identityCopy( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'copy identity';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .identity.copy user user2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity/user2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function identityNew( test )
 {
   let context = this;
@@ -8893,6 +8938,7 @@ const Proto =
     profileLog,
     profileDel,
 
+    identityCopy,
     identityNew,
     gitIdentityNew,
     identityRemove,
