@@ -1409,6 +1409,46 @@ function identityRemove( test )
 
 //
 
+function gitIdentityScriptSetTrivial( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  let script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'set git script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -8991,6 +9031,7 @@ const Proto =
     identityNew,
     gitIdentityNew,
     identityRemove,
+    gitIdentityScriptSetTrivial,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
