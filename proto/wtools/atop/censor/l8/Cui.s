@@ -102,6 +102,7 @@ function _commandsMake()
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
+    'identity use' :            { ro : _.routineJoin( cui, cui.commandIdentityUse ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -720,6 +721,29 @@ command.properties =
   profile : 'Name of profile to use. Default is "default"',
 };
 
+//
+
+function commandIdentityUse( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityUse, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  return _.censor.identityUse( e.propertiesMap );
+}
+
+var command = commandIdentityUse.command = Object.create( null );
+command.hint = 'Set configs using identity data.';
+command.subjectHint = 'A name of identity to use.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
 // --
 // operation commands
 // --
@@ -1120,6 +1144,7 @@ let Extension =
   commandGitIdentityNew,
   commandIdentityRemove,
   commandGitIdentityScriptSet,
+  commandIdentityUse,
 
   // operation commands
 
