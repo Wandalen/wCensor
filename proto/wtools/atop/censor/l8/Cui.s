@@ -96,6 +96,7 @@ function _commandsMake()
     'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel ) },
     'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
     'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
+    'identity list' :           { ro : _.routineJoin( cui, cui.commandIdentityList ) },
     'identity copy' :           { ro : _.routineJoin( cui, cui.commandIdentityCopy ) },
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
@@ -551,6 +552,30 @@ command.properties =
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
 }
+
+//
+
+function commandIdentityList( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityList, args : arguments });
+
+  const list =_.censor.identityList( e.propertiesMap );
+  logger.log( 'List of identities :' );
+  logger.log( _.entity.exportStringNice( list ) );
+}
+
+var command = commandIdentityList.command = Object.create( null );
+command.hint = 'List all identies.';
+command.subjectHint = false;
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
 
 //
 
@@ -1061,6 +1086,7 @@ let Extension =
   commandArrangementDel,
   commandArrangementLog,
 
+  commandIdentityList,
   commandIdentityCopy,
   commandIdentityNew,
   commandGitIdentityNew,
