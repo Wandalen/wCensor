@@ -85,6 +85,7 @@ function _commandsMake()
     'help' :                    { ro : _.routineJoin( cui, cui.commandHelp ) },
     'version' :                 { ro : _.routineJoin( cui, cui.commandVersion ) },
     'imply' :                   { ro : _.routineJoin( cui, cui.commandImply ) },
+
     'storage.del' :             { ro : _.routineJoin( cui, cui.commandStorageDel ) },
     'storage.log' :             { ro : _.routineJoin( cui, cui.commandStorageLog ) },
     'profile.del' :             { ro : _.routineJoin( cui, cui.commandProfileDel ) },
@@ -95,6 +96,15 @@ function _commandsMake()
     'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel ) },
     'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
     'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
+    'identity list' :           { ro : _.routineJoin( cui, cui.commandIdentityList ) },
+    'identity copy' :           { ro : _.routineJoin( cui, cui.commandIdentityCopy ) },
+    'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
+    'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
+    'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
+    'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
+    'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
+    'identity use' :            { ro : _.routineJoin( cui, cui.commandIdentityUse ) },
+
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
     'listing.squeeze' :         { ro : _.routineJoin( cui, cui.commandListingSqueeze ) },
@@ -546,6 +556,222 @@ command.properties =
   session : 'Name of session to use. Default is "default"',
 }
 
+//
+
+function commandIdentityList( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityList, args : arguments });
+
+  const list =_.censor.identityList( e.propertiesMap );
+  logger.log( 'List of identities :' );
+  logger.log( _.entity.exportStringNice( list ) );
+}
+
+var command = commandIdentityList.command = Object.create( null );
+command.hint = 'List all identies.';
+command.subjectHint = false;
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandIdentityCopy( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityCopy, args : arguments });
+
+  const identityNames = _.strSplit({ src : e.subject, preservingDelimeters : 0 });
+  _.sure( identityNames.length === 2, 'Expects names of src and dst identities' );
+  e.propertiesMap.identitySrcName = identityNames[ 0 ];
+  e.propertiesMap.identityDstName = identityNames[ 1 ];
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityCopy.defaults );
+  return _.censor.identityCopy( e.propertiesMap );
+}
+
+var command = commandIdentityCopy.command = Object.create( null );
+command.hint = 'Copy data of source identity to destination identity.';
+command.subjectHint = 'Names of source and destination identities.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandIdentityNew( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityNew, args : arguments, propertiesMapAsProperty : 'identity' });
+
+  _.sure
+  (
+    _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
+    'Expects one or more pair "key:value" to append to the config'
+  );
+
+  e.propertiesMap.identity.name = e.subject;
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
+  return _.censor.identityNew( e.propertiesMap );
+}
+
+var command = commandIdentityNew.command = Object.create( null );
+command.hint = 'Create new identity. Cannot rewrite existed identities.';
+command.subjectHint = 'A name of identity.';
+command.properties =
+{
+  identity : 'Map of pairs "key:value" to set identity.',
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandGitIdentityNew( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandGitIdentityNew, args : arguments, propertiesMapAsProperty : 'identity' });
+
+  _.sure
+  (
+    _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
+    'Expects one or more pair "key:value" to append to the config'
+  );
+  _.sure( !e.propertiesMap.identity.type, 'Expects no property `type`.' );
+
+  e.propertiesMap.identity.name = e.subject;
+  e.propertiesMap.identity.type = 'git';
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
+  return _.censor.identityNew( e.propertiesMap );
+}
+
+var command = commandGitIdentityNew.command = Object.create( null );
+command.hint = 'Create new git identity. Cannot rewrite existed identities.';
+command.subjectHint = 'A name of identity.';
+command.properties =
+{
+  identity : 'Map of pairs "key:value" to set identity.',
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandIdentityRemove( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityRemove, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityDel.defaults );
+  return _.censor.identityDel( e.propertiesMap );
+}
+
+var command = commandIdentityRemove.command = Object.create( null );
+command.hint = 'Remove identity.';
+command.subjectHint = 'A name of identity(es) to remove. Could be selectors.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandGitIdentityScriptSet( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandGitIdentityScriptSet, args : arguments });
+
+  let subjectSplits = _.strIsolateLeftOrAll( e.subject, ' ' );
+  _.sure( subjectSplits[ 1 ] !== undefined, 'Expects identity name.' )
+  e.propertiesMap.selector = subjectSplits[ 0 ];
+  e.propertiesMap.hook = _.strUnquote( subjectSplits[ 2 ] );
+  e.propertiesMap.type = 'git';
+  return _.censor.identityHookSet( e.propertiesMap );
+}
+
+var command = commandGitIdentityScriptSet.command = Object.create( null );
+command.hint = 'Imply identity script to set git config.';
+command.subjectHint = 'A name of identity and script to set.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandNpmIdentityScriptSet( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandNpmIdentityScriptSet, args : arguments });
+
+  let subjectSplits = _.strIsolateLeftOrAll( e.subject, ' ' );
+  _.sure( subjectSplits[ 1 ] !== undefined, 'Expects identity name.' )
+  e.propertiesMap.selector = subjectSplits[ 0 ];
+  e.propertiesMap.hook = _.strUnquote( subjectSplits[ 2 ] );
+  e.propertiesMap.type = 'npm';
+  return _.censor.identityHookSet( e.propertiesMap );
+}
+
+var command = commandNpmIdentityScriptSet.command = Object.create( null );
+command.hint = 'Imply identity script to set npm config.';
+command.subjectHint = 'A name of identity and script to set.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+//
+
+function commandIdentityUse( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityUse, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  return _.censor.identityUse( e.propertiesMap );
+}
+
+var command = commandIdentityUse.command = Object.create( null );
+command.hint = 'Set configs using identity data.';
+command.subjectHint = 'A name of identity to use.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
 // --
 // operation commands
 // --
@@ -928,14 +1154,26 @@ let Extension =
 
   commandStorageDel,
   commandStorageLog,
+
   commandProfileDel,
   commandProfileLog,
+
   commandConfigLog,
   commandConfigGet,
   commandConfigSet,
   commandConfigDel,
+
   commandArrangementDel,
   commandArrangementLog,
+
+  commandIdentityList,
+  commandIdentityCopy,
+  commandIdentityNew,
+  commandGitIdentityNew,
+  commandIdentityRemove,
+  commandGitIdentityScriptSet,
+  commandNpmIdentityScriptSet,
+  commandIdentityUse,
 
   // operation commands
 
