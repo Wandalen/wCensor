@@ -1456,6 +1456,53 @@ module.exports = onIdentity;
 
 //
 
+function npmIdentityScriptSet( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  let script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'set git script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user type:npm login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ type: \'npm\', login: \'userLogin\', email: \'user@domain.com\' }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function identityUse( test )
 {
   const a = test.assetFor( false );
@@ -1548,6 +1595,33 @@ module.exports = onIdentity;
   {
     test.identical( op.exitCode, 0 );
     test.identical( _.strCount( op.output, '{ login: \'userLogin\', type: \'git\', email: \'user@domain.com\' }' ), 1 );
+    return null;
+  });
+  a.shell( 'git config --global --list' )
+  .then( ( op ) =>
+  {
+    test.identical( op.output, '' );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'custom user script, type - general';
+    a.fileProvider.fileWrite( a.fileProvider.configUserPath( '.gitconfig' ), '' );
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login: \'userLogin\', email: \'user@domain.com\', type: \'general\' }' ), 2 );
     return null;
   });
   a.shell( 'git config --global --list' )
@@ -9158,6 +9232,7 @@ const Proto =
     gitIdentityNew,
     identityRemove,
     gitIdentityScriptSet,
+    npmIdentityScriptSet,
     identityUse,
 
     replaceBasic,
