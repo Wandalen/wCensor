@@ -101,6 +101,7 @@ function _commandsMake()
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
+    'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -692,6 +693,33 @@ command.properties =
   profile : 'Name of profile to use. Default is "default"',
 };
 
+//
+
+function commandGitIdentityScriptSet( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandGitIdentityScriptSet, args : arguments });
+
+  let subjectSplits = _.strIsolateLeftOrAll( e.subject, ' ' );
+  _.sure( subjectSplits[ 1 ] !== undefined, 'Expects identity name.' )
+  e.propertiesMap.selector = subjectSplits[ 0 ];
+  e.propertiesMap.hook = _.strUnquote( subjectSplits[ 2 ] );
+  e.propertiesMap.type = 'git';
+  return _.censor.identityHookSet( e.propertiesMap );
+}
+
+var command = commandGitIdentityScriptSet.command = Object.create( null );
+command.hint = 'Set script to set git config.';
+command.subjectHint = 'A name of identity and script to set.';
+command.properties =
+{
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
 // --
 // operation commands
 // --
@@ -1091,6 +1119,7 @@ let Extension =
   commandIdentityNew,
   commandGitIdentityNew,
   commandIdentityRemove,
+  commandGitIdentityScriptSet,
 
   // operation commands
 
