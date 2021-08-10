@@ -1104,6 +1104,54 @@ function profileDel( test )
 
 //
 
+function identityList( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'list no identities';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.list` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'List of identities :\n\n' );
+    return null;
+  });
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'list identities';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` )
+  a.appStart( `.imply profile:${profile} .identity.new user2 login:userLogin` )
+  a.appStart( `.imply profile:${profile} .identity.list` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( op.output, 'List of identities :\n  user\n  user2\n' );
+    return null;
+  });
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function identityCopy( test )
 {
   let context = this;
@@ -8938,6 +8986,7 @@ const Proto =
     profileLog,
     profileDel,
 
+    identityList,
     identityCopy,
     identityNew,
     gitIdentityNew,
