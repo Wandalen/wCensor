@@ -85,6 +85,7 @@ function _commandsMake()
     'help' :                    { ro : _.routineJoin( cui, cui.commandHelp ) },
     'version' :                 { ro : _.routineJoin( cui, cui.commandVersion ) },
     'imply' :                   { ro : _.routineJoin( cui, cui.commandImply ) },
+
     'storage.del' :             { ro : _.routineJoin( cui, cui.commandStorageDel ) },
     'storage.log' :             { ro : _.routineJoin( cui, cui.commandStorageLog ) },
     'profile.del' :             { ro : _.routineJoin( cui, cui.commandProfileDel ) },
@@ -95,6 +96,8 @@ function _commandsMake()
     'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel ) },
     'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
     'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
+    'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
+
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
     'listing.squeeze' :         { ro : _.routineJoin( cui, cui.commandListingSqueeze ) },
@@ -546,6 +549,38 @@ command.properties =
   session : 'Name of session to use. Default is "default"',
 }
 
+//
+
+function commandIdentityNew( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityNew, args : arguments, propertiesMapAsProperty : 'identity' });
+
+  _.sure
+  (
+    _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
+    'Expects one or more pair "key:value" to append to the config'
+  );
+
+  e.propertiesMap.identity.name = e.subject;
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
+  return _.censor.identityNew( e.propertiesMap );
+}
+
+var command = commandIdentityNew.command = Object.create( null );
+command.hint = 'Create new identity. Cannot rewrite existed identities.';
+command.subjectHint = 'A name of identity.';
+command.properties =
+{
+  identity : 'Map of pairs "key:value" to set identity.',
+  verbosity : 'Level of verbosity.',
+  v : 'Level of verbosity.',
+  profile : 'Name of profile to use. Default is "default"',
+};
+
+
 // --
 // operation commands
 // --
@@ -928,14 +963,19 @@ let Extension =
 
   commandStorageDel,
   commandStorageLog,
+
   commandProfileDel,
   commandProfileLog,
+
   commandConfigLog,
   commandConfigGet,
   commandConfigSet,
   commandConfigDel,
+
   commandArrangementDel,
   commandArrangementLog,
+
+  commandIdentityNew,
 
   // operation commands
 
