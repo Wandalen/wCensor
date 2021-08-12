@@ -1,4 +1,4 @@
-( function _Cui_s_( )
+( function _Cui_s_()
 {
 
 'use strict';
@@ -147,6 +147,26 @@ function _command_head( o )
 
   let e = o.args[ 0 ];
 
+  // if( o.propertiesMapAsProperty )
+  // {
+  //   let propertiesMap = Object.create( null );
+  //   if( e.propertiesMap )
+  //   propertiesMap[ o.propertiesMapAsProperty ] = e.propertiesMap;
+  //   e.propertiesMap = propertiesMap;
+  // }
+  //
+  // if( cui.implied )
+  // {
+  //   if( o.routine.command.properties )
+  //   _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
+  //   else
+  //   _.props.extend( e.propertiesMap, cui.implied );
+  // }
+
+  _.sure( _.map.is( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringDiagnosticShallow( e.propertiesMap ) );
+  if( o.routine.command.properties )
+  _.map.sureHasOnly( e.propertiesMap, o.routine.command.properties, `Command does not expect options:` );
+
   if( o.propertiesMapAsProperty )
   {
     let propertiesMap = Object.create( null );
@@ -157,15 +177,15 @@ function _command_head( o )
 
   if( cui.implied )
   {
-    if( o.routine.command.properties )
-    _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
+    if( o.routine.defaults )
+    _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.defaults ) );
     else
     _.props.extend( e.propertiesMap, cui.implied );
+    // if( o.routine.command.properties )
+    // _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
+    // else
+    // _.props.extend( e.propertiesMap, cui.implied );
   }
-
-  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringDiagnosticShallow( e.propertiesMap ) );
-  if( o.routine.command.properties )
-  _.map.sureHasOnly( e.propertiesMap, o.routine.command.properties, `Command does not expect options:` );
 
   if( _.boolLikeFalse( o.routine.command.subjectHint ) )
   if( e.subject.trim() !== '' )
@@ -175,21 +195,24 @@ function _command_head( o )
     + `, but got "${e.subject}"`
   );
 
-  if( o.routine.command.properties && o.routine.command.properties.v )
+  if( o.routine.command.properties && o.routine.command.properties.v
+      || o.routine.defaults && o.routine.defaults.v )
   if( e.propertiesMap.v !== undefined )
   {
     e.propertiesMap.verbosity = e.propertiesMap.v;
     delete e.propertiesMap.v;
   }
 
-  if( o.routine.command.properties && o.routine.command.properties.profile )
+  if( o.routine.command.properties && o.routine.command.properties.profile
+      || o.routine.defaults && o.routine.defaults.profile )
   if( e.propertiesMap.profile !== undefined )
   {
     e.propertiesMap.profileDir = e.propertiesMap.profile;
     delete e.propertiesMap.profile;
   }
 
-  if( o.routine.command.properties && o.routine.command.properties.storage )
+  if( o.routine.command.properties && o.routine.command.properties.storage
+      || o.routine.defaults && o.routine.defaults.storage )
   if( e.propertiesMap.storage !== undefined )
   {
     e.propertiesMap.storageTerminal = e.propertiesMap.storage;
@@ -565,7 +588,8 @@ function commandIdentityList( e )
 
   cui._command_head({ routine : commandIdentityList, args : arguments });
 
-  const list =_.censor.identityList( e.propertiesMap );
+  e.propertiesMap.selector = '';
+  const list =_.censor.identityGet( e.propertiesMap );
   logger.log( 'List of identities :' );
   logger.log( _.entity.exportStringNice( list ) );
 }
@@ -573,12 +597,7 @@ function commandIdentityList( e )
 var command = commandIdentityList.command = Object.create( null );
 command.hint = 'List all identies.';
 command.subjectHint = false;
-command.properties =
-{
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
-};
+command.properties = {};
 
 //
 
@@ -618,24 +637,45 @@ function commandIdentityNew( e )
 
   _.sure
   (
-    _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
-    'Expects one or more pair "key:value" to append to the config'
+    _.map.is( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
+    'Expects one or more pair "key:value" to append to the identity.'
   );
 
+  if( 'force' in e.propertiesMap.identity )
+  {
+    e.propertiesMap.force = e.propertiesMap.identity.force;
+    delete e.propertiesMap.identity.force;
+  }
+
   e.propertiesMap.identity.name = e.subject;
-  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
   return _.censor.identityNew( e.propertiesMap );
 }
 
+commandIdentityNew.defaults =
+{
+  profile : 'default',
+};
+
 var command = commandIdentityNew.command = Object.create( null );
-command.hint = 'Create new identity. Cannot rewrite existed identities.';
 command.subjectHint = 'A name of identity.';
+command.hint = 'Create new identity.';
+command.longHint = 'Create new identity. By default, can\'t rewrite existed identities.\n\t"censor .identity.new user login:user email:user@domain.com type:git" - create new git identity with name `user`.\n\t"censor .identity.new user \'git.login\':user \'git.email\':user@domain.com type:git force:1" - will extend identity `user` if it exists, otherwise, will create new identity.';
 command.properties =
 {
-  identity : 'Map of pairs "key:value" to set identity.',
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  'login' : 'An identity login ( user name ) that is used for all identity scripts if no specifique login defined.',
+  'email' : 'An email that is used for all identity scripts if no specifique email defined.',
+  'token' : 'A token that is used for all identity scripts if no specifique token defined.',
+  'type' : 'A type of identity. Define a way to setup identity data. Can be `git`, `npm`, `rust`, `general`. Default is `general`.',
+  'git.login' : 'An identity login ( user name ) that is used for git script. It has priority over property `login`.',
+  'git.email' : 'An email that is used for git script. It has priority over property `email`.',
+  'git.token' : 'A token that is used for git script. It has priority over property `token`.',
+  'npm.login' : 'An identity login ( user name ) that is used for npm script. It has priority over property `login`.',
+  'npm.email' : 'An email that is used for npm script. It has priority over property `email`.',
+  'npm.token' : 'A token that is used for npm script. It has priority over property `token`.',
+  'rust.login' : 'An identity login ( user name ) that is used for rust script. It has priority over property `login`.',
+  'rust.email' : 'An email that is used for rust script. It has priority over property `email`.',
+  'rust.token' : 'A token that is used for rust script. It has priority over property `token`.',
+  'force' : 'Create new identity force. Overwrites existed identity.'
 };
 
 //
@@ -654,21 +694,37 @@ function commandGitIdentityNew( e )
   );
   _.sure( !e.propertiesMap.identity.type, 'Expects no property `type`.' );
 
+  if( 'force' in e.propertiesMap.identity )
+  {
+    e.propertiesMap.force = e.propertiesMap.identity.force;
+    delete e.propertiesMap.identity.force;
+  }
+
+  for( let key in e.propertiesMap.identity )
+  {
+    e.propertiesMap.identity[ `git.${ key }` ] = e.propertiesMap.identity[ key ];
+    delete e.propertiesMap.identity[ key ];
+  }
   e.propertiesMap.identity.name = e.subject;
   e.propertiesMap.identity.type = 'git';
-  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
   return _.censor.identityNew( e.propertiesMap );
 }
 
+commandGitIdentityNew.defaults =
+{
+  profile : 'default',
+};
+
 var command = commandGitIdentityNew.command = Object.create( null );
-command.hint = 'Create new git identity. Cannot rewrite existed identities.';
 command.subjectHint = 'A name of identity.';
+command.hint = 'Create new git identity.';
+command.longHint = 'Create new git identity. By default, can\'t rewrite existed identities.\n\t"censor .git.identity.new user login:user email:user@domain.com" - create new git identity with name `user`.\n\t"censor .git.identity.new user login:user email:user@domain.com force:1" - will extend identity `user` if it exists, otherwise, will create new git identity.';
 command.properties =
 {
-  identity : 'Map of pairs "key:value" to set identity.',
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  'login' : 'An identity git login ( user name ) that is used for git script.',
+  'email' : 'An email that is used for git script.',
+  'token' : 'A token that is used for git script.',
+  'force' : 'Create new identity force. Overwrites existed identity.'
 };
 
 //
