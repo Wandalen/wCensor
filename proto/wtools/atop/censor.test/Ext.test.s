@@ -1141,7 +1141,11 @@ function identityList( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( op.output, 'List of identities :\n  user\n  user2\n' );
+    test.identical( _.strCount( op.output, op.output, 'List of identities :' ), 1 );
+    test.identical( _.strCount( op.output, op.output, 'user :' ), 4 );
+    test.identical( _.strCount( op.output, op.output, 'user2 :' ), 1 );
+    test.identical( _.strCount( op.output, op.output, 'login : userLogin' ), 2 );
+    test.identical( _.strCount( op.output, op.output, 'type : general' ), 2 );
     return null;
   });
 
@@ -1306,7 +1310,7 @@ function gitIdentityNew( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '{ login : userLogin, type : git }' ), 1 );
+    test.identical( _.strCount( op.output, '{ git.login : userLogin, type : git }' ), 1 );
     return null;
   });
 
@@ -1328,10 +1332,10 @@ function gitIdentityNew( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'login : userLogin,' ), 1 );
+    test.identical( _.strCount( op.output, 'git.login : userLogin,' ), 1 );
     test.identical( _.strCount( op.output, 'type : git' ), 1 );
-    test.identical( _.strCount( op.output, 'email : user@domain.com,' ), 1 );
-    test.identical( _.strCount( op.output, 'token : 123' ), 1 );
+    test.identical( _.strCount( op.output, 'git.email : user@domain.com,' ), 1 );
+    test.identical( _.strCount( op.output, 'git.token : 123' ), 1 );
     return null;
   });
 
