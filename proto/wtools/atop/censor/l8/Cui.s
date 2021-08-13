@@ -746,16 +746,14 @@ function commandIdentityRemove( e )
   e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityDel.defaults );
   return _.censor.identityDel( e.propertiesMap );
 }
-
-var command = commandIdentityRemove.command = Object.create( null );
-command.hint = 'Remove identity.';
-command.subjectHint = 'A name of identity(es) to remove. Could be selectors.';
-command.properties =
+commandIdentityRemove.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandIdentityRemove.command = Object.create( null );
+command.subjectHint = 'A name of identity to remove. Could be selectors.';
+command.hint = 'Remove identity.';
+command.longHint = 'Remove identity by name.\n\t"censor .identity.remove user" - will remove identity `user`.\n\t"censor .identity.remove user*" - will remove all identities which starts with `user`.';
 
 //
 
