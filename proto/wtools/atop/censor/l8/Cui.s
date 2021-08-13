@@ -591,13 +591,16 @@ function commandIdentityList( e )
   e.propertiesMap.selector = '';
   const list =_.censor.identityGet( e.propertiesMap );
   logger.log( 'List of identities :' );
-  logger.log( _.entity.exportStringNice( list ) );
+  logger.log( _.entity.exportStringNice( list ? list : '{-no identies found-}' ) );
 }
-
+commandIdentityList.defaults =
+{
+  profile : 'default',
+};
 var command = commandIdentityList.command = Object.create( null );
-command.hint = 'List all identies.';
 command.subjectHint = false;
-command.properties = {};
+command.hint = 'List all identies.';
+command.longHint = 'List all identies. Command print identities names and identity data.';
 
 //
 
@@ -675,7 +678,7 @@ command.properties =
   'rust.login' : 'An identity login ( user name ) that is used for rust script. It has priority over property `login`.',
   'rust.email' : 'An email that is used for rust script. It has priority over property `email`.',
   'rust.token' : 'A token that is used for rust script. It has priority over property `token`.',
-  'force' : 'Create new identity force. Overwrites existed identity.'
+  'force' : 'Create new identity force. Overwrites existed identity. Default is false.'
 };
 
 //
@@ -724,7 +727,7 @@ command.properties =
   'login' : 'An identity git login ( user name ) that is used for git script.',
   'email' : 'An email that is used for git script.',
   'token' : 'A token that is used for git script.',
-  'force' : 'Create new identity force. Overwrites existed identity.'
+  'force' : 'Create new identity force. Overwrites existed identity. Default is false.'
 };
 
 //
