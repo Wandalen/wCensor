@@ -778,7 +778,7 @@ commandGitIdentityScriptSet.defaults =
 var command = commandGitIdentityScriptSet.command = Object.create( null );
 command.subjectHint = 'A name of identity and script to set.';
 command.hint = 'Imply identity script to set git config.';
-command.longHint = 'Imply identity script to set git config. Command apply identity name and js script data.\n\t"censor .git.identity.script.set user $(cat script.js)" - will set `script.js` as default git script for identity `user` (example is valid for Unix-like OSs).';
+command.longHint = 'Imply identity script to set git config. Accepts identity name and js script data.\n\t"censor .git.identity.script.set user $(cat script.js)" - will set `script.js` as default git script for identity `user` (example is valid for Unix-like OSs).';
 
 //
 
@@ -797,15 +797,14 @@ function commandNpmIdentityScriptSet( e )
   return _.censor.identityHookSet( e.propertiesMap );
 }
 
-var command = commandNpmIdentityScriptSet.command = Object.create( null );
-command.hint = 'Imply identity script to set npm config.';
-command.subjectHint = 'A name of identity and script to set.';
-command.properties =
+commandNpmIdentityScriptSet.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandNpmIdentityScriptSet.command = Object.create( null );
+command.subjectHint = 'A name of identity and script to set.';
+command.hint = 'Imply identity script to set npm config.';
+command.longHint = 'Imply identity script to set npm config. Accepts identity name and js script data.\n\t"censor .npm.identity.script.set user $(cat script.js)" - will set `script.js` as default npm script for identity `user` (example is valid for Unix-like OSs).';
 
 //
 
