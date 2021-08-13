@@ -771,16 +771,14 @@ function commandGitIdentityScriptSet( e )
   e.propertiesMap.type = 'git';
   return _.censor.identityHookSet( e.propertiesMap );
 }
-
-var command = commandGitIdentityScriptSet.command = Object.create( null );
-command.hint = 'Imply identity script to set git config.';
-command.subjectHint = 'A name of identity and script to set.';
-command.properties =
+commandGitIdentityScriptSet.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandGitIdentityScriptSet.command = Object.create( null );
+command.subjectHint = 'A name of identity and script to set.';
+command.hint = 'Imply identity script to set git config.';
+command.longHint = 'Imply identity script to set git config. Command apply identity name and js script data.\n\t"censor .git.identity.script.set user $(cat script.js)" - will set `script.js` as default git script for identity `user` (example is valid for Unix-like OSs).';
 
 //
 
