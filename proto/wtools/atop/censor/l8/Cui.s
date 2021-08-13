@@ -103,7 +103,7 @@ function _commandsMake()
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
     'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
-    'identity use' :            { ro : _.routineJoin( cui, cui.commandIdentityUse ) },
+    'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -808,26 +808,25 @@ command.longHint = 'Imply identity script to set npm config. Accepts identity na
 
 //
 
-function commandIdentityUse( e )
+function commandGitIdentityUse( e )
 {
   let cui = this;
   let ca = e.aggregator;
 
-  cui._command_head({ routine : commandIdentityUse, args : arguments });
+  cui._command_head({ routine : commandGitIdentityUse, args : arguments });
 
   e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'git';
   return _.censor.identityUse( e.propertiesMap );
 }
-
-var command = commandIdentityUse.command = Object.create( null );
-command.hint = 'Set configs using identity data.';
-command.subjectHint = 'A name of identity to use.';
-command.properties =
+commandGitIdentityUse.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandGitIdentityUse.command = Object.create( null );
+command.subjectHint = 'A name of identity to use.';
+command.hint = 'Set git configs using identity data.';
+command.longHint = 'Set git configs using identity data.\n\t"censor .git.identity.use user" - will configure git using identity `user` script and data.';
 
 // --
 // operation commands
@@ -1230,7 +1229,7 @@ let Extension =
   commandIdentityRemove,
   commandGitIdentityScriptSet,
   commandNpmIdentityScriptSet,
-  commandIdentityUse,
+  commandGitIdentityUse,
 
   // operation commands
 
