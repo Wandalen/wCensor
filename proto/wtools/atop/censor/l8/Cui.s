@@ -577,7 +577,7 @@ command.properties =
   v : 'Level of verbosity.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
-}
+};
 
 //
 
@@ -600,7 +600,7 @@ commandIdentityList.defaults =
 var command = commandIdentityList.command = Object.create( null );
 command.subjectHint = false;
 command.hint = 'List all identies.';
-command.longHint = 'List all identies. Command print identities names and identity data.';
+command.longHint = 'List all identies. Prints identity names and identity data.';
 
 //
 
@@ -619,14 +619,17 @@ function commandIdentityCopy( e )
   return _.censor.identityCopy( e.propertiesMap );
 }
 
+commandIdentityCopy.defaults =
+{
+  profile : 'default',
+};
 var command = commandIdentityCopy.command = Object.create( null );
-command.hint = 'Copy data of source identity to destination identity.';
 command.subjectHint = 'Names of source and destination identities.';
+command.hint = 'Copy data of source identity to destination identity.';
+command.longHint = 'Copy data of source identity to destination identity. Accepts identity names.\n\t"censor .identity.copy \'src.user\' \'dst.user\'" - copy data from identity `src.user` to `dst.user`.\n\t"censor .identity.copy \'src.user\' \'dst.user\' force:1" - will overwrite identity `dst.user` if it exists.';
 command.properties =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  'force' : 'Copy identity force. Overwrites existed destination identity. Default is false.'
 };
 
 //
