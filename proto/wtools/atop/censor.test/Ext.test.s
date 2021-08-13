@@ -1123,7 +1123,7 @@ function identityList( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( op.output, 'List of identities :\n\n' );
+    test.identical( op.output, 'List of identities :\n{-no identies found-}\n' );
     return null;
   });
 
@@ -1141,11 +1141,11 @@ function identityList( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, op.output, 'List of identities :' ), 1 );
-    test.identical( _.strCount( op.output, op.output, 'user :' ), 4 );
-    test.identical( _.strCount( op.output, op.output, 'user2 :' ), 1 );
-    test.identical( _.strCount( op.output, op.output, 'login : userLogin' ), 2 );
-    test.identical( _.strCount( op.output, op.output, 'type : general' ), 2 );
+    test.identical( _.strCount( op.output, 'List of identities :' ), 1 );
+    test.identical( _.strCount( op.output, 'user :' ), 1 );
+    test.identical( _.strCount( op.output, 'user2 :' ), 1 );
+    test.identical( _.strCount( op.output, 'login : userLogin' ), 2 );
+    test.identical( _.strCount( op.output, 'type : general' ), 2 );
     return null;
   });
 
