@@ -1,4 +1,4 @@
-( function _Cui_s_( )
+( function _Cui_s_()
 {
 
 'use strict';
@@ -103,7 +103,8 @@ function _commandsMake()
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
     'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
-    'identity use' :            { ro : _.routineJoin( cui, cui.commandIdentityUse ) },
+    'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
+    'npm identity use' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityUse ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -147,6 +148,26 @@ function _command_head( o )
 
   let e = o.args[ 0 ];
 
+  // if( o.propertiesMapAsProperty )
+  // {
+  //   let propertiesMap = Object.create( null );
+  //   if( e.propertiesMap )
+  //   propertiesMap[ o.propertiesMapAsProperty ] = e.propertiesMap;
+  //   e.propertiesMap = propertiesMap;
+  // }
+  //
+  // if( cui.implied )
+  // {
+  //   if( o.routine.command.properties )
+  //   _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
+  //   else
+  //   _.props.extend( e.propertiesMap, cui.implied );
+  // }
+
+  _.sure( _.map.is( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringDiagnosticShallow( e.propertiesMap ) );
+  if( o.routine.command.properties && !o.propertiesMapAsProperty )
+  _.map.sureHasOnly( e.propertiesMap, o.routine.command.properties, `Command does not expect options:` );
+
   if( o.propertiesMapAsProperty )
   {
     let propertiesMap = Object.create( null );
@@ -157,15 +178,15 @@ function _command_head( o )
 
   if( cui.implied )
   {
-    if( o.routine.command.properties )
-    _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
+    if( o.routine.defaults )
+    _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.defaults ) );
     else
     _.props.extend( e.propertiesMap, cui.implied );
+    // if( o.routine.command.properties )
+    // _.props.extend( e.propertiesMap, _.mapOnly_( null, cui.implied, o.routine.command.properties ) );
+    // else
+    // _.props.extend( e.propertiesMap, cui.implied );
   }
-
-  _.sure( _.mapIs( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringDiagnosticShallow( e.propertiesMap ) );
-  if( o.routine.command.properties )
-  _.map.sureHasOnly( e.propertiesMap, o.routine.command.properties, `Command does not expect options:` );
 
   if( _.boolLikeFalse( o.routine.command.subjectHint ) )
   if( e.subject.trim() !== '' )
@@ -175,21 +196,24 @@ function _command_head( o )
     + `, but got "${e.subject}"`
   );
 
-  if( o.routine.command.properties && o.routine.command.properties.v )
+  if( o.routine.command.properties && o.routine.command.properties.v
+      || o.routine.defaults && o.routine.defaults.v )
   if( e.propertiesMap.v !== undefined )
   {
     e.propertiesMap.verbosity = e.propertiesMap.v;
     delete e.propertiesMap.v;
   }
 
-  if( o.routine.command.properties && o.routine.command.properties.profile )
+  if( o.routine.command.properties && o.routine.command.properties.profile
+      || o.routine.defaults && o.routine.defaults.profile )
   if( e.propertiesMap.profile !== undefined )
   {
     e.propertiesMap.profileDir = e.propertiesMap.profile;
     delete e.propertiesMap.profile;
   }
 
-  if( o.routine.command.properties && o.routine.command.properties.storage )
+  if( o.routine.command.properties && o.routine.command.properties.storage
+      || o.routine.defaults && o.routine.defaults.storage )
   if( e.propertiesMap.storage !== undefined )
   {
     e.propertiesMap.storageTerminal = e.propertiesMap.storage;
@@ -554,7 +578,7 @@ command.properties =
   v : 'Level of verbosity.',
   profile : 'Name of profile to use. Default is "default"',
   session : 'Name of session to use. Default is "default"',
-}
+};
 
 //
 
@@ -565,20 +589,19 @@ function commandIdentityList( e )
 
   cui._command_head({ routine : commandIdentityList, args : arguments });
 
-  const list =_.censor.identityList( e.propertiesMap );
+  e.propertiesMap.selector = '';
+  const list =_.censor.identityGet( e.propertiesMap );
   logger.log( 'List of identities :' );
-  logger.log( _.entity.exportStringNice( list ) );
+  logger.log( _.entity.exportStringNice( list ? list : '{-no identies found-}' ) );
 }
-
-var command = commandIdentityList.command = Object.create( null );
-command.hint = 'List all identies.';
-command.subjectHint = false;
-command.properties =
+commandIdentityList.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandIdentityList.command = Object.create( null );
+command.subjectHint = false;
+command.hint = 'List all identies.';
+command.longHint = 'List all identies. Prints identity names and identity data.';
 
 //
 
@@ -597,14 +620,17 @@ function commandIdentityCopy( e )
   return _.censor.identityCopy( e.propertiesMap );
 }
 
+commandIdentityCopy.defaults =
+{
+  profile : 'default',
+};
 var command = commandIdentityCopy.command = Object.create( null );
-command.hint = 'Copy data of source identity to destination identity.';
 command.subjectHint = 'Names of source and destination identities.';
+command.hint = 'Copy data of source identity to destination identity.';
+command.longHint = 'Copy data of source identity to destination identity. Accepts identity names.\n\t"censor .identity.copy \'src.user\' \'dst.user\'" - copy data from identity `src.user` to `dst.user`.\n\t"censor .identity.copy \'src.user\' \'dst.user\' force:1" - will overwrite identity `dst.user` if it exists.';
 command.properties =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  'force' : 'Copy identity force. Overwrites existed destination identity. Default is false.'
 };
 
 //
@@ -618,24 +644,46 @@ function commandIdentityNew( e )
 
   _.sure
   (
-    _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
-    'Expects one or more pair "key:value" to append to the config'
+    _.map.is( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
+    'Expects one or more pair "key:value" to append to the identity.'
   );
+  _.map.sureHasOnly( e.propertiesMap.identity, commandIdentityNew.command.properties );
+
+  if( 'force' in e.propertiesMap.identity )
+  {
+    e.propertiesMap.force = e.propertiesMap.identity.force;
+    delete e.propertiesMap.identity.force;
+  }
 
   e.propertiesMap.identity.name = e.subject;
-  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
   return _.censor.identityNew( e.propertiesMap );
 }
 
+commandIdentityNew.defaults =
+{
+  profile : 'default',
+};
+
 var command = commandIdentityNew.command = Object.create( null );
-command.hint = 'Create new identity. Cannot rewrite existed identities.';
 command.subjectHint = 'A name of identity.';
+command.hint = 'Create new identity.';
+command.longHint = 'Create new identity. By default, can\'t rewrite existed identities.\n\t"censor .identity.new user login:user email:user@domain.com type:git" - create new git identity with name `user`.\n\t"censor .identity.new user \'git.login\':user \'git.email\':user@domain.com type:git force:1" - will extend identity `user` if it exists, otherwise, will create new identity.';
 command.properties =
 {
-  identity : 'Map of pairs "key:value" to set identity.',
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  'login' : 'An identity login ( user name ) that is used for all identity scripts if no specifique login defined.',
+  'email' : 'An email that is used for all identity scripts if no specifique email defined.',
+  'token' : 'A token that is used for all identity scripts if no specifique token defined.',
+  'type' : 'A type of identity. Define a way to setup identity data. Can be `git`, `npm`, `rust`, `general`. Default is `general`.',
+  'git.login' : 'An identity login ( user name ) that is used for git script. It has priority over property `login`.',
+  'git.email' : 'An email that is used for git script. It has priority over property `email`.',
+  'git.token' : 'A token that is used for git script. It has priority over property `token`.',
+  'npm.login' : 'An identity login ( user name ) that is used for npm script. It has priority over property `login`.',
+  'npm.email' : 'An email that is used for npm script. It has priority over property `email`.',
+  'npm.token' : 'A token that is used for npm script. It has priority over property `token`.',
+  'rust.login' : 'An identity login ( user name ) that is used for rust script. It has priority over property `login`.',
+  'rust.email' : 'An email that is used for rust script. It has priority over property `email`.',
+  'rust.token' : 'A token that is used for rust script. It has priority over property `token`.',
+  'force' : 'Create new identity force. Overwrites existed identity. Default is false.'
 };
 
 //
@@ -652,23 +700,39 @@ function commandGitIdentityNew( e )
     _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
     'Expects one or more pair "key:value" to append to the config'
   );
-  _.sure( !e.propertiesMap.identity.type, 'Expects no property `type`.' );
+  _.map.sureHasOnly( e.propertiesMap.identity, commandIdentityNew.command.properties );
 
+  if( 'force' in e.propertiesMap.identity )
+  {
+    e.propertiesMap.force = e.propertiesMap.identity.force;
+    delete e.propertiesMap.identity.force;
+  }
+
+  for( let key in e.propertiesMap.identity )
+  {
+    e.propertiesMap.identity[ `git.${ key }` ] = e.propertiesMap.identity[ key ];
+    delete e.propertiesMap.identity[ key ];
+  }
   e.propertiesMap.identity.name = e.subject;
   e.propertiesMap.identity.type = 'git';
-  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityNew.defaults );
   return _.censor.identityNew( e.propertiesMap );
 }
 
+commandGitIdentityNew.defaults =
+{
+  profile : 'default',
+};
+
 var command = commandGitIdentityNew.command = Object.create( null );
-command.hint = 'Create new git identity. Cannot rewrite existed identities.';
 command.subjectHint = 'A name of identity.';
+command.hint = 'Create new git identity.';
+command.longHint = 'Create new git identity. By default, can\'t rewrite existed identities.\n\t"censor .git.identity.new user login:user email:user@domain.com" - create new git identity with name `user`.\n\t"censor .git.identity.new user login:user email:user@domain.com force:1" - will extend identity `user` if it exists, otherwise, will create new git identity.';
 command.properties =
 {
-  identity : 'Map of pairs "key:value" to set identity.',
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  'login' : 'An identity git login ( user name ) that is used for git script.',
+  'email' : 'An email that is used for git script.',
+  'token' : 'A token that is used for git script.',
+  'force' : 'Create new identity force. Overwrites existed identity. Default is false.'
 };
 
 //
@@ -684,16 +748,14 @@ function commandIdentityRemove( e )
   e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityDel.defaults );
   return _.censor.identityDel( e.propertiesMap );
 }
-
-var command = commandIdentityRemove.command = Object.create( null );
-command.hint = 'Remove identity.';
-command.subjectHint = 'A name of identity(es) to remove. Could be selectors.';
-command.properties =
+commandIdentityRemove.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandIdentityRemove.command = Object.create( null );
+command.subjectHint = 'A name of identity to remove. Could be selectors.';
+command.hint = 'Remove identity.';
+command.longHint = 'Remove identity by name.\n\t"censor .identity.remove user" - will remove identity `user`.\n\t"censor .identity.remove user*" - will remove all identities which starts with `user`.';
 
 //
 
@@ -711,16 +773,14 @@ function commandGitIdentityScriptSet( e )
   e.propertiesMap.type = 'git';
   return _.censor.identityHookSet( e.propertiesMap );
 }
-
-var command = commandGitIdentityScriptSet.command = Object.create( null );
-command.hint = 'Imply identity script to set git config.';
-command.subjectHint = 'A name of identity and script to set.';
-command.properties =
+commandGitIdentityScriptSet.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandGitIdentityScriptSet.command = Object.create( null );
+command.subjectHint = 'A name of identity and script to set.';
+command.hint = 'Imply identity script to set git config.';
+command.longHint = 'Imply identity script to set git config. Accepts identity name and js script data.\n\t"censor .git.identity.script.set user $(cat script.js)" - will set `script.js` as default git script for identity `user` (example is valid for Unix-like OSs).';
 
 //
 
@@ -739,38 +799,58 @@ function commandNpmIdentityScriptSet( e )
   return _.censor.identityHookSet( e.propertiesMap );
 }
 
-var command = commandNpmIdentityScriptSet.command = Object.create( null );
-command.hint = 'Imply identity script to set npm config.';
-command.subjectHint = 'A name of identity and script to set.';
-command.properties =
+commandNpmIdentityScriptSet.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandNpmIdentityScriptSet.command = Object.create( null );
+command.subjectHint = 'A name of identity and script to set.';
+command.hint = 'Imply identity script to set npm config.';
+command.longHint = 'Imply identity script to set npm config. Accepts identity name and js script data.\n\t"censor .npm.identity.script.set user $(cat script.js)" - will set `script.js` as default npm script for identity `user` (example is valid for Unix-like OSs).';
 
 //
 
-function commandIdentityUse( e )
+function commandGitIdentityUse( e )
 {
   let cui = this;
   let ca = e.aggregator;
 
-  cui._command_head({ routine : commandIdentityUse, args : arguments });
+  cui._command_head({ routine : commandGitIdentityUse, args : arguments });
 
   e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'git';
   return _.censor.identityUse( e.propertiesMap );
 }
-
-var command = commandIdentityUse.command = Object.create( null );
-command.hint = 'Set configs using identity data.';
-command.subjectHint = 'A name of identity to use.';
-command.properties =
+commandGitIdentityUse.defaults =
 {
-  verbosity : 'Level of verbosity.',
-  v : 'Level of verbosity.',
-  profile : 'Name of profile to use. Default is "default"',
+  profile : 'default',
 };
+var command = commandGitIdentityUse.command = Object.create( null );
+command.subjectHint = 'A name of identity to use.';
+command.hint = 'Set git configs using identity data.';
+command.longHint = 'Set git configs using identity data.\n\t"censor .git.identity.use user" - will configure git using identity `user` script and data.';
+
+//
+
+function commandNpmIdentityUse( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandNpmIdentityUse, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'npm';
+  return _.censor.identityUse( e.propertiesMap );
+}
+commandNpmIdentityUse.defaults =
+{
+  profile : 'default',
+};
+var command = commandNpmIdentityUse.command = Object.create( null );
+command.subjectHint = 'A name of identity to use.';
+command.hint = 'Set npm configs using identity data.';
+command.longHint = 'Set npm configs using identity data.\n\t"censor .npm.identity.use user" - will configure npm using identity `user` script and data.';
 
 // --
 // operation commands
@@ -1173,7 +1253,8 @@ let Extension =
   commandIdentityRemove,
   commandGitIdentityScriptSet,
   commandNpmIdentityScriptSet,
-  commandIdentityUse,
+  commandGitIdentityUse,
+  commandNpmIdentityUse,
 
   // operation commands
 

@@ -1123,7 +1123,7 @@ function identityList( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( op.output, 'List of identities :\n\n' );
+    test.identical( op.output, 'List of identities :\n{-no identies found-}\n' );
     return null;
   });
 
@@ -1141,7 +1141,11 @@ function identityList( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( op.output, 'List of identities :\n  user\n  user2\n' );
+    test.identical( _.strCount( op.output, 'List of identities :' ), 1 );
+    test.identical( _.strCount( op.output, 'user :' ), 1 );
+    test.identical( _.strCount( op.output, 'user2 :' ), 1 );
+    test.identical( _.strCount( op.output, 'login : userLogin' ), 2 );
+    test.identical( _.strCount( op.output, 'type : general' ), 2 );
     return null;
   });
 
@@ -1306,7 +1310,7 @@ function gitIdentityNew( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '{ login : userLogin, type : git }' ), 1 );
+    test.identical( _.strCount( op.output, '{ git.login : userLogin, type : git }' ), 1 );
     return null;
   });
 
@@ -1328,10 +1332,10 @@ function gitIdentityNew( test )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'login : userLogin,' ), 1 );
+    test.identical( _.strCount( op.output, 'git.login : userLogin,' ), 1 );
     test.identical( _.strCount( op.output, 'type : git' ), 1 );
-    test.identical( _.strCount( op.output, 'email : user@domain.com,' ), 1 );
-    test.identical( _.strCount( op.output, 'token : 123' ), 1 );
+    test.identical( _.strCount( op.output, 'git.email : user@domain.com,' ), 1 );
+    test.identical( _.strCount( op.output, 'git.token : 123' ), 1 );
     return null;
   });
 
@@ -1440,7 +1444,7 @@ module.exports = onIdentity;
     test.identical( op.exitCode, 0 );
     return null;
   });
-  a.appStart( `.imply profile:${profile} .identity.use user` )
+  a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1487,7 +1491,7 @@ module.exports = onIdentity;
     test.identical( op.exitCode, 0 );
     return null;
   });
-  a.appStart( `.imply profile:${profile} .identity.use user` )
+  a.appStart( `.imply profile:${profile} .npm.identity.use user` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1533,7 +1537,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .identity.use user` )
+  a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1561,8 +1565,8 @@ module.exports = onIdentity;
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
   a.appStart( `.imply profile:${profile} .identity.new user2 login:userLogin2 type:git email:'user2@domain.com'` );
-  a.appStart( `.imply profile:${profile} .identity.use user` )
-  a.appStart( `.imply profile:${profile} .identity.use user2` )
+  a.appStart( `.imply profile:${profile} .git.identity.use user` )
+  a.appStart( `.imply profile:${profile} .git.identity.use user2` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1590,7 +1594,7 @@ module.exports = onIdentity;
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
   a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
-  a.appStart( `.imply profile:${profile} .identity.use user` )
+  a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1617,7 +1621,7 @@ module.exports = onIdentity;
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
   a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
   a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
-  a.appStart( `.imply profile:${profile} .identity.use user` )
+  a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
