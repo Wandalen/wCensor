@@ -104,6 +104,7 @@ function _commandsMake()
     'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
     'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
+    'npm identity use' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityUse ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -164,7 +165,7 @@ function _command_head( o )
   // }
 
   _.sure( _.map.is( e.propertiesMap ), () => 'Expects map, but got ' + _.entity.exportStringDiagnosticShallow( e.propertiesMap ) );
-  if( o.routine.command.properties )
+  if( o.routine.command.properties && !o.propertiesMapAsProperty )
   _.map.sureHasOnly( e.propertiesMap, o.routine.command.properties, `Command does not expect options:` );
 
   if( o.propertiesMapAsProperty )
@@ -646,6 +647,7 @@ function commandIdentityNew( e )
     _.map.is( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
     'Expects one or more pair "key:value" to append to the identity.'
   );
+  _.map.sureHasOnly( e.propertiesMap.identity, commandIdentityNew.command.properties );
 
   if( 'force' in e.propertiesMap.identity )
   {
@@ -698,7 +700,7 @@ function commandGitIdentityNew( e )
     _.mapIs( e.propertiesMap.identity ) && _.entity.lengthOf( e.propertiesMap.identity ),
     'Expects one or more pair "key:value" to append to the config'
   );
-  _.sure( !e.propertiesMap.identity.type, 'Expects no property `type`.' );
+  _.map.sureHasOnly( e.propertiesMap.identity, commandIdentityNew.command.properties );
 
   if( 'force' in e.propertiesMap.identity )
   {
@@ -827,6 +829,28 @@ var command = commandGitIdentityUse.command = Object.create( null );
 command.subjectHint = 'A name of identity to use.';
 command.hint = 'Set git configs using identity data.';
 command.longHint = 'Set git configs using identity data.\n\t"censor .git.identity.use user" - will configure git using identity `user` script and data.';
+
+//
+
+function commandNpmIdentityUse( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandNpmIdentityUse, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'npm';
+  return _.censor.identityUse( e.propertiesMap );
+}
+commandNpmIdentityUse.defaults =
+{
+  profile : 'default',
+};
+var command = commandNpmIdentityUse.command = Object.create( null );
+command.subjectHint = 'A name of identity to use.';
+command.hint = 'Set npm configs using identity data.';
+command.longHint = 'Set npm configs using identity data.\n\t"censor .npm.identity.use user" - will configure npm using identity `user` script and data.';
 
 // --
 // operation commands
@@ -1230,6 +1254,7 @@ let Extension =
   commandGitIdentityScriptSet,
   commandNpmIdentityScriptSet,
   commandGitIdentityUse,
+  commandNpmIdentityUse,
 
   // operation commands
 
