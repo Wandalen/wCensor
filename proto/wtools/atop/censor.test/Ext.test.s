@@ -1475,6 +1475,67 @@ function identityRemove( test )
 
 //
 
+function gitIdentityScript( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  let script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`;
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get default script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.script user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'function onIdentity( identity, options )' ), 1 );
+    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get user script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, script ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function gitIdentityScriptSet( test )
 {
   let context = this;
@@ -9357,6 +9418,7 @@ const Proto =
     gitIdentityNew,
     npmIdentityNew,
     identityRemove,
+    gitIdentityScript,
     gitIdentityScriptSet,
     npmIdentityScriptSet,
     gitIdentityUse,
