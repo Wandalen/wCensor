@@ -1501,6 +1501,78 @@ function npmIdentityNew( test )
 
 //
 
+function identityFromGit( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'create new identity from git';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .git.identity.new user login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.use user` );
+  a.appStart( `.imply profile:${profile} .config.get identity/git` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.from.git git` )
+  a.appStart( `.imply profile:${profile} .config.get identity/git` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ type : git, git.login : userLogin, git.email : user@domain.com }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'extend existed identity, force - 1';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.use user` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, email : user@domain.com, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.from.git user force:1` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'login : userLogin' ), 2 );
+    test.identical( _.strCount( op.output, 'email : user@domain.com' ), 2 );
+    test.identical( _.strCount( op.output, 'type : git' ), 1 );
+    test.identical( _.strCount( op.output, 'git.login : userLogin' ), 1 );
+    test.identical( _.strCount( op.output, 'git.email : user@domain.com' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function identityRemove( test )
 {
   let context = this;
@@ -9571,6 +9643,7 @@ const Proto =
     identityNew,
     gitIdentityNew,
     npmIdentityNew,
+    identityFromGit,
     identityRemove,
     gitIdentityScript,
     npmIdentityScript,
