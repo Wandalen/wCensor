@@ -99,6 +99,7 @@ function _commandsMake()
 
     'identity list' :           { ro : _.routineJoin( cui, cui.commandIdentityList ) },
     'identity copy' :           { ro : _.routineJoin( cui, cui.commandIdentityCopy ) },
+    'identity set' :            { ro : _.routineJoin( cui, cui.commandIdentitySet ) },
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'npm identity new' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityNew ) },
@@ -644,6 +645,59 @@ command.properties =
 
 //
 
+function commandIdentitySet( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentitySet, args : arguments, propertiesMapAsProperty : 'set' });
+
+  _.sure
+  (
+    _.map.is( e.propertiesMap.set ) && _.entity.lengthOf( e.propertiesMap.set ),
+    'Expects one or more pair "key:value" to append to the identity.'
+  );
+  _.map.sureHasOnly( e.propertiesMap.set, commandIdentitySet.command.properties );
+
+  if( 'force' in e.propertiesMap.set )
+  {
+    e.propertiesMap.force = e.propertiesMap.set.force;
+    delete e.propertiesMap.set.force;
+  }
+
+  e.propertiesMap.selector = e.subject;
+  return _.censor.identitySet( e.propertiesMap );
+}
+
+commandIdentitySet.defaults =
+{
+  profileDir : 'default',
+};
+
+var command = commandIdentitySet.command = Object.create( null );
+command.subjectHint = 'A name of identity.';
+command.hint = 'Modify an existed identity.';
+command.longHint = 'Modify an existed identity. By default, can\'t create new identity.\n\t"censor .identity.set user \'git.login:user\'" - extend identity `user` by field \'git.login\'.\n\t"censor .identity.set user \'git.login:user\' force:1" - extend identity `user` by field \'git.login\', if identity `user` does not exists, command will create new identity.';
+command.properties =
+{
+  'login' : 'An identity login ( user name ) that is used for all identity scripts if no specifique login defined.',
+  'email' : 'An email that is used for all identity scripts if no specifique email defined.',
+  'token' : 'A token that is used for all identity scripts if no specifique token defined.',
+  'type' : 'A type of identity. Define a way to setup identity data. Can be `git`, `npm`, `rust`, `general`. Default is `general`.',
+  'git.login' : 'An identity login ( user name ) that is used for git script. It has priority over property `login`.',
+  'git.email' : 'An email that is used for git script. It has priority over property `email`.',
+  'git.token' : 'A token that is used for git script. It has priority over property `token`.',
+  'npm.login' : 'An identity login ( user name ) that is used for npm script. It has priority over property `login`.',
+  'npm.email' : 'An email that is used for npm script. It has priority over property `email`.',
+  'npm.token' : 'A token that is used for npm script. It has priority over property `token`.',
+  'rust.login' : 'An identity login ( user name ) that is used for rust script. It has priority over property `login`.',
+  'rust.email' : 'An email that is used for rust script. It has priority over property `email`.',
+  'rust.token' : 'A token that is used for rust script. It has priority over property `token`.',
+  'force' : 'Allow to create new identity if identity does not exists. Default is false.'
+};
+
+//
+
 function commandIdentityNew( e )
 {
   let cui = this;
@@ -679,20 +733,8 @@ command.hint = 'Create new identity.';
 command.longHint = 'Create new identity. By default, can\'t rewrite existed identities.\n\t"censor .identity.new user login:user email:user@domain.com type:git" - create new git identity with name `user`.\n\t"censor .identity.new user \'git.login\':user \'git.email\':user@domain.com type:git force:1" - will extend identity `user` if it exists, otherwise, will create new identity.';
 command.properties =
 {
-  'login' : 'An identity login ( user name ) that is used for all identity scripts if no specifique login defined.',
-  'email' : 'An email that is used for all identity scripts if no specifique email defined.',
-  'token' : 'A token that is used for all identity scripts if no specifique token defined.',
-  'type' : 'A type of identity. Define a way to setup identity data. Can be `git`, `npm`, `rust`, `general`. Default is `general`.',
-  'git.login' : 'An identity login ( user name ) that is used for git script. It has priority over property `login`.',
-  'git.email' : 'An email that is used for git script. It has priority over property `email`.',
-  'git.token' : 'A token that is used for git script. It has priority over property `token`.',
-  'npm.login' : 'An identity login ( user name ) that is used for npm script. It has priority over property `login`.',
-  'npm.email' : 'An email that is used for npm script. It has priority over property `email`.',
-  'npm.token' : 'A token that is used for npm script. It has priority over property `token`.',
-  'rust.login' : 'An identity login ( user name ) that is used for rust script. It has priority over property `login`.',
-  'rust.email' : 'An email that is used for rust script. It has priority over property `email`.',
-  'rust.token' : 'A token that is used for rust script. It has priority over property `token`.',
-  'force' : 'Create new identity force. Overwrites existed identity. Default is false.'
+  ... commandIdentitySet.command.properties,
+  'force' : 'Allow to extend identity if identity exists. Default is false.'
 };
 
 //
@@ -1358,6 +1400,7 @@ let Extension =
 
   commandIdentityList,
   commandIdentityCopy,
+  commandIdentitySet,
   commandIdentityNew,
   commandGitIdentityNew,
   commandNpmIdentityNew,
