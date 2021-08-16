@@ -104,6 +104,7 @@ function _commandsMake()
     'npm identity new' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityNew ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
     'git identity script' :     { ro : _.routineJoin( cui, cui.commandGitIdentityScript ) },
+    'npm identity script' :     { ro : _.routineJoin( cui, cui.commandNpmIdentityScript ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
     'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
     'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
@@ -834,8 +835,31 @@ commandGitIdentityScript.defaults =
 };
 var command = commandGitIdentityScript.command = Object.create( null );
 command.subjectHint = 'A name of identity to get its script.';
-command.hint = 'Get identity script.';
+command.hint = 'Get identity git script.';
 command.longHint = 'Get identity git script. Accepts identity name.\n\t"censor .git.identity.script user" - will print git script of identity `user`.';
+
+//
+
+function commandNpmIdentityScript( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandNpmIdentityScript, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'npm';
+  const script = _.censor.identityHookGet( e.propertiesMap );
+  logger.log( script );
+}
+commandNpmIdentityScript.defaults =
+{
+  profileDir : 'default',
+};
+var command = commandNpmIdentityScript.command = Object.create( null );
+command.subjectHint = 'A name of identity to get its script.';
+command.hint = 'Get identity npm script.';
+command.longHint = 'Get identity npm script. Accepts identity name.\n\t"censor .npm.identity.script user" - will print npm script of identity `user`.';
 
 //
 
@@ -1339,6 +1363,7 @@ let Extension =
   commandNpmIdentityNew,
   commandIdentityRemove,
   commandGitIdentityScript,
+  commandNpmIdentityScript,
   commandGitIdentityScriptSet,
   commandNpmIdentityScriptSet,
   commandGitIdentityUse,
