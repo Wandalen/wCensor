@@ -103,8 +103,9 @@ function _commandsMake()
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'npm identity new' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityNew ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
-    'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
+    'git identity script' :     { ro : _.routineJoin( cui, cui.commandGitIdentityScript ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
+    'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
     'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
     'npm identity use' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityUse ) },
 
@@ -815,6 +816,29 @@ command.longHint = 'Remove identity by name.\n\t"censor .identity.remove user" -
 
 //
 
+function commandGitIdentityScript( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandGitIdentityScript, args : arguments });
+
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'git';
+  const script = _.censor.identityHookGet( e.propertiesMap );
+  logger.log( script );
+}
+commandGitIdentityScript.defaults =
+{
+  profileDir : 'default',
+};
+var command = commandGitIdentityScript.command = Object.create( null );
+command.subjectHint = 'A name of identity to get its script.';
+command.hint = 'Get identity script.';
+command.longHint = 'Get identity git script. Accepts identity name.\n\t"censor .git.identity.script user" - will print git script of identity `user`.';
+
+//
+
 function commandGitIdentityScriptSet( e )
 {
   let cui = this;
@@ -1314,6 +1338,7 @@ let Extension =
   commandGitIdentityNew,
   commandNpmIdentityNew,
   commandIdentityRemove,
+  commandGitIdentityScript,
   commandGitIdentityScriptSet,
   commandNpmIdentityScriptSet,
   commandGitIdentityUse,
