@@ -1201,6 +1201,98 @@ function identityCopy( test )
 
 //
 
+function identitySet( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'rewrite all fields of identity';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.set user login:user type:git` )
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : user, type : git }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'rewrite one field of identity';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.set user login:user` )
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : user, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'extend identity by new fields';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.set user 'npm.login':user` )
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general, npm.login : user }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function identityNew( test )
 {
   let context = this;
@@ -1347,6 +1439,140 @@ function gitIdentityNew( test )
 
 //
 
+function npmIdentityNew( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'subject and login';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .npm.identity.new user login:userLogin` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ npm.login : userLogin, type : npm }' ), 1 );
+    return null;
+  });
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'subject and login, user fields';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .git.identity.new user2 login:userLogin email:user@domain.com token:123` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .config.get identity/user2` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'git.login : userLogin,' ), 1 );
+    test.identical( _.strCount( op.output, 'type : git' ), 1 );
+    test.identical( _.strCount( op.output, 'git.email : user@domain.com,' ), 1 );
+    test.identical( _.strCount( op.output, 'git.token : 123' ), 1 );
+    return null;
+  });
+
+  /* - */
+
+  a.appStart( `.profile.del profile:${profile}` );
+  return a.ready;
+}
+
+//
+
+function identityFromGit( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'create new identity from git';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .git.identity.new user login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.use user` );
+  a.appStart( `.imply profile:${profile} .config.get identity/git` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.from.git git` )
+  a.appStart( `.imply profile:${profile} .config.get identity/git` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ type : git, git.login : userLogin, git.email : user@domain.com }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'extend existed identity, force - 1';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.use user` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, email : user@domain.com, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.from.git user force:1` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'login : userLogin' ), 2 );
+    test.identical( _.strCount( op.output, 'email : user@domain.com' ), 2 );
+    test.identical( _.strCount( op.output, 'type : git' ), 1 );
+    test.identical( _.strCount( op.output, 'git.login : userLogin' ), 1 );
+    test.identical( _.strCount( op.output, 'git.email : user@domain.com' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function identityRemove( test )
 {
   let context = this;
@@ -1413,6 +1639,128 @@ function identityRemove( test )
 
 //
 
+function gitIdentityScript( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  let script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`;
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get default script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.script user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'function onIdentity( identity, options )' ), 1 );
+    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get user script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, script ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
+function npmIdentityScript( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  let script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`;
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get default script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user type:npm login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .npm.identity.script user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'function onIdentity( identity, options )' ), 1 );
+    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get user script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user type:general login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, script ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function gitIdentityScriptSet( test )
 {
   let context = this;
@@ -1427,7 +1775,7 @@ function onIdentity( identity )
   console.log( identity );
 }
 module.exports = onIdentity;
-`
+`;
 
   /* - */
 
@@ -1474,7 +1822,7 @@ function onIdentity( identity )
   console.log( identity );
 }
 module.exports = onIdentity;
-`
+`;
 
   /* - */
 
@@ -1507,7 +1855,7 @@ module.exports = onIdentity;
 
 //
 
-function identityUse( test )
+function gitIdentityUse( test )
 {
   const a = test.assetFor( false );
 
@@ -1525,7 +1873,7 @@ function onIdentity( identity )
   console.log( identity );
 }
 module.exports = onIdentity;
-`
+`;
 
   /* - */
 
@@ -1620,12 +1968,11 @@ module.exports = onIdentity;
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
   a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
-  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
   a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, '{ login: \'userLogin\', email: \'user@domain.com\', type: \'general\' }' ), 2 );
+    test.identical( _.strCount( op.output, '{ login: \'userLogin\', email: \'user@domain.com\', type: \'general\' }' ), 1 );
     return null;
   });
   a.shell( 'git config --global --list' )
@@ -1645,6 +1992,66 @@ module.exports = onIdentity;
     throw _.err( err );
     return arg;
   });
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
+function npmIdentityUse( test )
+{
+  const a = test.assetFor( false );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+  const profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+
+  const script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`;
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'custom user script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:npm email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login: \'userLogin\', type: \'npm\', email: \'user@domain.com\' }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'custom user script, type - general';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login: \'userLogin\', email: \'user@domain.com\', type: \'general\' }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
 
   /* - */
 
@@ -9232,12 +9639,18 @@ const Proto =
 
     identityList,
     identityCopy,
+    identitySet,
     identityNew,
     gitIdentityNew,
+    npmIdentityNew,
+    identityFromGit,
     identityRemove,
+    gitIdentityScript,
+    npmIdentityScript,
     gitIdentityScriptSet,
     npmIdentityScriptSet,
-    identityUse,
+    gitIdentityUse,
+    npmIdentityUse,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
