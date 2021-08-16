@@ -1201,6 +1201,98 @@ function identityCopy( test )
 
 //
 
+function identitySet( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'rewrite all fields of identity';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.set user login:user type:git` )
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : user, type : git }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'rewrite one field of identity';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.set user login:user` )
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : user, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'extend identity by new fields';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.new user login:userLogin` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general }' ), 1 );
+    return null;
+  });
+  a.appStart( `.imply profile:${profile} .identity.set user 'npm.login':user` )
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, '{ login : userLogin, type : general, npm.login : user }' ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function identityNew( test )
 {
   let context = this;
@@ -9475,6 +9567,7 @@ const Proto =
 
     identityList,
     identityCopy,
+    identitySet,
     identityNew,
     gitIdentityNew,
     npmIdentityNew,
