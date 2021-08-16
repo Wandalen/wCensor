@@ -103,6 +103,7 @@ function _commandsMake()
     'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'npm identity new' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityNew ) },
+    'identity from git' :       { ro : _.routineJoin( cui, cui.commandIdentityFromGit ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
     'git identity script' :     { ro : _.routineJoin( cui, cui.commandGitIdentityScript ) },
     'npm identity script' :     { ro : _.routineJoin( cui, cui.commandNpmIdentityScript ) },
@@ -826,13 +827,42 @@ commandNpmIdentityNew.defaults =
 var command = commandNpmIdentityNew.command = Object.create( null );
 command.subjectHint = 'A name of identity.';
 command.hint = 'Create new npm identity.';
-command.longHint = 'Create new npm identity. By default, can\'t rewrite existed identities.\n\t"censor .npm.identity.new user login:user email:user@domain.com" - create new npm identity with name `user`.\n\t"censor .npm.identity.new user login:user email:user@domain.com force:1" - will extend identity `user` if it exists, otherwise, will create new git identity.';
+command.longHint = 'Create new npm identity. By default, can\'t rewrite existed identities.\n\t"censor .npm.identity.new user login:user email:user@domain.com" - create new npm identity with name `user`.\n\t"censor .npm.identity.new user login:user email:user@domain.com force:1" - will extend identity `user` if it exists, otherwise, will create new npm identity.';
 command.properties =
 {
   'login' : 'An identity git login ( user name ) that is used for git script.',
   'email' : 'An email that is used for git script.',
   'token' : 'A token that is used for git script.',
   'force' : 'Create new identity force. Overwrites existed identity. Default is false.'
+};
+
+//
+
+function commandIdentityFromGit( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityFromGit, args : arguments });
+
+  e.propertiesMap.selector = e.subject || null;
+  e.propertiesMap.type = 'git';
+  return _.censor.identityFrom( e.propertiesMap );
+}
+
+commandIdentityFromGit.defaults =
+{
+  profileDir : 'default',
+  force : false,
+};
+
+var command = commandIdentityFromGit.command = Object.create( null );
+command.subjectHint = 'A name of destination identity.';
+command.hint = 'Create new git identity.';
+command.longHint = 'Create new git identity. By default, can\'t rewrite existed identities.\n\t"censor .identity.from.git user" - will create new git identity from global git config.\n\t"censor .identity.from.git user force:1" - will extend identity `user` if it exists, otherwise, will create new git identity.';
+command.properties =
+{
+  'force' : 'Allow to extend identity if the identity exists. Default is false.'
 };
 
 //
@@ -1404,6 +1434,7 @@ let Extension =
   commandIdentityNew,
   commandGitIdentityNew,
   commandNpmIdentityNew,
+  commandIdentityFromGit,
   commandIdentityRemove,
   commandGitIdentityScript,
   commandNpmIdentityScript,
