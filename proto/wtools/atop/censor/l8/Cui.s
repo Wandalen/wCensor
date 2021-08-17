@@ -83,6 +83,7 @@ function _commandsMake()
   let commands =
   {
     'help' :                    { ro : _.routineJoin( cui, cui.commandHelp ) },
+    'where' :                   { ro : _.routineJoin( cui, cui.commandWhere ) },
     'version' :                 { ro : _.routineJoin( cui, cui.commandVersion ) },
     'imply' :                   { ro : _.routineJoin( cui, cui.commandImply ) },
 
@@ -256,6 +257,20 @@ function commandHelp( e )
 
 var command = commandHelp.command = Object.create( null );
 command.hint = 'Get help.';
+
+//
+
+function commandWhere( e )
+{
+  let cui = this;
+
+  let paths = _.censor.where();
+  logger.log( _.entity.exportStringNice( paths ) );
+}
+
+var command = commandWhere.command = Object.create( null );
+command.subjectHint = false;
+command.hint = 'Get paths to utility and global configs.';
 
 //
 
@@ -1409,6 +1424,7 @@ let Extension =
   // general commands
 
   commandHelp,
+  commandWhere,
   commandVersion,
   commandImply,
 
