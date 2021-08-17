@@ -79,6 +79,31 @@ function help( test )
 
 //
 
+function where( test )
+{
+  const a = test.assetFor( false );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+
+  /* - */
+
+  a.appStart( '.where' );
+  a.ready.then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'Censor::local : ' ), 1 );
+    test.identical( _.strCount( op.output, 'Censor::entry : ' ), 1 );
+    test.identical( _.strCount( op.output, 'Censor::remote : ' ), 1 );
+    test.identical( _.strCount( op.output, 'Git::global : ' ), 1 );
+    return null;
+  });
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 // function runDebugCensor( test )
 // {
 //   let context = this;
@@ -9616,6 +9641,7 @@ const Proto =
   {
 
     help,
+    where,
     // runDebugCensor,
 
     configGetBasic,
