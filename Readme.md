@@ -18,3 +18,4 @@ Make sure you have utility `willbe` installed. To install willbe: `npm i -g will
 ```
 npm i -g 'wcensor@stable'
 ```
+
