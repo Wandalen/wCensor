@@ -709,7 +709,9 @@ command.properties =
   'rust.login' : 'An identity login ( user name ) that is used for rust script. It has priority over property `login`.',
   'rust.email' : 'An email that is used for rust script. It has priority over property `email`.',
   'rust.token' : 'A token that is used for rust script. It has priority over property `token`.',
-  'force' : 'Allow to create new identity if identity does not exists. Default is false.'
+  'default' : 'Use as default identity for all actions. Default is false.',
+  'services' : 'An array with services for identity.',
+  'force' : 'Allow to create new identity if identity does not exists. Default is false.',
 };
 
 //
