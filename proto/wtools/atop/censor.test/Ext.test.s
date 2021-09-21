@@ -93,6 +93,7 @@ function where( test )
     test.identical( _.strCount( op.output, 'Censor::local : ' ), 1 );
     test.identical( _.strCount( op.output, 'Censor::entry : ' ), 1 );
     test.identical( _.strCount( op.output, 'Censor::remote : ' ), 1 );
+    test.identical( _.strCount( op.output, 'Censor::default : ' ), 1 );
     test.identical( _.strCount( op.output, 'Git::global : ' ), 1 );
     return null;
   });
@@ -1689,12 +1690,12 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .git.identity.script user` )
+  a.appStart( `.imply profile:${profile} .git.identity.script` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'function onIdentity( identity, options )' ), 1 );
-    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 1 );
+    test.identical( _.strCount( op.output, /function .*\( identity, options \)/ ), 1 );
+    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 0 );
     return null;
   });
   a.appStart( `.profile.del profile:${profile}` );
@@ -1708,8 +1709,8 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
-  a.appStart( `.imply profile:${profile} .git.identity.script user` )
+  a.appStart( `.imply profile:${profile} .git.identity.script.set '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1750,12 +1751,12 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user type:npm login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .npm.identity.script user` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
-    test.identical( _.strCount( op.output, 'function onIdentity( identity, options )' ), 1 );
-    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 1 );
+    test.identical( _.strCount( op.output, /function .*\( identity, options \)/ ), 1 );
+    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 0 );
     return null;
   });
   a.appStart( `.profile.del profile:${profile}` );
@@ -1769,8 +1770,8 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user type:general login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
-  a.appStart( `.imply profile:${profile} .npm.identity.script user` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1811,7 +1812,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user type:git login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script.set '${ script }'` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1858,7 +1859,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user type:npm login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set '${ script }'` )
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 );
@@ -1966,7 +1967,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
@@ -1992,7 +1993,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
@@ -2049,7 +2050,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:npm email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .npm.identity.use user` )
   .then( ( op ) =>
   {
@@ -2068,7 +2069,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .npm.identity.use user` )
   .then( ( op ) =>
   {
