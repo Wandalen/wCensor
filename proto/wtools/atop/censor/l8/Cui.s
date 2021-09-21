@@ -924,7 +924,7 @@ commandGitIdentityScript.defaults =
 var command = commandGitIdentityScript.command = Object.create( null );
 command.subjectHint = false;
 command.hint = 'Get profile git script.';
-command.longHint = 'Get profile git script. \n\t"censor .git.identity.script" - will print git script of default profile.';
+command.longHint = 'Get profile git script.\n\t"censor .git.identity.script" - will print git script of default profile.';
 
 //
 
@@ -935,9 +935,8 @@ function commandNpmIdentityScript( e )
 
   cui._command_head({ routine : commandNpmIdentityScript, args : arguments });
 
-  e.propertiesMap.selector = e.subject;
   e.propertiesMap.type = 'npm';
-  const script = _.censor.identityHookGet( e.propertiesMap );
+  const script = _.censor.profileHookGet( e.propertiesMap );
   logger.log( script );
 }
 commandNpmIdentityScript.defaults =
@@ -945,9 +944,9 @@ commandNpmIdentityScript.defaults =
   profileDir : 'default',
 };
 var command = commandNpmIdentityScript.command = Object.create( null );
-command.subjectHint = 'A name of identity to get its script.';
-command.hint = 'Get identity npm script.';
-command.longHint = 'Get identity npm script. Accepts identity name.\n\t"censor .npm.identity.script user" - will print npm script of identity `user`.';
+command.subjectHint = false;
+command.hint = 'Get profile npm script.';
+command.longHint = 'Get profile npm script.\n\t"censor .npm.identity.script" - will print npm script of default profile.';
 
 //
 
@@ -980,12 +979,9 @@ function commandNpmIdentityScriptSet( e )
 
   cui._command_head({ routine : commandNpmIdentityScriptSet, args : arguments });
 
-  let subjectSplits = _.strIsolateLeftOrAll( e.subject, ' ' );
-  _.sure( subjectSplits[ 1 ] !== undefined, 'Expects identity name.' )
-  e.propertiesMap.selector = subjectSplits[ 0 ];
-  e.propertiesMap.hook = _.strUnquote( subjectSplits[ 2 ] );
+  e.propertiesMap.hook = e.subject;
   e.propertiesMap.type = 'npm';
-  return _.censor.identityHookSet( e.propertiesMap );
+  return _.censor.profileHookSet( e.propertiesMap );
 }
 
 commandNpmIdentityScriptSet.defaults =
@@ -993,9 +989,9 @@ commandNpmIdentityScriptSet.defaults =
   profileDir : 'default',
 };
 var command = commandNpmIdentityScriptSet.command = Object.create( null );
-command.subjectHint = 'A name of identity and script to set.';
-command.hint = 'Imply identity script to set npm config.';
-command.longHint = 'Imply identity script to set npm config. Accepts identity name and js script data.\n\t"censor .npm.identity.script.set user $(cat script.js)" - will set `script.js` as default npm script for identity `user` (example is valid for Unix-like OSs).';
+command.subjectHint = 'A script to set.';
+command.hint = 'Imply profile script to set npm config.';
+command.longHint = 'Imply profile script to set npm config. Accepts js script data.\n\t"censor .npm.identity.script.set $(cat script.js)" - will set `script.js` as default npm script for default profile (example is valid for Unix-like OSs).';
 
 //
 
