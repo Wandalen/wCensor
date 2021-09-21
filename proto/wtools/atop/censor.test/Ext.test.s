@@ -93,6 +93,7 @@ function where( test )
     test.identical( _.strCount( op.output, 'Censor::local : ' ), 1 );
     test.identical( _.strCount( op.output, 'Censor::entry : ' ), 1 );
     test.identical( _.strCount( op.output, 'Censor::remote : ' ), 1 );
+    test.identical( _.strCount( op.output, 'Censor::default : ' ), 1 );
     test.identical( _.strCount( op.output, 'Git::global : ' ), 1 );
     return null;
   });
