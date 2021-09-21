@@ -1966,7 +1966,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:git email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
@@ -1992,7 +1992,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .git.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .git.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .git.identity.use user` )
   .then( ( op ) =>
   {
@@ -2049,7 +2049,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin type:npm email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .npm.identity.use user` )
   .then( ( op ) =>
   {
@@ -2068,7 +2068,7 @@ module.exports = onIdentity;
   });
 
   a.appStart( `.imply profile:${profile} .identity.new user login:userLogin email:'user@domain.com'` );
-  a.appStart( `.imply profile:${profile} .npm.identity.script.set user '${ script }'` )
+  a.appStart( `.imply profile:${profile} .npm.identity.script.set '${ script }'` )
   a.appStart( `.imply profile:${profile} .npm.identity.use user` )
   .then( ( op ) =>
   {
