@@ -112,6 +112,7 @@ function _commandsMake()
     'ssh identity script' :     { ro : _.routineJoin( cui, cui.commandSshIdentityScript ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
     'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
+    'ssh identity script set' : { ro : _.routineJoin( cui, cui.commandSshIdentityScriptSet ) },
     'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
     'npm identity use' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityUse ) },
 
@@ -1048,6 +1049,29 @@ command.longHint = 'Imply profile script to set npm config. Accepts js script da
 
 //
 
+function commandSshIdentityScriptSet( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandSshIdentityScriptSet, args : arguments });
+
+  e.propertiesMap.hook = e.subject;
+  e.propertiesMap.type = 'ssh';
+  return _.censor.profileHookSet( e.propertiesMap );
+}
+
+commandSshIdentityScriptSet.defaults =
+{
+  profileDir : 'default',
+};
+var command = commandSshIdentityScriptSet.command = Object.create( null );
+command.subjectHint = 'A script to set.';
+command.hint = 'Imply profile script to set ssh keys.';
+command.longHint = 'Imply profile script to set ssh keys. Accepts js script data.\n\t"censor .ssh.identity.script.set $(cat script.js)" - will set `script.js` as default ssh script for default profile (example is valid for Unix-like OSs).';
+
+//
+
 function commandGitIdentityUse( e )
 {
   let cui = this;
@@ -1505,6 +1529,7 @@ let Extension =
   commandSshIdentityScript,
   commandGitIdentityScriptSet,
   commandNpmIdentityScriptSet,
+  commandSshIdentityScriptSet,
   commandGitIdentityUse,
   commandNpmIdentityUse,
 
