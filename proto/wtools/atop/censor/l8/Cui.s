@@ -105,6 +105,7 @@ function _commandsMake()
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'npm identity new' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityNew ) },
     'identity from git' :       { ro : _.routineJoin( cui, cui.commandIdentityFromGit ) },
+    'identity from ssh' :       { ro : _.routineJoin( cui, cui.commandIdentityFromSsh ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
     'git identity script' :     { ro : _.routineJoin( cui, cui.commandGitIdentityScript ) },
     'npm identity script' :     { ro : _.routineJoin( cui, cui.commandNpmIdentityScript ) },
@@ -884,6 +885,35 @@ command.properties =
 
 //
 
+function commandIdentityFromSsh( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityFromSsh, args : arguments });
+
+  e.propertiesMap.selector = e.subject || null;
+  e.propertiesMap.type = 'ssh';
+  return _.censor.identityFrom( e.propertiesMap );
+}
+
+commandIdentityFromSsh.defaults =
+{
+  profileDir : 'default',
+  force : false,
+};
+
+var command = commandIdentityFromSsh.command = Object.create( null );
+command.subjectHint = 'A name of destination identity.';
+command.hint = 'Create new ssh identity.';
+command.longHint = 'Create new ssh identity. By default, can\'t rewrite existed identities.\n\t"censor .identity.from.ssh user" - will create new ssh identity from current ssh keys storage.\n\t"censor .identity.from.ssh user force:1" - will extend identity `user` if it exists, otherwise, will create new ssh identity.';
+command.properties =
+{
+  'force' : 'Allow to extend identity if the identity exists. Default is false.'
+};
+
+//
+
 function commandIdentityRemove( e )
 {
   let cui = this;
@@ -1445,6 +1475,7 @@ let Extension =
   commandGitIdentityNew,
   commandNpmIdentityNew,
   commandIdentityFromGit,
+  commandIdentityFromSsh,
   commandIdentityRemove,
   commandGitIdentityScript,
   commandNpmIdentityScript,
