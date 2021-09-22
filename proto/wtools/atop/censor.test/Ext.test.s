@@ -1529,10 +1529,15 @@ function npmIdentityNew( test )
 
 function identityFromGit( test )
 {
-  let context = this;
-  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
   let a = test.assetFor( false );
-  a.reflect();
+
+  if( !_.process.insideTestContainer() )
+  return test.true( true );
+
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  a.fileProvider.dirMake( a.abs( '.' ) );
+
+  const originalConfig = a.fileProvider.fileRead( a.fileProvider.configUserPath( '.gitconfig' ) );
 
   /* - */
 
@@ -1591,6 +1596,14 @@ function identityFromGit( test )
     return null;
   });
   a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.finally( () =>
+  {
+    a.fileProvider.fileWrite( a.fileProvider.configUserPath( '.gitconfig' ), originalConfig );
+    return null;
+  })
 
   /* - */
 
