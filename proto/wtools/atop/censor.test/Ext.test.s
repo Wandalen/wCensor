@@ -1627,7 +1627,6 @@ function identityFromSsh( test )
   if( _.fileProvider.fileExists( originalPath ) )
   originalExists = true;
 
-
   /* - */
 
   begin().then( ( op ) =>
