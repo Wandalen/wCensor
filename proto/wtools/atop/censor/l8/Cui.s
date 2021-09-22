@@ -115,6 +115,7 @@ function _commandsMake()
     'ssh identity script set' : { ro : _.routineJoin( cui, cui.commandSshIdentityScriptSet ) },
     'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
     'npm identity use' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityUse ) },
+    'ssh identity use' :        { ro : _.routineJoin( cui, cui.commandSshIdentityUse ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -1120,6 +1121,31 @@ command.subjectHint = 'A name of identity to use.';
 command.hint = 'Set npm configs using identity data.';
 command.longHint = 'Set npm configs using identity data.\n\t"censor .npm.identity.use user" - will configure npm using identity `user` script and data.';
 
+//
+
+function commandSshIdentityUse( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandSshIdentityUse, args : arguments });
+
+  e.propertiesMap.logger = e.propertiesMap.verbosity;
+  delete e.propertiesMap.verbosity;
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'ssh';
+  return _.censor.identityUse( e.propertiesMap );
+}
+commandSshIdentityUse.defaults =
+{
+  profileDir : 'default',
+  verbosity : 4,
+};
+var command = commandSshIdentityUse.command = Object.create( null );
+command.subjectHint = 'A name of identity to use.';
+command.hint = 'Set ssh keys using identity data.';
+command.longHint = 'Set ssh keys using identity data.\n\t"censor .ssh.identity.use user" - will configure ssh using identity `user` script and data.';
+
 // --
 // operation commands
 // --
@@ -1532,6 +1558,7 @@ let Extension =
   commandSshIdentityScriptSet,
   commandGitIdentityUse,
   commandNpmIdentityUse,
+  commandSshIdentityUse,
 
   // operation commands
 
