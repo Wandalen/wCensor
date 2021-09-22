@@ -1906,6 +1906,65 @@ module.exports = onIdentity;
 
 //
 
+function sshIdentityScript( test )
+{
+  let context = this;
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  let a = test.assetFor( false );
+  a.reflect();
+
+  let script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`;
+
+  /* - */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get default script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .ssh.identity.script` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, /function .*\( identity, options \)/ ), 1 );
+    test.identical( _.strCount( op.output, 'module.exports = onIdentity;' ), 0 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'get user script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .ssh.identity.script.set '${ script }'` )
+  a.appStart( `.imply profile:${profile} .ssh.identity.script` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, script ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* - */
+
+  return a.ready;
+}
+
+//
+
 function gitIdentityScriptSet( test )
 {
   let context = this;
@@ -9794,6 +9853,7 @@ const Proto =
     identityRemove,
     gitIdentityScript,
     npmIdentityScript,
+    sshIdentityScript,
     gitIdentityScriptSet,
     npmIdentityScriptSet,
     gitIdentityUse,
