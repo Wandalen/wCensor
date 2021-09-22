@@ -1612,6 +1612,113 @@ function identityFromGit( test )
 
 //
 
+function identityFromSsh( test )
+{
+  if( !_.process.insideTestContainer() )
+  return test.true( true );
+
+  let a = test.assetFor( false );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  const userProfileDir = a.fileProvider.configUserPath( `.censor/${ profile }` );
+  let originalExists = false;
+  const originalPath = a.fileProvider.configUserPath( '.ssh' );
+  const backupPath = a.fileProvider.configUserPath( '.ssh.bak' );
+  if( _.fileProvider.fileExists( originalPath ) )
+  originalExists = true;
+
+
+  /* - */
+
+  begin().then( ( op ) =>
+  {
+    test.case = 'create new identity from ssh';
+    return null;
+  });
+  writeKey( 'id_rsa' );
+  a.appStart( `.imply profile:${profile} .identity.from.ssh user` )
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    var files = a.find( userProfileDir );
+    test.identical( files, [ '.', './config.yaml', './ssh', './ssh/user', './ssh/user/id_rsa' ] );
+    test.identical( _.strCount( op.output, `{ type : ssh, ssh.login : user, ssh.path : .censor/${profile}/ssh/user }` ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  writeKey( 'id_rsa' );
+  a.appStart( `.imply profile:${profile} .identity.from.ssh user` );
+  a.appStart( `.imply profile:${profile} .identity.from.ssh user force:1` );
+  a.appStart( `.imply profile:${profile} .config.get identity/user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    var files = a.find( userProfileDir );
+    test.identical( files, [ '.', './config.yaml', './ssh', './ssh/user', './ssh/user/id_rsa' ] );
+    test.identical( _.strCount( op.output, `{ type : ssh, ssh.login : user, ssh.path : .censor/${profile}/ssh/user }` ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.finally( ( err, arg ) =>
+  {
+    a.fileProvider.filesDelete( originalPath );
+    if( originalExists )
+    {
+      a.fileProvider.filesReflect
+      ({
+        reflectMap : { [ backupPath ] : originalPath }
+      });
+      a.fileProvider.filesDelete( backupPath );
+    }
+    if( err )
+    throw _.err( err );
+    return arg;
+  });
+
+  /* - */
+
+  return a.ready;
+
+  /* */
+
+  function begin()
+  {
+    return a.ready.then( () =>
+    {
+      if( originalExists )
+      {
+        a.fileProvider.filesReflect
+        ({
+          reflectMap : { [ originalPath ] : backupPath }
+        });
+        a.fileProvider.filesDelete( originalPath );
+      }
+      return null;
+    });
+  }
+
+  /* */
+
+  function writeKey( name )
+  {
+    return a.ready.then( () =>
+    {
+      a.fileProvider.filesDelete( originalPath );
+      a.fileProvider.fileWrite( a.abs( originalPath, name ), name );
+      return null;
+    });
+  }
+}
+
+//
+
 function identityRemove( test )
 {
   let context = this;
@@ -9684,6 +9791,7 @@ const Proto =
     gitIdentityNew,
     npmIdentityNew,
     identityFromGit,
+    identityFromSsh,
     identityRemove,
     gitIdentityScript,
     npmIdentityScript,
