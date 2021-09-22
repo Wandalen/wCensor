@@ -2370,6 +2370,133 @@ module.exports = onIdentity;
 
 //
 
+function sshIdentityUse( test )
+{
+  if( !_.process.insideTestContainer() )
+  return test.true( true );
+
+  let a = test.assetFor( false );
+  a.fileProvider.dirMake( a.abs( '.' ) );
+  let profile = `censor-test-${ __.intRandom( 1000000 ) }`;
+  const userProfileDir = a.fileProvider.configUserPath( `.censor/${ profile }` );
+  let originalExists = false;
+  const originalPath = a.fileProvider.configUserPath( '.ssh' );
+  const backupPath = a.fileProvider.configUserPath( '.ssh.bak' );
+  if( _.fileProvider.fileExists( originalPath ) )
+  originalExists = true;
+  let script =
+`
+function onIdentity( identity )
+{
+  console.log( identity );
+}
+module.exports = onIdentity;
+`;
+
+  begin()
+  writeKey( 'id_rsa' );
+
+  /* - */
+
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'custom user script';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.from.ssh user` )
+  a.appStart( `.imply profile:${profile} .ssh.identity.script.set '${ script }'` )
+  a.appStart( `.imply profile:${profile} .ssh.identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'type: \'ssh\',' ), 1 );
+    test.identical( _.strCount( op.output, '\'ssh.login\': \'user\',' ), 1 );
+    test.identical( _.strCount( op.output, `'ssh.path': '.censor/${profile}/ssh/user'` ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.then( ( op ) =>
+  {
+    test.case = 'custom user script, type - general';
+    return null;
+  });
+
+  a.appStart( `.imply profile:${profile} .identity.from.ssh user` )
+  a.appStart( `.imply profile:${profile} .identity.set user login:userLogin type:general email:'user@domain.com'` );
+  a.appStart( `.imply profile:${profile} .ssh.identity.script.set '${ script }'` )
+  a.appStart( `.imply profile:${profile} .ssh.identity.use user` )
+  .then( ( op ) =>
+  {
+    test.identical( op.exitCode, 0 );
+    test.identical( _.strCount( op.output, 'login: \'userLogin\',' ), 1 );
+    test.identical( _.strCount( op.output, 'email: \'user@domain.com\'' ), 1 );
+    test.identical( _.strCount( op.output, 'type: \'general\',' ), 1 );
+    test.identical( _.strCount( op.output, '\'ssh.login\': \'user\',' ), 1 );
+    test.identical( _.strCount( op.output, `'ssh.path': '.censor/${profile}/ssh/user'` ), 1 );
+    return null;
+  });
+  a.appStart( `.profile.del profile:${profile}` );
+
+  /* */
+
+  a.ready.finally( ( err, arg ) =>
+  {
+    a.fileProvider.filesDelete( originalPath );
+    if( originalExists )
+    {
+      a.fileProvider.filesReflect
+      ({
+        reflectMap : { [ backupPath ] : originalPath }
+      });
+      a.fileProvider.filesDelete( backupPath );
+    }
+    if( err )
+    throw _.err( err );
+    return arg;
+  });
+
+  /* - */
+
+  return a.ready;
+
+  /* */
+
+  function begin()
+  {
+    return a.ready.then( () =>
+    {
+      if( originalExists )
+      {
+        a.fileProvider.filesReflect
+        ({
+          reflectMap : { [ originalPath ] : backupPath }
+        });
+        a.fileProvider.filesDelete( originalPath );
+      }
+      return null;
+    });
+  }
+
+  /* */
+
+  function writeKey( name )
+  {
+    return a.ready.then( () =>
+    {
+      a.fileProvider.filesDelete( originalPath );
+      a.fileProvider.fileWrite( a.abs( originalPath, name ), name );
+      return null;
+    });
+  }
+}
+
+//
+
 function replaceBasic( test )
 {
   let context = this;
@@ -9965,6 +10092,7 @@ const Proto =
     sshIdentityScriptSet,
     gitIdentityUse,
     npmIdentityUse,
+    sshIdentityUse,
 
     replaceBasic,
     replaceStatusOptionVerbosity,
