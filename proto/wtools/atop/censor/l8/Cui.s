@@ -105,13 +105,17 @@ function _commandsMake()
     'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
     'npm identity new' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityNew ) },
     'identity from git' :       { ro : _.routineJoin( cui, cui.commandIdentityFromGit ) },
+    'identity from ssh' :       { ro : _.routineJoin( cui, cui.commandIdentityFromSsh ) },
     'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
     'git identity script' :     { ro : _.routineJoin( cui, cui.commandGitIdentityScript ) },
     'npm identity script' :     { ro : _.routineJoin( cui, cui.commandNpmIdentityScript ) },
+    'ssh identity script' :     { ro : _.routineJoin( cui, cui.commandSshIdentityScript ) },
     'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
     'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
+    'ssh identity script set' : { ro : _.routineJoin( cui, cui.commandSshIdentityScriptSet ) },
     'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
     'npm identity use' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityUse ) },
+    'ssh identity use' :        { ro : _.routineJoin( cui, cui.commandSshIdentityUse ) },
 
     'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
     'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
@@ -884,6 +888,35 @@ command.properties =
 
 //
 
+function commandIdentityFromSsh( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandIdentityFromSsh, args : arguments });
+
+  e.propertiesMap.selector = e.subject || null;
+  e.propertiesMap.type = 'ssh';
+  return _.censor.identityFrom( e.propertiesMap );
+}
+
+commandIdentityFromSsh.defaults =
+{
+  profileDir : 'default',
+  force : false,
+};
+
+var command = commandIdentityFromSsh.command = Object.create( null );
+command.subjectHint = 'A name of destination identity.';
+command.hint = 'Create new ssh identity.';
+command.longHint = 'Create new ssh identity. By default, can\'t rewrite existed identities.\n\t"censor .identity.from.ssh user" - will create new ssh identity from current ssh keys storage.\n\t"censor .identity.from.ssh user force:1" - will extend identity `user` if it exists, otherwise, will create new ssh identity.';
+command.properties =
+{
+  'force' : 'Allow to extend identity if the identity exists. Default is false.'
+};
+
+//
+
 function commandIdentityRemove( e )
 {
   let cui = this;
@@ -950,6 +983,28 @@ command.longHint = 'Get profile npm script.\n\t"censor .npm.identity.script" - w
 
 //
 
+function commandSshIdentityScript( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandSshIdentityScript, args : arguments });
+
+  e.propertiesMap.type = 'ssh';
+  const script = _.censor.profileHookGet( e.propertiesMap );
+  logger.log( script );
+}
+commandSshIdentityScript.defaults =
+{
+  profileDir : 'default',
+};
+var command = commandSshIdentityScript.command = Object.create( null );
+command.subjectHint = false;
+command.hint = 'Get profile ssh script.';
+command.longHint = 'Get profile ssh script.\n\t"censor .ssh.identity.script" - will print ssh script of default profile.';
+
+//
+
 function commandGitIdentityScriptSet( e )
 {
   let cui = this;
@@ -992,6 +1047,29 @@ var command = commandNpmIdentityScriptSet.command = Object.create( null );
 command.subjectHint = 'A script to set.';
 command.hint = 'Imply profile script to set npm config.';
 command.longHint = 'Imply profile script to set npm config. Accepts js script data.\n\t"censor .npm.identity.script.set $(cat script.js)" - will set `script.js` as default npm script for default profile (example is valid for Unix-like OSs).';
+
+//
+
+function commandSshIdentityScriptSet( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandSshIdentityScriptSet, args : arguments });
+
+  e.propertiesMap.hook = e.subject;
+  e.propertiesMap.type = 'ssh';
+  return _.censor.profileHookSet( e.propertiesMap );
+}
+
+commandSshIdentityScriptSet.defaults =
+{
+  profileDir : 'default',
+};
+var command = commandSshIdentityScriptSet.command = Object.create( null );
+command.subjectHint = 'A script to set.';
+command.hint = 'Imply profile script to set ssh keys.';
+command.longHint = 'Imply profile script to set ssh keys. Accepts js script data.\n\t"censor .ssh.identity.script.set $(cat script.js)" - will set `script.js` as default ssh script for default profile (example is valid for Unix-like OSs).';
 
 //
 
@@ -1042,6 +1120,31 @@ var command = commandNpmIdentityUse.command = Object.create( null );
 command.subjectHint = 'A name of identity to use.';
 command.hint = 'Set npm configs using identity data.';
 command.longHint = 'Set npm configs using identity data.\n\t"censor .npm.identity.use user" - will configure npm using identity `user` script and data.';
+
+//
+
+function commandSshIdentityUse( e )
+{
+  let cui = this;
+  let ca = e.aggregator;
+
+  cui._command_head({ routine : commandSshIdentityUse, args : arguments });
+
+  e.propertiesMap.logger = e.propertiesMap.verbosity;
+  delete e.propertiesMap.verbosity;
+  e.propertiesMap.selector = e.subject;
+  e.propertiesMap.type = 'ssh';
+  return _.censor.identityUse( e.propertiesMap );
+}
+commandSshIdentityUse.defaults =
+{
+  profileDir : 'default',
+  verbosity : 4,
+};
+var command = commandSshIdentityUse.command = Object.create( null );
+command.subjectHint = 'A name of identity to use.';
+command.hint = 'Set ssh keys using identity data.';
+command.longHint = 'Set ssh keys using identity data.\n\t"censor .ssh.identity.use user" - will configure ssh using identity `user` script and data.';
 
 // --
 // operation commands
@@ -1445,13 +1548,17 @@ let Extension =
   commandGitIdentityNew,
   commandNpmIdentityNew,
   commandIdentityFromGit,
+  commandIdentityFromSsh,
   commandIdentityRemove,
   commandGitIdentityScript,
   commandNpmIdentityScript,
+  commandSshIdentityScript,
   commandGitIdentityScriptSet,
   commandNpmIdentityScriptSet,
+  commandSshIdentityScriptSet,
   commandGitIdentityUse,
   commandNpmIdentityUse,
+  commandSshIdentityUse,
 
   // operation commands
 
