@@ -30,11 +30,12 @@
   },
   "dependencies": {
     "wTools": "",
+    "wblueprint": "",
     "wprocess": "",
-    "wnpmtools": "",
     "wcommandsaggregator": "",
+    "wnpmtools": "",
     "wcensorbasic": "",
-    "wblueprint": ""
+    "widentitybasic": ""
   },
   "devDependencies": {
     "wTesting": "",
