@@ -620,7 +620,7 @@ function commandIdentityList( e )
   cui._command_head({ routine : commandIdentityList, args : arguments });
 
   e.propertiesMap.selector = '';
-  const list =_.censor.identityGet( e.propertiesMap );
+  const list =_.identity.identityGet( e.propertiesMap );
   logger.log( 'List of identities :' );
   logger.log( _.entity.exportStringNice( list ? list : '{-no identies found-}' ) );
 }
@@ -646,8 +646,8 @@ function commandIdentityCopy( e )
   _.sure( identityNames.length === 2, 'Expects names of src and dst identities' );
   e.propertiesMap.identitySrcName = identityNames[ 0 ];
   e.propertiesMap.identityDstName = identityNames[ 1 ];
-  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityCopy.defaults );
-  return _.censor.identityCopy( e.propertiesMap );
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.identity.identityCopy.defaults );
+  return _.identity.identityCopy( e.propertiesMap );
 }
 
 commandIdentityCopy.defaults =
@@ -686,7 +686,7 @@ function commandIdentitySet( e )
   }
 
   e.propertiesMap.selector = e.subject;
-  return _.censor.identitySet( e.propertiesMap );
+  return _.identity.identitySet( e.propertiesMap );
 }
 
 commandIdentitySet.defaults =
@@ -741,7 +741,7 @@ function commandIdentityNew( e )
   }
 
   e.propertiesMap.identity.name = e.subject;
-  return _.censor.identityNew( e.propertiesMap );
+  return _.identity.identityNew( e.propertiesMap );
 }
 
 commandIdentityNew.defaults =
@@ -788,7 +788,7 @@ function commandGitIdentityNew( e )
   }
   e.propertiesMap.identity.name = e.subject;
   e.propertiesMap.identity.type = 'git';
-  return _.censor.identityNew( e.propertiesMap );
+  return _.identity.identityNew( e.propertiesMap );
 }
 
 commandGitIdentityNew.defaults =
@@ -837,7 +837,7 @@ function commandNpmIdentityNew( e )
   }
   e.propertiesMap.identity.name = e.subject;
   e.propertiesMap.identity.type = 'npm';
-  return _.censor.identityNew( e.propertiesMap );
+  return _.identity.identityNew( e.propertiesMap );
 }
 
 commandNpmIdentityNew.defaults =
@@ -868,7 +868,7 @@ function commandIdentityFromGit( e )
 
   e.propertiesMap.selector = e.subject || null;
   e.propertiesMap.type = 'git';
-  return _.censor.identityFrom( e.propertiesMap );
+  return _.identity.identityFrom( e.propertiesMap );
 }
 
 commandIdentityFromGit.defaults =
@@ -897,7 +897,7 @@ function commandIdentityFromSsh( e )
 
   e.propertiesMap.selector = e.subject || null;
   e.propertiesMap.type = 'ssh';
-  return _.censor.identityFrom( e.propertiesMap );
+  return _.identity.identityFrom( e.propertiesMap );
 }
 
 commandIdentityFromSsh.defaults =
@@ -925,8 +925,8 @@ function commandIdentityRemove( e )
   cui._command_head({ routine : commandIdentityRemove, args : arguments });
 
   e.propertiesMap.selector = e.subject;
-  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.censor.identityDel.defaults );
-  return _.censor.identityDel( e.propertiesMap );
+  e.propertiesMap = _.mapOnly_( null, e.propertiesMap, _.identity.identityDel.defaults );
+  return _.identity.identityDel( e.propertiesMap );
 }
 commandIdentityRemove.defaults =
 {
@@ -1084,7 +1084,7 @@ function commandGitIdentityUse( e )
   delete e.propertiesMap.verbosity;
   e.propertiesMap.selector = e.subject;
   e.propertiesMap.type = 'git';
-  return _.censor.identityUse( e.propertiesMap );
+  return _.identity.identityUse( e.propertiesMap );
 }
 commandGitIdentityUse.defaults =
 {
@@ -1109,7 +1109,7 @@ function commandNpmIdentityUse( e )
   delete e.propertiesMap.verbosity;
   e.propertiesMap.selector = e.subject;
   e.propertiesMap.type = 'npm';
-  return _.censor.identityUse( e.propertiesMap );
+  return _.identity.identityUse( e.propertiesMap );
 }
 commandNpmIdentityUse.defaults =
 {
@@ -1134,7 +1134,7 @@ function commandSshIdentityUse( e )
   delete e.propertiesMap.verbosity;
   e.propertiesMap.selector = e.subject;
   e.propertiesMap.type = 'ssh';
-  return _.censor.identityUse( e.propertiesMap );
+  return _.identity.identityUse( e.propertiesMap );
 }
 commandSshIdentityUse.defaults =
 {
