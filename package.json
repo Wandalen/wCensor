@@ -1,6 +1,6 @@
 {
   "name": "wcensor",
-  "version": "0.2.191",
+  "version": "0.2.192",
   "description": "Utility to edit files massively from console and with undo.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "license": "MIT",
@@ -29,16 +29,16 @@
     "url": "https://github.com/Wandalen/wCensor/issues"
   },
   "dependencies": {
-    "wTools": "latest",
-    "wprocess": "latest",
-    "wnpmtools": "latest",
-    "widentitybasic": "latest",
-    "wcommandsaggregator": "latest",
-    "wcensorbasic": "latest",
-    "wblueprint": "latest"
+    "wTools": "alpha",
+    "wprocess": "alpha",
+    "wnpmtools": "alpha",
+    "widentitybasic": "alpha",
+    "wcommandsaggregator": "alpha",
+    "wcensorbasic": "alpha",
+    "wblueprint": "alpha"
   },
   "devDependencies": {
-    "wTesting": "latest",
+    "wTesting": "alpha",
     "eslint": "7.32.0"
   },
   "keywords": [
