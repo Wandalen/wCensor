@@ -72,72 +72,61 @@ function exec()
 // meta commands
 // --
 
-function _commandsMake()
+function _commandsMake( context )
 {
-  let cui = this;
-  let appArgs = _.process.input();
+  const cui = this;
 
   _.assert( _.instanceIs( cui ) );
+
+  if( arguments.length === 1 )
+  _.assert( _.instanceIs( context ) );
+  else
   _.assert( arguments.length === 0 );
+
+  context = context || cui;
 
   let commands =
   {
-    'help' :                    { ro : _.routineJoin( cui, cui.commandHelp ) },
-    'where' :                   { ro : _.routineJoin( cui, cui.commandWhere ) },
-    'version' :                 { ro : _.routineJoin( cui, cui.commandVersion ) },
-    'imply' :                   { ro : _.routineJoin( cui, cui.commandImply ) },
+    'help' :                    { ro : _.routineJoin( context, cui.commandHelp ) },
+    'where' :                   { ro : _.routineJoin( context, cui.commandWhere ) },
+    'version' :                 { ro : _.routineJoin( context, cui.commandVersion ) },
+    'imply' :                   { ro : _.routineJoin( context, cui.commandImply ) },
 
-    'storage.del' :             { ro : _.routineJoin( cui, cui.commandStorageDel ) },
-    'storage.log' :             { ro : _.routineJoin( cui, cui.commandStorageLog ) },
-    'profile.del' :             { ro : _.routineJoin( cui, cui.commandProfileDel ) },
-    'profile.log' :             { ro : _.routineJoin( cui, cui.commandProfileLog ) },
-    'config.log' :              { ro : _.routineJoin( cui, cui.commandConfigLog ) },
-    'config.get' :              { ro : _.routineJoin( cui, cui.commandConfigGet ) },
-    'config.set' :              { ro : _.routineJoin( cui, cui.commandConfigSet ) },
-    'config.del' :              { ro : _.routineJoin( cui, cui.commandConfigDel ) },
-    'arrangement.del' :         { ro : _.routineJoin( cui, cui.commandArrangementDel ) },
-    'arrangement.log' :         { ro : _.routineJoin( cui, cui.commandArrangementLog ) },
+    'storage.del' :             { ro : _.routineJoin( context, cui.commandStorageDel ) },
+    'storage.log' :             { ro : _.routineJoin( context, cui.commandStorageLog ) },
+    'profile.del' :             { ro : _.routineJoin( context, cui.commandProfileDel ) },
+    'profile.log' :             { ro : _.routineJoin( context, cui.commandProfileLog ) },
+    'config.log' :              { ro : _.routineJoin( context, cui.commandConfigLog ) },
+    'config.get' :              { ro : _.routineJoin( context, cui.commandConfigGet ) },
+    'config.set' :              { ro : _.routineJoin( context, cui.commandConfigSet ) },
+    'config.del' :              { ro : _.routineJoin( context, cui.commandConfigDel ) },
+    'arrangement.del' :         { ro : _.routineJoin( context, cui.commandArrangementDel ) },
+    'arrangement.log' :         { ro : _.routineJoin( context, cui.commandArrangementLog ) },
 
-    'identity list' :           { ro : _.routineJoin( cui, cui.commandIdentityList ) },
-    'identity copy' :           { ro : _.routineJoin( cui, cui.commandIdentityCopy ) },
-    'identity set' :            { ro : _.routineJoin( cui, cui.commandIdentitySet ) },
-    'identity new' :            { ro : _.routineJoin( cui, cui.commandIdentityNew ) },
-    'git identity new' :        { ro : _.routineJoin( cui, cui.commandGitIdentityNew ) },
-    'npm identity new' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityNew ) },
-    'identity from git' :       { ro : _.routineJoin( cui, cui.commandIdentityFromGit ) },
-    'identity from ssh' :       { ro : _.routineJoin( cui, cui.commandIdentityFromSsh ) },
-    'identity remove' :         { ro : _.routineJoin( cui, cui.commandIdentityRemove ) },
-    'git identity script' :     { ro : _.routineJoin( cui, cui.commandGitIdentityScript ) },
-    'npm identity script' :     { ro : _.routineJoin( cui, cui.commandNpmIdentityScript ) },
-    'ssh identity script' :     { ro : _.routineJoin( cui, cui.commandSshIdentityScript ) },
-    'git identity script set' : { ro : _.routineJoin( cui, cui.commandGitIdentityScriptSet ) },
-    'npm identity script set' : { ro : _.routineJoin( cui, cui.commandNpmIdentityScriptSet ) },
-    'ssh identity script set' : { ro : _.routineJoin( cui, cui.commandSshIdentityScriptSet ) },
-    'git identity use' :        { ro : _.routineJoin( cui, cui.commandGitIdentityUse ) },
-    'npm identity use' :        { ro : _.routineJoin( cui, cui.commandNpmIdentityUse ) },
-    'ssh identity use' :        { ro : _.routineJoin( cui, cui.commandSshIdentityUse ) },
+    'replace' :                 { ro : _.routineJoin( context, cui.commandReplace ) },
+    'listing.reorder' :         { ro : _.routineJoin( context, cui.commandListingReorder ) },
+    'listing.squeeze' :         { ro : _.routineJoin( context, cui.commandListingSqueeze ) },
 
-    'replace' :                 { ro : _.routineJoin( cui, cui.commandReplace ) },
-    'listing.reorder' :         { ro : _.routineJoin( cui, cui.commandListingReorder ) },
-    'listing.squeeze' :         { ro : _.routineJoin( cui, cui.commandListingSqueeze ) },
-
-    'hlink' :                   { ro : _.routineJoin( cui, cui.commandHlink ) },
-    'entry.add' :               { ro : _.routineJoin( cui, cui.commandEntryAdd ) },
-    'do' :                      { ro : _.routineJoin( cui, cui.commandDo ) },
-    'redo' :                    { ro : _.routineJoin( cui, cui.commandRedo ) },
-    'undo' :                    { ro : _.routineJoin( cui, cui.commandUndo ) },
-    'status' :                  { ro : _.routineJoin( cui, cui.commandStatus ) },
+    'hlink' :                   { ro : _.routineJoin( context, cui.commandHlink ) },
+    'entry.add' :               { ro : _.routineJoin( context, cui.commandEntryAdd ) },
+    'do' :                      { ro : _.routineJoin( context, cui.commandDo ) },
+    'redo' :                    { ro : _.routineJoin( context, cui.commandRedo ) },
+    'undo' :                    { ro : _.routineJoin( context, cui.commandUndo ) },
+    'status' :                  { ro : _.routineJoin( context, cui.commandStatus ) },
   }
 
-  let ca = _.CommandsAggregator
+  const ca = _.CommandsAggregator
   ({
     basePath : _.path.current(),
     commands,
-    // commandPrefix : 'node ',
     commandsImplicitDelimiting : 1,
-  })
+  });
 
   ca.form();
+
+  const identity = _.identity.Cui.Self();
+  const aggregator = identity._commandsMake( context );
+  ca.supplement({ src : aggregator });
 
   ca.logger.verbosity = 0;
 
@@ -1542,24 +1531,24 @@ let Extension =
   commandArrangementDel,
   commandArrangementLog,
 
-  commandIdentityList,
-  commandIdentityCopy,
-  commandIdentitySet,
-  commandIdentityNew,
-  commandGitIdentityNew,
-  commandNpmIdentityNew,
-  commandIdentityFromGit,
-  commandIdentityFromSsh,
-  commandIdentityRemove,
-  commandGitIdentityScript,
-  commandNpmIdentityScript,
-  commandSshIdentityScript,
-  commandGitIdentityScriptSet,
-  commandNpmIdentityScriptSet,
-  commandSshIdentityScriptSet,
-  commandGitIdentityUse,
-  commandNpmIdentityUse,
-  commandSshIdentityUse,
+  // commandIdentityList,
+  // commandIdentityCopy,
+  // commandIdentitySet,
+  // commandIdentityNew,
+  // commandGitIdentityNew,
+  // commandNpmIdentityNew,
+  // commandIdentityFromGit,
+  // commandIdentityFromSsh,
+  // commandIdentityRemove,
+  // commandGitIdentityScript,
+  // commandNpmIdentityScript,
+  // commandSshIdentityScript,
+  // commandGitIdentityScriptSet,
+  // commandNpmIdentityScriptSet,
+  // commandSshIdentityScriptSet,
+  // commandGitIdentityUse,
+  // commandNpmIdentityUse,
+  // commandSshIdentityUse,
 
   // operation commands
 
