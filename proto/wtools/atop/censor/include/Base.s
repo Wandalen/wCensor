@@ -10,7 +10,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wCopyable' );
   _.include( 'wFiles' );
   _.include( 'wCensorBasic' );
-  _.include( 'wIdentityBasic' );
+  _.include( 'wIdentity' );
 
   module.exports = _;
 }

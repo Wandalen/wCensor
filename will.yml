@@ -294,8 +294,8 @@ submodule:
   wcensorbasic:
     path: 'npm:///wcensorbasic'
     enabled: 0
-  widentitybasic:
-    path: 'npm:///widentitybasic'
+  widentity:
+    path: 'npm:///widentity'
     enabled: 0
   wTesting:
     path: 'npm:///wTesting'
