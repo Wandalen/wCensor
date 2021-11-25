@@ -55,7 +55,7 @@ function exec()
   return _.Consequence
   .Try( () =>
   {
-    return ca.programPerform({ program : appArgs.original });
+    return ca.programPerform({ program : appArgs.original, severalValues : 1 });
     // return ca.appArgsPerform({ appArgs });
   })
   .catch( ( err ) =>
@@ -700,6 +700,7 @@ command.hint = 'Modify an existed identity.';
 command.longHint = 'Modify an existed identity. By default, can\'t create new identity.\n\t"censor .identity.set user \'git.login:user\'" - extend identity `user` by field \'git.login\'.\n\t"censor .identity.set user \'git.login:user\' force:1" - extend identity `user` by field \'git.login\', if identity `user` does not exists, command will create new identity.';
 command.properties =
 {
+  'identities' : 'A map of identities for superidentity.',
   'login' : 'An identity login ( user name ) that is used for all identity scripts if no specifique login defined.',
   'email' : 'An email that is used for all identity scripts if no specifique email defined.',
   'token' : 'A token that is used for all identity scripts if no specifique token defined.',
@@ -874,7 +875,7 @@ function commandIdentityFromGit( e )
 commandIdentityFromGit.defaults =
 {
   profileDir : 'default',
-  force : false,
+  force : true,
 };
 
 var command = commandIdentityFromGit.command = Object.create( null );

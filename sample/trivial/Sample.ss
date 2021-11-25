@@ -1,17 +1,9 @@
 
-let _ = require( 'wcensor' );
-let filePath = _.path.resolve( __dirname, 'File.txt' );
+const _ = require( 'wcensor' );
 
-/**/
+/* */
 
-console.log( `File.txt:\n${_.fileProvider.fileRead( filePath )}\n` );
+const utility = _.censor.Cui.Self();
+const commandsAggregator = utility._commandsMake();
+commandsAggregator.programPerform({ program : '.help' });
 
-_.censor.arrangementDel();
-_.censor.filesReplace( filePath, 'line', 'abc' );
-_.censor.do();
-
-console.log( `File.txt:\n${_.fileProvider.fileRead( filePath )}\n` );
-
-_.censor.undo();
-
-/**/
