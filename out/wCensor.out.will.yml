@@ -3,8 +3,8 @@ root:
   - wCensor.out
 consistency:
   ../will.yml: &ref_0
-    hash: 0962eac4ffbfcc70a4008689e41fca39
-    size: 6542
+    hash: cafaec5248b69be593230a4c0b7e4254
+    size: 6532
 module:
   wCensor.out:
     about:
@@ -259,8 +259,8 @@ module:
         path: 'npm:///wcensorbasic'
         autoExporting: 0
         enabled: 0
-      widentitybasic:
-        path: 'npm:///widentitybasic'
+      widentity:
+        path: 'npm:///widentity'
         autoExporting: 0
         enabled: 0
       wTesting:
@@ -1006,8 +1006,8 @@ module:
         path: 'npm:///wcensorbasic'
         autoExporting: 0
         enabled: 0
-      widentitybasic:
-        path: 'npm:///widentitybasic'
+      widentity:
+        path: 'npm:///widentity'
         autoExporting: 0
         enabled: 0
       wTesting:
@@ -1545,5 +1545,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 0962eac4ffbfcc70a4008689e41fca39
-        size: 6542
+        hash: cafaec5248b69be593230a4c0b7e4254
+        size: 6532
