@@ -3,8 +3,8 @@ root:
   - wCensor.out
 consistency:
   ../will.yml: &ref_0
-    hash: cafaec5248b69be593230a4c0b7e4254
-    size: 6532
+    hash: 8d02ab10724fb15c5c161b6592b59c61
+    size: 6540
 module:
   wCensor.out:
     about:
@@ -1545,5 +1545,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: cafaec5248b69be593230a4c0b7e4254
-        size: 6532
+        hash: 8d02ab10724fb15c5c161b6592b59c61
+        size: 6540
