@@ -6,8 +6,8 @@
   "keywords" : [ "tools", "wTools" ], 
   "license" : "MIT", 
   "engine" : "node >= 10.0.0", 
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>", 
-  "contributors" : [ "Kostiantyn Wandalen <wanalen@01.school>" ], 
+  "author" : "Kostiantyn Wandalen <wandalen@obox.systems>", 
+  "contributors" : [ "Kostiantyn Wandalen <wandalen@obox.systems>" ], 
   "scripts" : { "test" : "wtest .run proto/**", "docgen" : "wdocgen .build proto" }, 
   "files" : 
   [

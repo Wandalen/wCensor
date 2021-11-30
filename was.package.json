@@ -2,7 +2,7 @@
   "name": "wcensor",
   "version": "0.2.195",
   "description": "Utility to edit files massively from console and with undo.",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "author": "Kostiantyn Wandalen <wandalen@obox.systems>",
   "license": "MIT",
   "main": "proto/node_modules/wcensor",
   "files": [

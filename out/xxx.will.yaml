@@ -8,9 +8,9 @@ about:
     - wTools
   license: MIT
   interpreters: node >= 10.0.0
-  author: Kostiantyn Wandalen <wanalen@01.school>
+  author: Kostiantyn Wandalen <wandalen@obox.systems>
   contributors:
-    - Kostiantyn Wandalen <wanalen@01.school>
+    - Kostiantyn Wandalen <wandalen@obox.systems>
   npm.scripts:
     test: wtest .run proto/**
     docgen: wdocgen .build proto
