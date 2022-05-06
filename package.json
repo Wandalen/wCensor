@@ -1,6 +1,6 @@
 {
   "name": "wcensor",
-  "version": "0.2.205",
+  "version": "0.2.206",
   "description": "Utility to edit files massively from console and with undo.",
   "author": "Kostiantyn Wandalen <wandalen@obox.systems>",
   "license": "MIT",
